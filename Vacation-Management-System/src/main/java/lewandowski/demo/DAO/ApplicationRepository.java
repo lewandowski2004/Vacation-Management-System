@@ -1,0 +1,45 @@
+package lewandowski.demo.DAO;
+
+import lewandowski.demo.Model.Application;
+import lewandowski.demo.Model.Employee;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.UUID;
+
+@Repository
+public interface ApplicationRepository extends JpaRepository<Application, Integer> {
+
+    Application findById(UUID id);
+    Application save (Application application);
+    void deleteApplicationById(UUID applicationId);
+    void deleteApplicationByEmployee_Id(UUID employeeId);
+    void delete(Application application);
+    List<Application> findAll();
+    List<Application> findApplicationsByEmployee_IdAndVacationPlanOrderByDateOfAdditionDesc(UUID employeeId, boolean vacationPlan);
+    List<Application> findApplicationsByEmployee_IdAndVacationPlan(UUID employeeId, boolean vacationPlan);
+
+    @Query(value = "SELECT * FROM application WHERE employee_id != :employeeId", nativeQuery = true)
+    List<Application> findAllApplicationsAdmin(@Param("employeeId") UUID employeeId);
+
+    @Query(value = "SELECT * FROM application WHERE employee_id != :employeeId AND vacation_plan = true ", nativeQuery = true)
+    List<Application> findAllVacationPlansAdmin(@Param("employeeId") UUID employeeId);
+
+
+    @Query(value = "SELECT * FROM application INNER JOIN employee ON application.employee_id = employee.employee_id WHERE department_id = :departmentId " +
+            "and application.employee_id != :employeeId", nativeQuery = true)
+    List<Application> findApplicationsEmployeeByDepartment(@Param("departmentId") Integer departmentId, @Param("employeeId") UUID employeeId);
+
+    @Query(value = "SELECT * FROM application INNER JOIN employee ON application.employee_id = employee.employee_id WHERE department_id = :departmentId " +
+            "and application.employee_id != :employeeId and vacation_plan = true", nativeQuery = true)
+    List<Application> findVacationPlansEmployeeByDepartment(@Param("departmentId") Integer departmentId, @Param("employeeId") UUID employeeId);
+
+    @Modifying
+    @Query(value = "UPDATE application a SET a.application_status_id = :applicationStatus where a.application_id= :id",nativeQuery = true)
+    void updateStatusApplication(@Param("applicationStatus") Integer applicationStatus,@Param("id") UUID id);
+
+}

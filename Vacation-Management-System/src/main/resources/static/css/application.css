@@ -1,0 +1,21 @@
+/*---- add Form Employee --*/
+body{
+    padding-top: 0px;
+}
+#add-form .form-control{
+    height: 34px;
+}
+#add-form .form-group{
+    margin-bottom: 0px;
+}
+#add-form label{
+    line-height: 34px;
+}
+#add-form H3{
+    margin-top: 0px;
+}
+@media (min-width: 992px){
+    #addEmployee .col-md-offset-3{
+        margin-left: 18%;
+    }
+}
