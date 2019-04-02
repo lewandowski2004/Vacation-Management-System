@@ -257,7 +257,6 @@ public class EmployeeController {
             model.addAttribute("infoMassage", "Wniosek został zaakceptowany. W razie jakichkolwiek zmian prosze o kontkat z przełożonym.");
             return "redirect:/application/"+id;
         }
-
         if (application.getApplicationStatus().getId() != 4) {
             if (application.getVacationType().getId() == 1) {
                 if (result.hasErrors()) {
