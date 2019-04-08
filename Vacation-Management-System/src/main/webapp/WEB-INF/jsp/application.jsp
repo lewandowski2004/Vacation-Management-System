@@ -53,6 +53,8 @@
                                         <dd>${applicationDto.employeeDto.name}</dd>
                                         <dt>Nazwisko:</dt>
                                         <dd>${applicationDto.employeeDto.lastName}</dd>
+                                        <dt>Zastępstwo:</dt>
+                                        <dd>${applicationDto.replacement}</dd>
                                         <dt>Data wystawienia:</dt>
                                         <dd>${applicationDto.dateOfAddition}</dd>
                                         <dt>Data:</dt>
@@ -61,6 +63,8 @@
                                         <dd>${applicationDto.vacationDays}</dd>
                                         <dt>Rodzaj Wniosku:</dt>
                                         <dd>${applicationDto.vacationTypeDto.type}</dd>
+                                        <dt>Komentarz:</dt>
+                                        <dd>${applicationDto.description}</dd>
                                     </dl>
                                     <hr>
                                     <c:choose>
@@ -102,6 +106,8 @@
                                         <dd>${applicationDto.employeeDto.name}</dd>
                                         <dt>Nazwisko:</dt>
                                         <dd>${applicationDto.employeeDto.lastName}</dd>
+                                        <dt>Zastępstwo:</dt>
+                                        <dd>${applicationDto.replacement}</dd>
                                         <dt>Data wystawienia:</dt>
                                         <dd>${applicationDto.dateOfAddition}</dd>
                                         <dt>Data:</dt>
@@ -110,6 +116,8 @@
                                         <dd>${applicationDto.vacationDays}</dd>
                                         <dt>Rodzaj Wniosku:</dt>
                                         <dd>${applicationDto.vacationTypeDto.type}</dd>
+                                        <dt>Komentarz:</dt>
+                                        <dd>${applicationDto.description}</dd>
                                     </dl>
                                     <hr>
                                     <%--<c:choose>
@@ -153,6 +161,8 @@
                                     <dd>${applicationDto.employeeDto.name}</dd>
                                     <dt>Nazwisko:</dt>
                                     <dd>${applicationDto.employeeDto.lastName}</dd>
+                                    <dt>Zastępstwo:</dt>
+                                    <dd>${applicationDto.replacement}</dd>
                                     <dt>Data wystawienia:</dt>
                                     <dd>${applicationDto.dateOfAddition}</dd>
                                     <dt>Data:</dt>
@@ -161,6 +171,8 @@
                                     <dd>${applicationDto.vacationDays}</dd>
                                     <dt>Rodzaj Wniosku:</dt>
                                     <dd>${applicationDto.vacationTypeDto.type}</dd>
+                                    <dt>Komentarz:</dt>
+                                    <dd>${applicationDto.description}</dd>
                                 </dl>
                                 <hr>
                             </security:authorize>
