@@ -33,19 +33,10 @@
         <div class="row">
             <div class="col-xs-12">
                 <table id="table_id" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
-                    <tfoot>
-                    <tr>
-                        <th style="width: 260px">Status</th>
-                        <th>Pracownik</th>
-                        <th>Dział</th>
-                        <th>Typ wniosku</th>
-                        <th>Data złożenia</th>
-                        <th></th>
-                    </tr>
-                    </tfoot>
                     <thead>
                     <tr>
-                        <th style="width: 260px">Status</th>
+                        <th></th>
+                        <th style="width: 200px">Status</th>
                         <th>Pracownik</th>
                         <th>Dział</th>
                         <th>Typ wniosku</th>
@@ -60,21 +51,20 @@
                                 <c:choose>
                                     <c:when test="${applicationDto.applicationStatusDto.id == 1 }">
                                         <span style="color: #666666; font-size: 21px" class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;
-                                        ${applicationDto.applicationStatusDto.status}
                                     </c:when>
                                     <c:when test="${applicationDto.applicationStatusDto.id == 2 }">
                                         <span style="color: chartreuse; font-size: 21px" class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;
-                                        ${applicationDto.applicationStatusDto.status}
                                     </c:when>
                                     <c:when test="${applicationDto.applicationStatusDto.id == 3 }">
                                         <span style="color: green; font-size: 21px" class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;
-                                        ${applicationDto.applicationStatusDto.status}
                                     </c:when>
                                     <c:otherwise>
                                         <span style="color: red; font-size: 21px" class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;
-                                        ${applicationDto.applicationStatusDto.status}
                                     </c:otherwise>
                                 </c:choose>
+                            </td>
+                            <td>
+                                ${applicationDto.applicationStatusDto.status}
                             </td>
                             <td>${applicationDto.employeeDto.name} ${applicationDto.employeeDto.lastName}</td>
                             <td>${applicationDto.employeeDto.departmentDto.name}</td>
@@ -132,6 +122,17 @@
                         </tr>
                     </c:forEach>
                     </tbody>
+                    <tfoot>
+                    <tr>
+                        <th></th>
+                        <th>Status</th>
+                        <th>Pracownik</th>
+                        <th>Dział</th>
+                        <th>Typ wniosku</th>
+                        <th>Data złożenia</th>
+                        <th></th>
+                    </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
@@ -154,7 +155,7 @@
     $(document).ready(function() {
         $('#table_id').DataTable( {
             initComplete: function () {
-                this.api().columns().every( function () {
+                this.api().columns([1, 2, 3 ,4, 5]).every( function () {
                     var column = this;
                     var select = $('<select><option value="">Wszystkie</option></select>')
                         .appendTo( $(column.footer()).empty() )
