@@ -120,7 +120,7 @@
                                         <dd>${applicationDto.description}</dd>
                                     </dl>
                                     <hr>
-                                    
+
                                     <%--<c:choose>
                                         <c:when test="${application.applicationStatus.id != 3} ">--%>
                                     <c:choose>

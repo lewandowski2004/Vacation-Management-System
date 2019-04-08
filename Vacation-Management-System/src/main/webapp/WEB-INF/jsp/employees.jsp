@@ -21,7 +21,7 @@
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
           crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/loginForm.css">
 
 </head>
@@ -32,7 +32,7 @@
     <div class="col-md-12">
         <div class="row">
         <div class="col-xs-12">
-            <table id="table_id" class="display">
+            <table id="table_id" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                             <thead>
                             <tr>
                                 <th>First Name</th>
@@ -46,9 +46,9 @@
                             <tbody>
                             <c:forEach var="employeeDto" items="${employeeDtoList}">
                                 <tr>
-                                    <th>${employeeDto.name}</th>
-                                    <th>${employeeDto.lastName}</th>
-                                    <th>${employeeDto.email}</th>
+                                    <td>${employeeDto.name}</td>
+                                    <td>${employeeDto.lastName}</td>
+                                    <td>${employeeDto.email}</td>
                                     <td>
                                         <c:choose>
                                             <c:when test="${employeeDto.nrRoli == 2 }">
@@ -63,13 +63,13 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
-                                    <th >
+                                    <td style="text-align: center">
                                         <button class="btn btn-info"
                                                 onclick="window.location.href='${pageContext.request.contextPath}/admin/employee/${employeeDto.id}'">
                                             <span class="glyphicon glyphicon-eye-open"></span>
                                         </button>
-                                    </th>
-                                    <th style="text-align: center">
+                                    </td>
+                                    <td style="text-align: center">
                                         <c:choose>
                                             <c:when test="${employeeDto.nrRoli == 2 }">
                                                 <span style="color: #666666; font-size: 20px" class="glyphicon glyphicon-remove"></span>
@@ -83,7 +83,7 @@
                                                     </a>
                                             </c:otherwise>
                                         </c:choose>
-                                    </th>
+                                    </td>
                                 </tr>
                             </c:forEach>
                             </tbody>
@@ -103,13 +103,13 @@
         src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
-<script src="js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
 <script>
     $(document).ready( function () {
         $('#table_id').DataTable();
     } );
+    jQuery('table_id').ddTa
 </script>
-
 
 </html>
