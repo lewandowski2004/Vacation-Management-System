@@ -33,10 +33,22 @@
         <div class="row">
             <div class="col-xs-12">
                 <table id="table_id" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                    <tfoot>
+                    <tr>
+                        <th style="width: 260px">Status</th>
+                        <th>Pracownik</th>
+                        <th>Dział</th>
+                        <th>Typ wniosku</th>
+                        <th>Data złożenia</th>
+                        <th></th>
+                    </tr>
+                    </tfoot>
                     <thead>
                     <tr>
                         <th style="width: 260px">Status</th>
                         <th>Pracownik</th>
+                        <th>Dział</th>
+                        <th>Typ wniosku</th>
                         <th>Data złożenia</th>
                         <th></th>
                     </tr>
@@ -44,28 +56,30 @@
                     <tbody>
                     <c:forEach var="applicationDto" items="${applicationList}">
                         <tr>
-                            <th>
+                            <td>
                                 <c:choose>
                                     <c:when test="${applicationDto.applicationStatusDto.id == 1 }">
-                                        <span style="color: #666666" class="glyphicon glyphicon-ok"></span>&nbsp;
+                                        <span style="color: #666666; font-size: 21px" class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;
                                         ${applicationDto.applicationStatusDto.status}
                                     </c:when>
                                     <c:when test="${applicationDto.applicationStatusDto.id == 2 }">
-                                        <span style="color: chartreuse" class="glyphicon glyphicon-ok"></span>&nbsp;
+                                        <span style="color: chartreuse; font-size: 21px" class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;
                                         ${applicationDto.applicationStatusDto.status}
                                     </c:when>
                                     <c:when test="${applicationDto.applicationStatusDto.id == 3 }">
-                                        <span style="color: green" class="glyphicon glyphicon-ok"></span>&nbsp;
+                                        <span style="color: green; font-size: 21px" class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;
                                         ${applicationDto.applicationStatusDto.status}
                                     </c:when>
                                     <c:otherwise>
-                                        <span style="color: red" class="glyphicon glyphicon-remove"></span>&nbsp;
+                                        <span style="color: red; font-size: 21px" class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;
                                         ${applicationDto.applicationStatusDto.status}
                                     </c:otherwise>
                                 </c:choose>
-                            </th>
-                            <th>${applicationDto.employeeDto.name} ${applicationDto.employeeDto.lastName}</th>
-                            <th>${applicationDto.dateOfAddition}</th>
+                            </td>
+                            <td>${applicationDto.employeeDto.name} ${applicationDto.employeeDto.lastName}</td>
+                            <td>${applicationDto.employeeDto.departmentDto.name}</td>
+                            <td>${applicationDto.vacationTypeDto.type}</td>
+                            <td>${applicationDto.dateOfAddition}</td>
                             <security:authorize access="hasAuthority('ROLE_ADMIN')">
                                 <c:choose>
                                     <c:when test="${applicationDto.employeeDto.id != employeeDto.id}">
@@ -89,30 +103,30 @@
                             <security:authorize access="hasAuthority('ROLE_MANAGER')">
                                 <c:choose>
                                     <c:when test="${applicationDto.employeeDto.id != employeeDto.id}">
-                                        <th style="text-align: center">
+                                        <td style="text-align: center">
                                             <button class="btn btn-info"
                                                     onclick="window.location.href='${pageContext.request.contextPath}/manager/application/${applicationDto.id}'">
                                                 <span class="glyphicon glyphicon-eye-open"></span>
                                             </button>
-                                        </th>
+                                        </td>
                                     </c:when>
                                     <c:otherwise>
-                                        <th style="text-align: center">
+                                        <td style="text-align: center">
                                             <button class="btn btn-info"
                                                     onclick="window.location.href='${pageContext.request.contextPath}/application/${applicationDto.id}'">
                                                 <span class="glyphicon glyphicon-eye-open"></span>
                                             </button>
-                                        </th>
+                                        </td>
                                     </c:otherwise>
                                 </c:choose>
                             </security:authorize>
                             <security:authorize access="hasAuthority('ROLE_EMPLOYEE')">
-                                <th style="text-align: center">
+                                <td style="text-align: center">
                                     <button class="btn btn-info"
                                             onclick="window.location.href='${pageContext.request.contextPath}/application/${applicationDto.id}'">
                                         <span class="glyphicon glyphicon-eye-open"></span>
                                     </button>
-                                </th>
+                                </td>
                             </security:authorize>
 
                         </tr>
@@ -135,11 +149,34 @@
         crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+
 <script>
-    $(document).ready(function () {
-        $('#table_id').DataTable();
-    });
+    $(document).ready(function() {
+        $('#table_id').DataTable( {
+            initComplete: function () {
+                this.api().columns().every( function () {
+                    var column = this;
+                    var select = $('<select><option value="">Wszystkie</option></select>')
+                        .appendTo( $(column.footer()).empty() )
+                        .on( 'change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+
+                            column
+                                .search( val ? '^'+val+'$' : '', true, false )
+                                .draw();
+                        } );
+
+                    column.data().unique().sort().each( function ( d, j ) {
+                        select.append( '<option class="form-control" value="'+d+'">'+d+'</option>' )
+                    } );
+                } );
+            }
+        } );
+    } );
 </script>
+
 
 
 </html>

@@ -41,7 +41,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <br/>
-                            <h3 style="text-align: center">Wniosek ID: ${applicationDto.id}</h3>
+                            <h3 style="text-align: center">Wniosek Urlopowy</h3>
                             <hr>
                             <p style="color: red">${blad}</p>
                             <security:authorize access="hasAuthority('ROLE_ADMIN')">

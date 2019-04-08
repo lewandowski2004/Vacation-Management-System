@@ -38,6 +38,7 @@
                                 <th>First Name</th>
                                 <th>Last Name</th>
                                 <th>Email</th>
+                                <th>Dział / Stanowisko</th>
                                 <th>Rola</th>
                                 <th></th>
                                 <th></th>
@@ -49,6 +50,7 @@
                                     <td>${employeeDto.name}</td>
                                     <td>${employeeDto.lastName}</td>
                                     <td>${employeeDto.email}</td>
+                                    <td>${employeeDto.departmentDto.name} / ${employeeDto.positionDto.name}</td>
                                     <td>
                                         <c:choose>
                                             <c:when test="${employeeDto.nrRoli == 2 }">
@@ -109,7 +111,7 @@
     $(document).ready( function () {
         $('#table_id').DataTable();
     } );
-    jQuery('table_id').ddTa
+    jQuery('table_id').ddTableFilter();
 </script>
 
 </html>

@@ -10,7 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/css/loginForm.css">
@@ -29,7 +29,7 @@
                             <h3 style="text-align: center">Historia urlopu </h3>
                             <hr>
 
-                            <table style="width: 100%" class="table table-hover">
+                            <table style="width: 100%" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                                 <thead>
                                 <tr style="border-bottom: 1px solid #666666; height: 40px">
                                     <th style="width: 100px">Limit dni</th>
@@ -41,10 +41,10 @@
                                 <tbody>
                                 <c:forEach var="vacationBalanceDto" items="${employeeDto.vacationBalancesDto}">
                                     <tr style="border-bottom: 1px solid #ececec; height: 40px">
-                                        <th>${vacationBalanceDto.vacationLimit}</th>
-                                        <th>${vacationBalanceDto.annualVacation}</th>
-                                        <th>${vacationBalanceDto.emergencyVacation}</th>
-                                        <th>${vacationBalanceDto.year}</th>
+                                        <td>${vacationBalanceDto.vacationLimit}</td>
+                                        <td>${vacationBalanceDto.annualVacation}</td>
+                                        <td>${vacationBalanceDto.emergencyVacation}</td>
+                                        <td>${vacationBalanceDto.year}</td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -75,6 +75,8 @@
         src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
 </body>
 
 </html>
