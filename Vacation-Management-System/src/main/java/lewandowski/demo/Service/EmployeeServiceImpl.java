@@ -178,7 +178,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         return findAllEmployeesDto(employeeRepository.findEmployeeByVacationBalancesWhereYearIsNot(year));
     }
 
-
+    @Override
+    public List<EmployeeDto> findEmployeesByPositionId(int positionId) {
+        return findAllEmployeesDto(employeeRepository.findEmployeesByPosition_Id(positionId));
+    }
 
     public List<EmployeeDto> findAllEmployeesDto(List<Employee> employeesList) {
         List<EmployeeDto> employeeDtoListDtoList = new ArrayList<>();

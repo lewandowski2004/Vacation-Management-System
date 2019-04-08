@@ -78,8 +78,8 @@ public class EmployeeVacationBalanceServiceImpl implements EmployeeVacationBalan
                     .year(new Date())
                     .build();
 
-        Employee lastSaveEmployee = employeeRepository.getLastEmployee();
-        vacationBalance.setEmployee(lastSaveEmployee);
+        //Employee lastSaveEmployee = employeeRepository.getLastEmployee();
+        vacationBalance.setEmployee(employee);
 
         vacationBalanceRepository.save(vacationBalance);
 

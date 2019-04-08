@@ -31,6 +31,11 @@ public class ApplicationDto {
     @NotNull(message = "Wybierz typ urlopu  z listy")
     private VacationTypeDto vacationTypeDto;
 
+    @NotNull(message = "Wybierz typ urlopu  z listy")
+    private String replacement;
+
+    private String description;
+
     private EmployeeDto employeeDto;
 
     private int nrStatus;

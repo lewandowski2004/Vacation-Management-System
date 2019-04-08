@@ -25,8 +25,8 @@
                                         aria-expanded="false"> Dodaj<span class="caret"></span>
                 </a>
                     <ul class="dropdown-menu">
-                        <li><a href="${contextRoot}/addApplication">Twoje wnioski</a></li>
-                        <li><a href="${contextRoot}/addVacationPlan">Planowany urlop</a></li>
+                        <li><a href="${contextRoot}/addApplication">Wniosek urlopowy</a></li>
+                        <li><a href="${contextRoot}/addVacationPlan">Zaplanuj urlop</a></li>
                     </ul>
                 </li>
                 <li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -34,8 +34,8 @@
                                         aria-expanded="false"> Twoje wnioski<span class="caret"></span>
                 </a>
                     <ul class="dropdown-menu">
-                        <li><a href="${contextRoot}/applications">Twoje wnioski</a></li>
-                        <li><a href="${contextRoot}/vacationPlans">Planowany urlop</a></li>
+                        <li><a href="${contextRoot}/applications">Twoje wnioski urlopowe</a></li>
+                        <li><a href="${contextRoot}/vacationPlans">Zaplanowany urlop</a></li>
                     </ul>
                 </li>
                 <li><a href="${contextRoot}/vacationInformation">Historia urlopu</a></li>

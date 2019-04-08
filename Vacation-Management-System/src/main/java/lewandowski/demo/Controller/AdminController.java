@@ -89,7 +89,7 @@ public class AdminController {
      * */
     @GetMapping(value = "/admin/getPositiontMapByDepartmentId/{departmentId}")
     @ResponseBody
-    public String getPositiontMapByDepartmentId(Model model,
+    public String getPositionMapByDepartmentId(Model model,
                                                 @PathVariable("departmentId") int departmentId) {
         Gson gson = new Gson();
         Map<Integer, String> positiontMapByDepartmentId = appComponentSelectMap.preparePositionDtoMapByDepartmentId(departmentId);
@@ -315,7 +315,7 @@ public class AdminController {
 
     @PostMapping(value = "/admin/changeStatus/application/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String editEmployeePasswordAction(@PathVariable("id") UUID id, ApplicationDto application, Model model, BindingResult result,
+    public String changeApplicationStatus(@PathVariable("id") UUID id, ApplicationDto application, Model model, BindingResult result,
                                              @RequestParam(name = "nrStatus") Integer nrStatus) throws ParseException {
         String username = EmployeeModel.getLoggedEmployee();
         EmployeeDto employee = employeeService.findByEmail(username);

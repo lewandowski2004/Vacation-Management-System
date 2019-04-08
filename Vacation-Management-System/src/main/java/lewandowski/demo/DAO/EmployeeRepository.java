@@ -18,6 +18,7 @@ public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
     Employee findByName(String name);
     Employee findByEmail(String email);
     Employee save (Employee employee);
+    List<Employee> findEmployeesByPosition_Id(int positionId);
 
 
     @Query(value = "SELECT * FROM employee INNER JOIN vacation_balance ON employee.employee_id = vacation_balance.employee_id WHERE year = :yea ", nativeQuery = true)

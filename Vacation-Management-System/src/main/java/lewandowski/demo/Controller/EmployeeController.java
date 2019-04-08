@@ -163,6 +163,7 @@ public class EmployeeController {
         String username = EmployeeModel.getLoggedEmployee();
         EmployeeDto employeeDto = employeeService.findByEmail(username);
         model.addAttribute("vacationTypeList", vacationTypeService.findAllVacationsTypeDto());
+        model.addAttribute("listOfEmployeesForReplacement", employeeService.findEmployeesByPositionId(employeeDto.getPositionDto().getId()));
         model.addAttribute("applicationDto", applicationDto);
         model.addAttribute("employeeDto", employeeDto);
         if (success != null) {

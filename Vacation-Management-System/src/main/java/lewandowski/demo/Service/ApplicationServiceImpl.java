@@ -144,6 +144,8 @@ public class ApplicationServiceImpl implements ApplicationService {
                 .vacationPlan(applicationDto.isVacationPlan())
                 .applicationStatus(applicationStatusService.getApplicationStatus(applicationDto.getApplicationStatusDto()))
                 .vacationType(vacationTypeService.getVacationType(applicationDto.getVacationTypeDto()))
+                .replacement(applicationDto.getReplacement())
+                .description(applicationDto.getDescription())
                 .employee(employeeService.getEmployee(applicationDto.getEmployeeDto()))
                 .build();
 
@@ -172,6 +174,8 @@ public class ApplicationServiceImpl implements ApplicationService {
                 .vacationPlan(applicationDto.isVacationPlan())
                 .applicationStatus(applicationStatusService.getApplicationStatus(applicationDto.getApplicationStatusDto()))
                 .vacationType(vacationTypeService.getVacationType(applicationDto.getVacationTypeDto()))
+                .replacement(applicationDto.getReplacement())
+                .description(applicationDto.getDescription())
                 .employee(employeeService.getEmployee(applicationDto.getEmployeeDto()))
                 .nrStatus(applicationDto.getNrStatus())
                 .build();
@@ -186,6 +190,8 @@ public class ApplicationServiceImpl implements ApplicationService {
                 .vacationPlan(application.isVacationPlan())
                 .applicationStatusDto(applicationStatusService.getApplicationStatusDto(application.getApplicationStatus()))
                 .vacationTypeDto(vacationTypeService.getVacationTypeDto(application.getVacationType()))
+                .replacement(application.getReplacement())
+                .description(application.getDescription())
                 .employeeDto(employeeService.getEmployeeDto(application.getEmployee()))
                 .nrStatus(application.getNrStatus())
                 .build();

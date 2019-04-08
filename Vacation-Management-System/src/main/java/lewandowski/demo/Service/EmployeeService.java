@@ -34,6 +34,7 @@ public interface EmployeeService {
     List<EmployeeDto> findAllEmployeesDto();
     List<EmployeeDto> findAllEmployeesDtoByVacationBalancesWhereYearIs(Date year);
     List<EmployeeDto> findAllEmployeesDtoByVacationBalancesWhereYearIsNot(Date year);
+    List<EmployeeDto> findEmployeesByPositionId(int positionId);
     EmployeeDto findById(UUID id);
     EmployeeDto findByName(String name);
     EmployeeDto findByEmail(String email);

@@ -23,18 +23,18 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
     List<Application> findApplicationsByEmployee_IdAndVacationPlanOrderByDateOfAdditionDesc(UUID employeeId, boolean vacationPlan);
     List<Application> findApplicationsByEmployee_IdAndVacationPlan(UUID employeeId, boolean vacationPlan);
 
-    @Query(value = "SELECT * FROM application WHERE employee_id != :employeeId", nativeQuery = true)
+    @Query(value = "SELECT * FROM application WHERE employee_id != :employeeId ORDER BY date_of_addition DESC", nativeQuery = true)
     List<Application> findAllApplicationsAdmin(@Param("employeeId") UUID employeeId);
 
-    @Query(value = "SELECT * FROM application WHERE employee_id != :employeeId AND vacation_plan = true ", nativeQuery = true)
+    @Query(value = "SELECT * FROM application WHERE employee_id != :employeeId AND vacation_plan = true ORDER BY date_of_addition DESC", nativeQuery = true)
     List<Application> findAllVacationPlansAdmin(@Param("employeeId") UUID employeeId);
 
 
-    @Query(value = "SELECT * FROM application INNER JOIN employee ON application.employee_id = employee.employee_id WHERE department_id = :departmentId " +
+    @Query(value = "SELECT * FROM application INNER JOIN employee ON application.employee_id = employee.employee_id WHERE department_id = :departmentId ORDER BY date_of_addition DESC" +
             "and application.employee_id != :employeeId", nativeQuery = true)
     List<Application> findApplicationsEmployeeByDepartment(@Param("departmentId") Integer departmentId, @Param("employeeId") UUID employeeId);
 
-    @Query(value = "SELECT * FROM application INNER JOIN employee ON application.employee_id = employee.employee_id WHERE department_id = :departmentId " +
+    @Query(value = "SELECT * FROM application INNER JOIN employee ON application.employee_id = employee.employee_id WHERE department_id = :departmentId ORDER BY date_of_addition DESC" +
             "and application.employee_id != :employeeId and vacation_plan = true", nativeQuery = true)
     List<Application> findVacationPlansEmployeeByDepartment(@Param("departmentId") Integer departmentId, @Param("employeeId") UUID employeeId);
 

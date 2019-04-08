@@ -110,13 +110,26 @@
                                 <form:input type="text" name="zipCode" id="sumDay" path="vacationDays"
                                             tabindex="2" class="form-control" readonly="true"/>
                             </div>
+
                             <div class="form-group">
                                 <label>Wybierz rodzaj Urlopu</label>
                                 <form:select path="vacationTypeDto" class="form-control">
                                     <form:options items="${vacationTypeList}" itemLabel="type"
                                                   itemValue="id" />
                                 </form:select>
+                            </div>
 
+                            <div class="form-group">
+                                <label>Wybierz Zastępstwo</label>
+                                <form:select path="replacement" class="form-control">
+                                    <form:options items="${listOfEmployeesForReplacement}" itemLabel="lastName"
+                                                  itemValue="lastName" />
+                                </form:select>
+                            </div>
+                            <br/>
+                            <div class="form-group">
+                                <label>Komentarz</label>
+                                <form:textarea cssStyle="border-radius: 4px;padding: 6px 12px;width: 100%; border: 1px solid #ccc;" path="description" name="description"  rows="5"></form:textarea>
                             </div>
                             <br/>
                             <input type="radio" name="vacationPlan" hidden  path="vacationPlan" value="false" checked/>
