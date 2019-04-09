@@ -35,10 +35,10 @@
             <table id="table_id" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                             <thead>
                             <tr>
-                                <th>First Name</th>
-                                <th>Last Name</th>
+                                <th>Pracownik</th>
                                 <th>Email</th>
-                                <th>Dział / Stanowisko</th>
+                                <th>Dział</th>
+                                <th>Stanowisko</th>
                                 <th>Rola</th>
                                 <th></th>
                                 <th></th>
@@ -47,10 +47,10 @@
                             <tbody>
                             <c:forEach var="employeeDto" items="${employeeDtoList}">
                                 <tr>
-                                    <td>${employeeDto.name}</td>
-                                    <td>${employeeDto.lastName}</td>
+                                    <td>${employeeDto.name} ${employeeDto.lastName}</td>
                                     <td>${employeeDto.email}</td>
-                                    <td>${employeeDto.departmentDto.name} / ${employeeDto.positionDto.name}</td>
+                                    <td>${employeeDto.departmentDto.name}</td>
+                                    <td>${employeeDto.positionDto.name}</td>
                                     <td>
                                         <c:choose>
                                             <c:when test="${employeeDto.nrRoli == 2 }">
@@ -89,6 +89,17 @@
                                 </tr>
                             </c:forEach>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Pracownik</th>
+                                    <th>Email</th>
+                                    <th>Dział</th>
+                                    <th>Stanowisko</th>
+                                    <th>Rola</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -108,10 +119,30 @@
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
 <script>
-    $(document).ready( function () {
-        $('#table_id').DataTable();
+    $(document).ready(function() {
+        $('#table_id').DataTable( {
+            initComplete: function () {
+                this.api().columns([0, 2 ,3]).every( function () {
+                    var column = this;
+                    var select = $('<select class="form-control"><option value="">Wszystkie</option></select>')
+                        .appendTo( $(column.footer()).empty() )
+                        .on( 'change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+
+                            column
+                                .search( val ? '^'+val+'$' : '', true, false )
+                                .draw();
+                        } );
+
+                    column.data().unique().sort().each( function ( d, j ) {
+                        select.append( '<option  value="'+d+'">'+d+'</option>' )
+                    } );
+                } );
+            }
+        } );
     } );
-    jQuery('table_id').ddTableFilter();
 </script>
 
 </html>

@@ -155,9 +155,9 @@
     $(document).ready(function() {
         $('#table_id').DataTable( {
             initComplete: function () {
-                this.api().columns([1, 2, 3 ,4, 5]).every( function () {
+                this.api().columns([1, 2, 3 ,4]).every( function () {
                     var column = this;
-                    var select = $('<select><option value="">Wszystkie</option></select>')
+                    var select = $('<select class="form-control"><option value="">Wszystkie</option></select>')
                         .appendTo( $(column.footer()).empty() )
                         .on( 'change', function () {
                             var val = $.fn.dataTable.util.escapeRegex(
@@ -170,7 +170,7 @@
                         } );
 
                     column.data().unique().sort().each( function ( d, j ) {
-                        select.append( '<option class="form-control" value="'+d+'">'+d+'</option>' )
+                        select.append( '<option  value="'+d+'">'+d+'</option>' )
                     } );
                 } );
             }
