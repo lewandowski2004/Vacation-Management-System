@@ -23,6 +23,9 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
     List<Application> findApplicationsByEmployee_IdAndVacationPlanOrderByDateOfAdditionDesc(UUID employeeId, boolean vacationPlan);
     List<Application> findApplicationsByEmployee_IdAndVacationPlan(UUID employeeId, boolean vacationPlan);
 
+    @Query(value = "SELECT * FROM application WHERE employee_id = :employeeId AND :date1 between start_of_vacation AND end_of_vacation", nativeQuery = true)
+    List<Application> findAllApplicationsWithDuplicateDate(@Param("employeeId") UUID employeeId, @Param("date1") String date1);
+
     @Query(value = "SELECT * FROM application WHERE employee_id != :employeeId ORDER BY date_of_addition DESC", nativeQuery = true)
     List<Application> findAllApplicationsAdmin(@Param("employeeId") UUID employeeId);
 

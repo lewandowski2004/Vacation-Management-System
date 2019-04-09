@@ -1,5 +1,6 @@
 package lewandowski.demo.Controller;
 
+import lewandowski.demo.DAO.ApplicationRepository;
 import lewandowski.demo.DTO.*;
 import lewandowski.demo.Model.*;
 import lewandowski.demo.Utilities.*;
@@ -19,6 +20,8 @@ import javax.xml.crypto.Data;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Controller
@@ -30,6 +33,9 @@ public class EmployeeController {
 
     @Autowired
     private ApplicationService applicationService;
+
+    @Autowired
+    private ApplicationRepository applicationRepository;
 
     @Autowired
     private VacationTypeService vacationTypeService;
@@ -180,16 +186,39 @@ public class EmployeeController {
      *         error = page with the form of adding application.
      */
     @PostMapping(value = "/addApplicationAction")
-    public String addApplicationAction(ApplicationDto applicationDto, BindingResult result, Model model) throws ParseException {
+    public void addApplicationAction(ApplicationDto applicationDto, BindingResult result, Model model) throws ParseException {
         String username = EmployeeModel.getLoggedEmployee();
         EmployeeDto employeeDto = employeeService.findByEmail(username);
 
-        DateFormat formatDate = new SimpleDateFormat("yyyy", Locale.ENGLISH);
-        String stringDate = formatDate.format(new Date());
-        Date date = formatDate.parse(stringDate);
+        DateFormat yearFormatDate = new SimpleDateFormat("yyyy", Locale.ENGLISH);
+        String stringDateAddition = yearFormatDate.format(new Date());
+        Date dateAddition = yearFormatDate.parse(stringDateAddition);
 
-        return ApplicationAction(applicationDto,employeeDto,result,model,date,
-                            "addApplication","redirect:/addApplication?success=addApplication");
+        DateFormat yearMonthDayFormatDate = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        String stringStartDateApplication = yearMonthDayFormatDate.format(applicationDto.getStartOfVacation());
+        Date startDate = yearMonthDayFormatDate.parse(stringStartDateApplication);
+        String stringEndDateApplication = yearMonthDayFormatDate.format(applicationDto.getEndOfVacation());
+        Date endDate = yearMonthDayFormatDate.parse(stringEndDateApplication);
+
+
+        List<Date> totalDates = new ArrayList<>();
+        while (!startDate.after(endDate)) {
+            totalDates.add(startDate);
+            //LocalDateTime.from(startDate.toInstant()).plusDays(1);
+            Calendar c = Calendar.getInstance();
+            c.setTime(startDate);
+            c.add(Calendar.DATE, 1);
+            startDate = c.getTime();
+        }
+        //totalDates.iterator().next();
+        String date1 = yearMonthDayFormatDate.format(totalDates.iterator().next());
+        List<Application> listapp = applicationRepository.findAllApplicationsWithDuplicateDate(employeeDto.getId(),date1);
+        listapp.iterator().next().getId();
+
+
+
+       // return ApplicationAction(applicationDto,employeeDto,result,model,dateAddition,
+                       //     "addApplication","redirect:/addApplication?success=addApplication");
 
     }
 
@@ -312,12 +341,18 @@ public class EmployeeController {
         return employee;
     }
 
-    public String ApplicationAction(ApplicationDto applicationDto, EmployeeDto employeeDto, BindingResult result, Model model, Date date, String view, String redirect) {
+    public String ApplicationAction(ApplicationDto applicationDto, EmployeeDto employeeDto, BindingResult result, Model model, Date date, String date1, String view, String redirect) {
         ApplicationStatusDto applicationStatusDto = new ApplicationStatusDto();
 
         if (result.hasErrors()) {
             model.addAttribute("employeeDto", employeeDto);
             model.addAttribute("failedMessage", "Coś poszło nie tak !");
+            model.addAttribute("vacationTypeList", vacationTypeService.findAllVacationsTypeDto());
+            return view;
+        }
+        if (applicationRepository.findAllApplicationsWithDuplicateDate(employeeDto.getId(),date1) != null) {
+            model.addAttribute("employeeDto", employeeDto);
+            model.addAttribute("failedMessage", "Urlop w wyznaczonym terminie juz istnieje !");
             model.addAttribute("vacationTypeList", vacationTypeService.findAllVacationsTypeDto());
             return view;
         }
