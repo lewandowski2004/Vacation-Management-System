@@ -14,14 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.xml.crypto.Data;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Controller
@@ -119,33 +114,45 @@ public class EmployeeController {
         ApplicationStatusDto applicationStatusDto = new ApplicationStatusDto();
         VacationTypeDto vacationTypeDto = new VacationTypeDto();
 
-        DateFormat formatDate = new SimpleDateFormat("yyyy", Locale.ENGLISH);
-        String stringDate = formatDate.format(new Date());
-        Date date = formatDate.parse(stringDate);
+        Date dateAddition = returnDateByFormat("yyyy", new Date());
+
+        Date startDate = returnDateByFormat("yyyy-MM-dd", applicationDto.getStartOfVacation());
+
+        Date endDate = returnDateByFormat("yyyy-MM-dd", applicationDto.getEndOfVacation());
+
+        List<String> stringDatesBetweenStartAndEndDatesVacation = listStringDatesBetweenStartAndEndDatesVacation(startDate,endDate);
+
 
         if (result.hasErrors()) {
             model.addAttribute("employeeDto", employeeDto);
             model.addAttribute("failedMessage", "Coś poszło nie tak !");
             return "addVacationPlan";
         }
-        if (vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), date) == null) {
+        for(String item : stringDatesBetweenStartAndEndDatesVacation){
+            if (applicationRepository.findAllApplicationsWithDuplicateDate(employeeDto.getId(),item).isEmpty() != true) {
+                model.addAttribute("employeeDto", employeeDto);
+                model.addAttribute("failedMessage", "Urlop w danym terminie jest już zaplanowany !");
+                return "addVacationPlan";
+            }
+        }
+        if (vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), dateAddition) == null) {
             model.addAttribute("failedMessage", "Twój roczny urlop nie został zdefiniowany ");
             model.addAttribute("employeeDto", employeeDto);
             return "addVacationPlan";
         }
-        if (applicationDto.getVacationDays() > vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), date).getVacationLeave() == true) {
+        if (applicationDto.getVacationDays() > vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), dateAddition).getVacationLeave() == true) {
                 model.addAttribute("failedMessage", "Nie masz wystarczającej liczby dni urlopu");
                 model.addAttribute("employeeDto", employeeDto);
                 return "addVacationPlan";
         } else {
             int vacationDays = applicationDto.getVacationDays();
-            int vacationLeaveBalance = vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), date).getVacationLeave();
-            int vacationAnnualBalance = vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), date).getAnnualVacation();
+            int vacationLeaveBalance = vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), dateAddition).getVacationLeave();
+            int vacationAnnualBalance = vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), dateAddition).getAnnualVacation();
             int updateLeaveVacation = vacationLeaveBalance - vacationDays;
             int updateAnnualBalance = vacationAnnualBalance - vacationDays;
 
-            vacationBalanceService.updateVacationLeave(updateLeaveVacation, employeeDto.getId(), date);
-            vacationBalanceService.updateAnnualLeave(updateAnnualBalance, employeeDto.getId(), date);
+            vacationBalanceService.updateVacationLeave(updateLeaveVacation, employeeDto.getId(), dateAddition);
+            vacationBalanceService.updateAnnualLeave(updateAnnualBalance, employeeDto.getId(), dateAddition);
             applicationDto.setEmployeeDto(employeeDto);
             applicationStatusDto.setId(1);
             vacationTypeDto.setId(1);
@@ -186,40 +193,12 @@ public class EmployeeController {
      *         error = page with the form of adding application.
      */
     @PostMapping(value = "/addApplicationAction")
-    public void addApplicationAction(ApplicationDto applicationDto, BindingResult result, Model model) throws ParseException {
+    public String addApplicationAction(ApplicationDto applicationDto, BindingResult result, Model model) throws ParseException {
         String username = EmployeeModel.getLoggedEmployee();
         EmployeeDto employeeDto = employeeService.findByEmail(username);
 
-        DateFormat yearFormatDate = new SimpleDateFormat("yyyy", Locale.ENGLISH);
-        String stringDateAddition = yearFormatDate.format(new Date());
-        Date dateAddition = yearFormatDate.parse(stringDateAddition);
-
-        DateFormat yearMonthDayFormatDate = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-        String stringStartDateApplication = yearMonthDayFormatDate.format(applicationDto.getStartOfVacation());
-        Date startDate = yearMonthDayFormatDate.parse(stringStartDateApplication);
-        String stringEndDateApplication = yearMonthDayFormatDate.format(applicationDto.getEndOfVacation());
-        Date endDate = yearMonthDayFormatDate.parse(stringEndDateApplication);
-
-
-        List<Date> totalDates = new ArrayList<>();
-        while (!startDate.after(endDate)) {
-            totalDates.add(startDate);
-            //LocalDateTime.from(startDate.toInstant()).plusDays(1);
-            Calendar c = Calendar.getInstance();
-            c.setTime(startDate);
-            c.add(Calendar.DATE, 1);
-            startDate = c.getTime();
-        }
-        //totalDates.iterator().next();
-        String date1 = yearMonthDayFormatDate.format(totalDates.iterator().next());
-        List<Application> listapp = applicationRepository.findAllApplicationsWithDuplicateDate(employeeDto.getId(),date1);
-        listapp.iterator().next().getId();
-
-
-
-       // return ApplicationAction(applicationDto,employeeDto,result,model,dateAddition,
-                       //     "addApplication","redirect:/addApplication?success=addApplication");
-
+        return ApplicationAction(applicationDto,employeeDto,result,model,
+                           "addApplication","redirect:/addApplication?success=addApplication");
     }
 
     /**
@@ -340,42 +319,87 @@ public class EmployeeController {
         Employee employee = employeeService.findEmployeeByEmail(username);
         return employee;
     }
+    public Date returnDateByFormat(String pattern, Date date) throws ParseException {
+        DateFormat formatDate = new SimpleDateFormat(pattern, Locale.ENGLISH);
+        String stringDate = formatDate.format(date);
+        Date dateAfterFormat = formatDate.parse(stringDate);
+        return dateAfterFormat;
+    }
+    public String returnStringDateByForma(String pattern, Date date) throws ParseException {
+        DateFormat formatDate = new SimpleDateFormat(pattern, Locale.ENGLISH);
+        String stringDate = formatDate.format(date);
+        return stringDate;
+    }
 
-    public String ApplicationAction(ApplicationDto applicationDto, EmployeeDto employeeDto, BindingResult result, Model model, Date date, String date1, String view, String redirect) {
+    public List<String> listStringDatesBetweenStartAndEndDatesVacation(Date startDate, Date endDate) throws ParseException {
+        List<Date> totalDates = new ArrayList<>();
+        while (!startDate.after(endDate)) {
+            totalDates.add(startDate);
+            Calendar c = Calendar.getInstance();
+            c.setTime(startDate);
+            c.add(Calendar.DATE, 1);
+            startDate = c.getTime();
+        }
+        List<String> stringDates = new ArrayList<>();
+        for (Date dates : totalDates ){
+            String stringDate = returnStringDateByForma("yyyy-MM-dd", dates);
+            stringDates.add(stringDate);
+        }
+        return stringDates;
+    }
+
+    public String ApplicationAction(ApplicationDto applicationDto, EmployeeDto employeeDto, BindingResult result, Model model , String view, String redirect) throws ParseException {
         ApplicationStatusDto applicationStatusDto = new ApplicationStatusDto();
+
+
+        Date dateAddition = returnDateByFormat("yyyy", new Date());
+
+        Date startDate = returnDateByFormat("yyyy-MM-dd", applicationDto.getStartOfVacation());
+
+        Date endDate = returnDateByFormat("yyyy-MM-dd", applicationDto.getEndOfVacation());
+
+        List<String> stringDatesBetweenStartAndEndDatesVacation = listStringDatesBetweenStartAndEndDatesVacation(startDate,endDate);
+
 
         if (result.hasErrors()) {
             model.addAttribute("employeeDto", employeeDto);
             model.addAttribute("failedMessage", "Coś poszło nie tak !");
+            model.addAttribute("listOfEmployeesForReplacement", employeeService.findEmployeesByPositionId(employeeDto.getPositionDto().getId()));
             model.addAttribute("vacationTypeList", vacationTypeService.findAllVacationsTypeDto());
             return view;
         }
-        if (applicationRepository.findAllApplicationsWithDuplicateDate(employeeDto.getId(),date1) != null) {
-            model.addAttribute("employeeDto", employeeDto);
-            model.addAttribute("failedMessage", "Urlop w wyznaczonym terminie juz istnieje !");
-            model.addAttribute("vacationTypeList", vacationTypeService.findAllVacationsTypeDto());
-            return view;
+        for(String item : stringDatesBetweenStartAndEndDatesVacation){
+            if (applicationRepository.findAllApplicationsWithDuplicateDate(employeeDto.getId(),item).isEmpty() != true) {
+                model.addAttribute("employeeDto", employeeDto);
+                model.addAttribute("listOfEmployeesForReplacement", employeeService.findEmployeesByPositionId(employeeDto.getPositionDto().getId()));
+                model.addAttribute("failedMessage", "Urlop w wyznaczonym terminie juz istnieje !");
+                model.addAttribute("vacationTypeList", vacationTypeService.findAllVacationsTypeDto());
+                return view;
+            }
         }
-        if (vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), date) == null) {
+
+        if (vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), dateAddition) == null) {
             model.addAttribute("failedMessage", "Twój roczny urlop nie został zdefiniowany ");
             model.addAttribute("employeeDto", employeeDto);
+            model.addAttribute("listOfEmployeesForReplacement", employeeService.findEmployeesByPositionId(employeeDto.getPositionDto().getId()));
             model.addAttribute("vacationTypeList", vacationTypeService.findAllVacationsTypeDto());
             return view;
         } else if (applicationDto.getVacationTypeDto().getId() == 1) {
-            if (applicationDto.getVacationDays() > vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), date).getVacationLeave() == true) {
+            if (applicationDto.getVacationDays() > vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), dateAddition).getVacationLeave() == true) {
                 model.addAttribute("failedMessage", "Nie masz wystarczającej liczby dni urlopu");
                 model.addAttribute("employeeDto", employeeDto);
+                model.addAttribute("listOfEmployeesForReplacement", employeeService.findEmployeesByPositionId(employeeDto.getPositionDto().getId()));
                 model.addAttribute("vacationTypeList", vacationTypeService.findAllVacationsTypeDto());
                 return view;
             } else {
                 int vacationDays = applicationDto.getVacationDays();
-                int vacationLeaveBalance = vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), date).getVacationLeave();
-                int vacationAnnualBalance = vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), date).getAnnualVacation();
+                int vacationLeaveBalance = vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), dateAddition).getVacationLeave();
+                int vacationAnnualBalance = vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), dateAddition).getAnnualVacation();
                 int updateLeaveVacation = vacationLeaveBalance - vacationDays;
                 int updateAnnualBalance = vacationAnnualBalance - vacationDays;
 
-                vacationBalanceService.updateVacationLeave(updateLeaveVacation, employeeDto.getId(), date);
-                vacationBalanceService.updateAnnualLeave(updateAnnualBalance, employeeDto.getId(), date);
+                vacationBalanceService.updateVacationLeave(updateLeaveVacation, employeeDto.getId(), dateAddition);
+                vacationBalanceService.updateAnnualLeave(updateAnnualBalance, employeeDto.getId(), dateAddition);
                 applicationDto.setEmployeeDto(employeeDto);
                 applicationStatusDto.setId(1);
                 applicationDto.setApplicationStatusDto(applicationStatusDto);
@@ -383,23 +407,25 @@ public class EmployeeController {
 
                 model.addAttribute("applicationDto", new ApplicationDto());
                 model.addAttribute("employeeDto", employeeDto);
+                model.addAttribute("listOfEmployeesForReplacement", employeeService.findEmployeesByPositionId(employeeDto.getPositionDto().getId()));
                 model.addAttribute("vacationTypeList", vacationTypeService.findAllVacationsTypeDto());
                 return redirect;
             }
         } else if (applicationDto.getVacationTypeDto().getId() == 2) {
-            if (applicationDto.getVacationDays() > vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), date).getEmergencyVacation() == true) {
+            if (applicationDto.getVacationDays() > vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), dateAddition).getEmergencyVacation() == true) {
                 model.addAttribute("blad", "Nie masz wystarczającej liczby dni urlopu na żądanie");
                 model.addAttribute("employeeDto", employeeDto);
+                model.addAttribute("listOfEmployeesForReplacement", employeeService.findEmployeesByPositionId(employeeDto.getPositionDto().getId()));
                 model.addAttribute("vacationTypeList", vacationTypeService.findAllVacationsTypeDto());
             } else {
                 int vacationDays = applicationDto.getVacationDays();
-                int vacationLeaveBalance = vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), date).getEmergencyVacation();
-                int vacationAnnualBalance = vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), date).getAnnualVacation();
+                int vacationLeaveBalance = vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), dateAddition).getEmergencyVacation();
+                int vacationAnnualBalance = vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), dateAddition).getAnnualVacation();
                 int updateEmergencyVacation = vacationLeaveBalance - vacationDays;
                 int updateAnnualBalance = vacationAnnualBalance - vacationDays;
 
-                vacationBalanceService.updateEmergencyLeave(updateEmergencyVacation, employeeDto.getId(), date);
-                vacationBalanceService.updateAnnualLeave(updateAnnualBalance, employeeDto.getId(), date);
+                vacationBalanceService.updateEmergencyLeave(updateEmergencyVacation, employeeDto.getId(), dateAddition);
+                vacationBalanceService.updateAnnualLeave(updateAnnualBalance, employeeDto.getId(), dateAddition);
                 applicationDto.setEmployeeDto(employeeDto);
                 applicationStatusDto.setId(3);
                 applicationDto.setApplicationStatusDto(applicationStatusDto);
@@ -407,6 +433,7 @@ public class EmployeeController {
 
                 model.addAttribute("applicationDto", new ApplicationDto());
                 model.addAttribute("employeeDto", employeeDto);
+                model.addAttribute("listOfEmployeesForReplacement", employeeService.findEmployeesByPositionId(employeeDto.getPositionDto().getId()));
                 model.addAttribute("vacationTypeList", vacationTypeService.findAllVacationsTypeDto());
                 return redirect;
             }
