@@ -17,7 +17,7 @@ public class EmailSender {
         javaMailSender.setPort(587);
 
         javaMailSender.setUsername("radek.lewandowski2004@gmail.com");
-        javaMailSender.setPassword("Lewandowski2004");
+        javaMailSender.setPassword("hasło");
 
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom("radek.lewandowski2004@gmail.com");
