@@ -6,6 +6,8 @@ import lewandowski.demo.Model.*;
 import lewandowski.demo.Utilities.*;
 import lewandowski.demo.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,6 +32,9 @@ public class EmployeeController {
     private ApplicationService applicationService;
 
     @Autowired
+    private AppComponentSelectMap appComponentSelectMap;
+
+    @Autowired
     private ApplicationRepository applicationRepository;
 
     @Autowired
@@ -42,7 +47,8 @@ public class EmployeeController {
     private VacationTypeEditor vacationTypeEditor;
 
     @Autowired
-    private EmailSenderImpl emailSender;
+    private EmailSender emailSender;
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(VacationTypeDto.class, this.vacationTypeEditor);
@@ -114,13 +120,13 @@ public class EmployeeController {
         ApplicationStatusDto applicationStatusDto = new ApplicationStatusDto();
         VacationTypeDto vacationTypeDto = new VacationTypeDto();
 
-        Date dateAddition = returnDateByFormat("yyyy", new Date());
+        Date dateAddition = appComponentSelectMap.returnDateByFormat("yyyy", new Date());
 
-        Date startDate = returnDateByFormat("yyyy-MM-dd", applicationDto.getStartOfVacation());
+        Date startDate = appComponentSelectMap.returnDateByFormat("yyyy-MM-dd", applicationDto.getStartOfVacation());
 
-        Date endDate = returnDateByFormat("yyyy-MM-dd", applicationDto.getEndOfVacation());
+        Date endDate = appComponentSelectMap.returnDateByFormat("yyyy-MM-dd", applicationDto.getEndOfVacation());
 
-        List<String> stringDatesBetweenStartAndEndDatesVacation = listStringDatesBetweenStartAndEndDatesVacation(startDate,endDate);
+        List<String> stringDatesBetweenStartAndEndDatesVacation = appComponentSelectMap.listStringDatesBetweenStartAndEndDatesVacation(startDate,endDate);
 
 
         if (result.hasErrors()) {
@@ -319,46 +325,18 @@ public class EmployeeController {
         Employee employee = employeeService.findEmployeeByEmail(username);
         return employee;
     }
-    public Date returnDateByFormat(String pattern, Date date) throws ParseException {
-        DateFormat formatDate = new SimpleDateFormat(pattern, Locale.ENGLISH);
-        String stringDate = formatDate.format(date);
-        Date dateAfterFormat = formatDate.parse(stringDate);
-        return dateAfterFormat;
-    }
-    public String returnStringDateByForma(String pattern, Date date) throws ParseException {
-        DateFormat formatDate = new SimpleDateFormat(pattern, Locale.ENGLISH);
-        String stringDate = formatDate.format(date);
-        return stringDate;
-    }
 
-    public List<String> listStringDatesBetweenStartAndEndDatesVacation(Date startDate, Date endDate) throws ParseException {
-        List<Date> totalDates = new ArrayList<>();
-        while (!startDate.after(endDate)) {
-            totalDates.add(startDate);
-            Calendar c = Calendar.getInstance();
-            c.setTime(startDate);
-            c.add(Calendar.DATE, 1);
-            startDate = c.getTime();
-        }
-        List<String> stringDates = new ArrayList<>();
-        for (Date dates : totalDates ){
-            String stringDate = returnStringDateByForma("yyyy-MM-dd", dates);
-            stringDates.add(stringDate);
-        }
-        return stringDates;
-    }
 
     public String ApplicationAction(ApplicationDto applicationDto, EmployeeDto employeeDto, BindingResult result, Model model , String view, String redirect) throws ParseException {
         ApplicationStatusDto applicationStatusDto = new ApplicationStatusDto();
 
+        Date dateAddition = appComponentSelectMap.returnDateByFormat("yyyy", new Date());
 
-        Date dateAddition = returnDateByFormat("yyyy", new Date());
+        Date startDate = appComponentSelectMap.returnDateByFormat("yyyy-MM-dd", applicationDto.getStartOfVacation());
 
-        Date startDate = returnDateByFormat("yyyy-MM-dd", applicationDto.getStartOfVacation());
+        Date endDate = appComponentSelectMap.returnDateByFormat("yyyy-MM-dd", applicationDto.getEndOfVacation());
 
-        Date endDate = returnDateByFormat("yyyy-MM-dd", applicationDto.getEndOfVacation());
-
-        List<String> stringDatesBetweenStartAndEndDatesVacation = listStringDatesBetweenStartAndEndDatesVacation(startDate,endDate);
+        List<String> stringDatesBetweenStartAndEndDatesVacation = appComponentSelectMap.listStringDatesBetweenStartAndEndDatesVacation(startDate,endDate);
 
 
         if (result.hasErrors()) {
@@ -453,9 +431,11 @@ public class EmployeeController {
 
     }
     @GetMapping(value = "/sendEmail")
-    public String sendEmail(Model model) throws MessagingException {
+    @ResponseBody
+    public String sendEmail(Model model) {
 
-       // emailSender.sendMessage("lewandowski2004@o2.pl", "ja", "asdas");
+        emailSender.sendMessage("lewandowski2004@o2.pl","adas","asdad");
+       //s emailSender.sendMessage("lewandowski2004@o2.pl", "ja", "asdas");
          return "email";
 
     }

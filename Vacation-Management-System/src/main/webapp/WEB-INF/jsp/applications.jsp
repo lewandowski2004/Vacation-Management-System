@@ -50,7 +50,7 @@
                             <td>
                                 <c:choose>
                                     <c:when test="${applicationDto.applicationStatusDto.id == 1 }">
-                                        <span style="color: #666666; font-size: 21px" class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;
+                                        <span style="color: orange; font-size: 21px" class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;
                                     </c:when>
                                     <c:when test="${applicationDto.applicationStatusDto.id == 2 }">
                                         <span style="color: chartreuse; font-size: 21px" class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;

@@ -24,13 +24,6 @@
         <java.version>1.8</java.version>
 
         <server.port>8080</server.port>
-        <email.request.address>http://localhost:${server.port}</email.request.address>
-        <mail.host>smtp.gmail.com</mail.host>
-        <mail.port>587</mail.port>
-        <mail.username>radek.lewandowski2004@gmail.com</mail.username>
-        <mail.password>Lewandowski2004</mail.password>
-        <mail.properties.mail.mail.smtp.auth>true</mail.properties.mail.mail.smtp.auth>
-        <mail.properties.mail.smtp.starttls.enable>true</mail.properties.mail.smtp.starttls.enable>
     </properties>
 
     <dependencies>

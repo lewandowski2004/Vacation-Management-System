@@ -4,10 +4,7 @@ import com.google.gson.Gson;
 import lewandowski.demo.DTO.*;
 import lewandowski.demo.Model.*;
 import lewandowski.demo.Service.*;
-import lewandowski.demo.Utilities.AppComponentSelectMap;
-import lewandowski.demo.Utilities.DepartmentEditor;
-import lewandowski.demo.Utilities.EmployeeModel;
-import lewandowski.demo.Utilities.PositionEditor;
+import lewandowski.demo.Utilities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,6 +36,9 @@ public class AdminController {
     private ApplicationService applicationService;
 
     @Autowired
+    private ApplicationStatusService applicationStatusService;
+
+    @Autowired
     private VacationBalanceService vacationBalanceService;
 
     @Autowired
@@ -52,6 +52,9 @@ public class AdminController {
 
     @Autowired
     private PositionEditor positionEditor;
+
+    @Autowired
+    private EmailSender emailSender;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -321,9 +324,8 @@ public class AdminController {
         EmployeeDto employee = employeeService.findByEmail(username);
 
         ApplicationDto applicationCurrent = applicationService.findApplicationDtoById(id);
-        DateFormat formatDate = new SimpleDateFormat("yyyy", Locale.ENGLISH);
-        String stringDate = formatDate.format(new Date());
-        Date date = formatDate.parse(stringDate);
+
+        Date date  = appComponentSelectMap.returnDateByFormat("yyyy", new Date());
 
         Map<Integer, String> applicationStatusMapAdmin = appComponentSelectMap.prepareStatusMapAdmin();
         int status = applicationCurrent.getApplicationStatusDto().getId();
@@ -354,6 +356,9 @@ public class AdminController {
                         vacationBalanceService.updateAnnualLeave(updateAnnualBalance, applicationCurrent.getEmployeeDto().getId(), date);
 
                         applicationService.updateStatusApplication(nrStatus, id);
+                        emailSender.sendMessage(applicationCurrent.getEmployeeDto().getEmail(),
+                                "Status Twojej aplikacji został zmieniony",
+                                "Status aplikacji : "+ applicationStatusService.findApplicationStatusDtoById(application.getNrStatus()).getStatus()+".");
                         model.addAttribute("application", new Application());
                         return "redirect:/admin/applications";
                     } else {
@@ -372,6 +377,9 @@ public class AdminController {
                         vacationBalanceService.updateAnnualLeave(updateAnnualBalance, applicationCurrent.getEmployeeDto().getId(), date);
 
                         applicationService.updateStatusApplication(nrStatus, id);
+                        emailSender.sendMessage(applicationCurrent.getEmployeeDto().getEmail(),
+                                "Status Twojej aplikacji został zmieniony",
+                                "Status aplikacji : "+ applicationStatusService.findApplicationStatusDtoById(application.getNrStatus()).getStatus()+".");
                         model.addAttribute("application", new Application());
                         return "redirect:/admin/applications";
                     } else {
@@ -388,6 +396,9 @@ public class AdminController {
                     if (applicationCurrent.getVacationTypeDto().getId() == 1) {
 
                         applicationService.updateStatusApplication(nrStatus, id);
+                        emailSender.sendMessage(applicationCurrent.getEmployeeDto().getEmail(),
+                                "Status Twojej aplikacji został zmieniony",
+                                "Status aplikacji : "+ applicationStatusService.findApplicationStatusDtoById(application.getNrStatus()).getStatus()+".");
                         model.addAttribute("application", new Application());
                         return "redirect:/admin/applications";
                     } else {
@@ -406,6 +417,9 @@ public class AdminController {
                         vacationBalanceService.updateAnnualLeave(updateAnnualBalance, applicationCurrent.getEmployeeDto().getId(), date);
 
                         applicationService.updateStatusApplication(nrStatus, id);
+                        emailSender.sendMessage(applicationCurrent.getEmployeeDto().getEmail(),
+                                "Status Twojej aplikacji został zmieniony",
+                                "Status aplikacji : "+ applicationStatusService.findApplicationStatusDtoById(application.getNrStatus()).getStatus()+".");
                         model.addAttribute("application", new Application());
                         return "redirect:/admin/applications";
                     } else {
@@ -430,6 +444,9 @@ public class AdminController {
                         vacationBalanceService.updateAnnualLeave(updateAnnualBalance, applicationCurrent.getEmployeeDto().getId(), date);
 
                         applicationService.updateStatusApplication(nrStatus, id);
+                        emailSender.sendMessage(applicationCurrent.getEmployeeDto().getEmail(),
+                                "Status Twojej aplikacji został zmieniony",
+                                "Status aplikacji : "+ applicationStatusService.findApplicationStatusDtoById(application.getNrStatus()).getStatus()+".");
                         model.addAttribute("application", new Application());
                         return "redirect:/admin/applications";
                     } else {
@@ -439,14 +456,23 @@ public class AdminController {
                 } else if (application.getNrStatus() == 3) {
                     if (applicationCurrent.getVacationTypeDto().getId() == 1) {
                         applicationService.updateStatusApplication(nrStatus, id);
+                        emailSender.sendMessage(applicationCurrent.getEmployeeDto().getEmail(),
+                                "Status Twojej aplikacji został zmieniony",
+                                "Status aplikacji : "+ applicationStatusService.findApplicationStatusDtoById(application.getNrStatus()).getStatus()+".");
                         model.addAttribute("application", new Application());
                         return "redirect:/admin/applications";
                     } else {
                         applicationService.updateStatusApplication(nrStatus, id);
+                        emailSender.sendMessage(applicationCurrent.getEmployeeDto().getEmail(),
+                                "Status Twojej aplikacji został zmieniony",
+                                "Status aplikacji : "+ applicationStatusService.findApplicationStatusDtoById(application.getNrStatus()).getStatus()+".");
                         return "redirect:/admin/applications";
                     }
                 } else {
                     applicationService.updateStatusApplication(nrStatus, id);
+                    emailSender.sendMessage(applicationCurrent.getEmployeeDto().getEmail(),
+                            "Status Twojej aplikacji został zmieniony",
+                            "Status aplikacji : "+ applicationStatusService.findApplicationStatusDtoById(application.getNrStatus()).getStatus()+".");
                     return "redirect:/admin/applications";
                 }
             }

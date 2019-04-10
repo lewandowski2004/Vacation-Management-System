@@ -66,8 +66,6 @@ public class AppComponentSelectMap {
         return departmentMap;
     }
 
-
-
     public Map<Integer, String> prepareDepartmentDtoMap() {
         Map<Integer, String> departamentDtoMap = new HashMap<Integer, String>();
         List<DepartmentDto> departmentList = departmentService.findAllDepartamentDto();
@@ -151,5 +149,34 @@ public class AppComponentSelectMap {
         String stringDate = simpleDateFormat.format(date);
         Date dateAfterFormat = format.parse(stringDate);
         return dateAfterFormat;
+    }
+
+    public  Date returnDateByFormat(String pattern, Date date) throws ParseException {
+        DateFormat formatDate = new SimpleDateFormat(pattern, Locale.ENGLISH);
+        String stringDate = formatDate.format(date);
+        Date dateAfterFormat = formatDate.parse(stringDate);
+        return dateAfterFormat;
+    }
+    public String returnStringDateByForma(String pattern, Date date) throws ParseException {
+        DateFormat formatDate = new SimpleDateFormat(pattern, Locale.ENGLISH);
+        String stringDate = formatDate.format(date);
+        return stringDate;
+    }
+
+    public List<String> listStringDatesBetweenStartAndEndDatesVacation(Date startDate, Date endDate) throws ParseException {
+        List<Date> totalDates = new ArrayList<>();
+        while (!startDate.after(endDate)) {
+            totalDates.add(startDate);
+            Calendar c = Calendar.getInstance();
+            c.setTime(startDate);
+            c.add(Calendar.DATE, 1);
+            startDate = c.getTime();
+        }
+        List<String> stringDates = new ArrayList<>();
+        for (Date dates : totalDates ){
+            String stringDate = returnStringDateByForma("yyyy-MM-dd", dates);
+            stringDates.add(stringDate);
+        }
+        return stringDates;
     }
 }
