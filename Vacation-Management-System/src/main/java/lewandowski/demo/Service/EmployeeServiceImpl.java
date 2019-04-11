@@ -104,12 +104,35 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void updateEmployeeRole(UUID id, int nrRoli) {
         employeeRepository.updateRoleEmployee(nrRoli,id);
     }
-/*    @Override
-    public UUID getLastEmployeeId() {
-        return employeeRepository.getLastEmployeeId();
-    }*/
+
 
     /*Dto method*/
+
+    @Override
+    public void saveEmployeeDto(EmployeeDto employeeDto) {
+        Employee employee = Employee.builder()
+                .name(employeeDto.getName())
+                .lastName(employeeDto.getLastName())
+                .email(employeeDto.getEmail())
+                .pesel(employeeDto.getPesel())
+                .dateOfBirth(employeeDto.getDateOfBirth())
+                .dateOfAddition(new Date())
+                .addressLine1(employeeDto.getAddressLine1())
+                .addressLine2(employeeDto.getAddressLine2())
+                .city(employeeDto.getCity())
+                .zipCode(employeeDto.getZipCode())
+                .phoneNumber(employeeDto.getPhoneNumber())
+                .password(bCryptPasswordEncoder.encode(employeeDto.getPassword()))
+                .department(departmentService.getDepartment(employeeDto.getDepartmentDto()))
+                .position(positionService.getPosition(employeeDto.getPositionDto()))
+                .build();
+
+        Role role = roleRepository.findByRole("ROLE_EMPLOYEE");
+        employee.setRoles(new HashSet<Role>(Arrays.asList(role)));
+        employee.setActive(1);
+
+        employeeRepository.save(employee);
+    }
 
     public EmployeeDto findById(UUID id) {
         if (!id.equals("")) {
@@ -144,32 +167,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         }else {
             return getEmployeeDto(employeeRepository.findEmployeeByVacationBalancesWhereYearIs(employeeId, year));
         }
-    }
-
-    @Override
-    public void saveEmployeeDto(EmployeeDto employeeDto) {
-        Employee employee = Employee.builder()
-                .name(employeeDto.getName())
-                .lastName(employeeDto.getLastName())
-                .email(employeeDto.getEmail())
-                .pesel(employeeDto.getPesel())
-                .dateOfBirth(employeeDto.getDateOfBirth())
-                .dateOfAddition(new Date())
-                .addressLine1(employeeDto.getAddressLine1())
-                .addressLine2(employeeDto.getAddressLine2())
-                .city(employeeDto.getCity())
-                .zipCode(employeeDto.getZipCode())
-                .phoneNumber(employeeDto.getPhoneNumber())
-                .password(bCryptPasswordEncoder.encode(employeeDto.getPassword()))
-                .department(departmentService.getDepartment(employeeDto.getDepartmentDto()))
-                .position(positionService.getPosition(employeeDto.getPositionDto()))
-                .build();
-
-        Role role = roleRepository.findByRole("ROLE_EMPLOYEE");
-        employee.setRoles(new HashSet<Role>(Arrays.asList(role)));
-        employee.setActive(1);
-
-        employeeRepository.save(employee);
     }
 
     @Override

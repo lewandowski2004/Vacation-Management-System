@@ -90,6 +90,26 @@ public class ApplicationServiceImpl implements ApplicationService {
     /*DTO method*/
 
     @Override
+    public void saveApplicationDto(ApplicationDto applicationDto) {
+        Application application = Application.builder()
+                .dateOfAddition(applicationDto.getDateOfAddition())
+                .startOfVacation(applicationDto.getStartOfVacation())
+                .endOfVacation(applicationDto.getEndOfVacation())
+                .vacationDays(applicationDto.getVacationDays())
+                .vacationPlan(applicationDto.isVacationPlan())
+                .applicationStatus(applicationStatusService.getApplicationStatus(applicationDto.getApplicationStatusDto()))
+                .vacationType(vacationTypeService.getVacationType(applicationDto.getVacationTypeDto()))
+                .replacement(applicationDto.getReplacement())
+                .description(applicationDto.getDescription())
+                .employee(employeeService.getEmployee(applicationDto.getEmployeeDto()))
+                .build();
+
+        Date date = new Date();
+        application.setDateOfAddition(date);
+        applicationRepository.save(application);
+    }
+
+    @Override
     @PostAuthorize("returnObject.employeeDto.email == authentication.name or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
     public ApplicationDto findApplicationDtoById(UUID id) {
         if (!id.equals("")) {
@@ -134,26 +154,6 @@ public class ApplicationServiceImpl implements ApplicationService {
     public List<ApplicationDto> findVacationPlansDtoEmployeeByDepartment(UUID employeeId, boolean vacationPlan) {
         return findAllApplications(applicationRepository.findApplicationsByEmployee_IdAndVacationPlan(employeeId, vacationPlan));
     }
-    @Override
-    public void saveApplicationDto(ApplicationDto applicationDto) {
-        Application application = Application.builder()
-                .dateOfAddition(applicationDto.getDateOfAddition())
-                .startOfVacation(applicationDto.getStartOfVacation())
-                .endOfVacation(applicationDto.getEndOfVacation())
-                .vacationDays(applicationDto.getVacationDays())
-                .vacationPlan(applicationDto.isVacationPlan())
-                .applicationStatus(applicationStatusService.getApplicationStatus(applicationDto.getApplicationStatusDto()))
-                .vacationType(vacationTypeService.getVacationType(applicationDto.getVacationTypeDto()))
-                .replacement(applicationDto.getReplacement())
-                .description(applicationDto.getDescription())
-                .employee(employeeService.getEmployee(applicationDto.getEmployeeDto()))
-                .build();
-
-        Date date = new Date();
-        application.setDateOfAddition(date);
-        applicationRepository.save(application);
-    }
-
 
     public List<ApplicationDto> findAllApplications(List<Application> applicationsList) {
         List<ApplicationDto> applicationDtoList = new ArrayList<>();

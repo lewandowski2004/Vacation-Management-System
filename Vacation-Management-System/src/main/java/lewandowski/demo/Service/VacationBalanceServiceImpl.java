@@ -51,6 +51,21 @@ public class VacationBalanceServiceImpl implements VacationBalanceService {
     }
 
     /*Dto method*/
+
+    @Override
+    public void saveVacationBalanceDto(VacationBalanceDto vacationBalanceDto) {
+        VacationBalance vacationBalance = VacationBalance.builder()
+                .annualVacation(vacationBalanceDto.getAnnualVacation())
+                .emergencyVacation(4)
+                .vacationLeave(vacationBalanceDto.getAnnualVacation()-4)
+                .vacationLimit(vacationBalanceDto.getAnnualVacation())
+                .employee(employeeService.getEmployee(vacationBalanceDto.getEmployeeDto()))
+                .year(vacationBalanceDto.getYear())
+                .build();
+
+        vacationBalanceRepository.save(vacationBalance);
+    }
+
     @Override
     public List<VacationBalanceDto> findVacationBalancesByYear(Date year) {
         return findAllVacationsBalanceDtoWithEmployee(vacationBalanceRepository.findVacationBalancesByYear(year));
@@ -72,20 +87,6 @@ public class VacationBalanceServiceImpl implements VacationBalanceService {
     }
 
     @Override
-    public void saveVacationBalanceDto(VacationBalanceDto vacationBalanceDto) {
-        VacationBalance vacationBalance = VacationBalance.builder()
-                .annualVacation(vacationBalanceDto.getAnnualVacation())
-                .emergencyVacation(4)
-                .vacationLeave(vacationBalanceDto.getAnnualVacation()-4)
-                .vacationLimit(vacationBalanceDto.getAnnualVacation())
-                .employee(employeeService.getEmployee(vacationBalanceDto.getEmployeeDto()))
-                .year(vacationBalanceDto.getYear())
-                .build();
-
-        vacationBalanceRepository.save(vacationBalance);
-    }
-
-    @Override
     public VacationBalanceDto findVacationBalanceDtoByEmployee_IdAndYear(UUID employeeId, Date year) {
         VacationBalance vacationBalance = vacationBalanceRepository.findByEmployee_IdAndYear(employeeId, year);
         if (vacationBalance != null) {
@@ -94,7 +95,6 @@ public class VacationBalanceServiceImpl implements VacationBalanceService {
             return null;
         }
     }
-
 
     public VacationBalance getVacationBalance(VacationBalanceDto vacationBalanceDto) {
         return VacationBalance.builder()

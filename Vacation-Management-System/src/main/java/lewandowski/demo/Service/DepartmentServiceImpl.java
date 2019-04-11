@@ -59,6 +59,14 @@ public class DepartmentServiceImpl implements DepartmentService {
     /*DTO method*/
 
     @Override
+    public void saveDepartment(DepartmentDto departmentDto) {
+        Department department = Department.builder()
+                .name(departmentDto.getName())
+                .build();
+        departmentRepository.save(department);
+    }
+
+    @Override
     public DepartmentDto findDepartmentDtoById(int id) {
         Department department = departmentRepository.findById(id);
         if (department != null) {
@@ -77,13 +85,6 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
     }
 
-    @Override
-    public void saveDepartment(DepartmentDto departmentDto) {
-        Department department = Department.builder()
-                .name(departmentDto.getName())
-                .build();
-        departmentRepository.save(department);
-    }
     @Override
     public List<DepartmentDto> findAllDepartamentDto() {
         return findAllDepartamentDto(departmentRepository.findAll());

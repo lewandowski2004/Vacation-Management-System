@@ -48,6 +48,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="${contextRoot}/admin/companyStructure">Struktura firmy</a></li>
                             <li><a href="${contextRoot}/admin/addEmployee">Dodaj Użytkownika</a></li>
+                            <li><a href="${contextRoot}/admin/vacationBalanceEmployees">Aktualizowanie rocznego urlopu</a></li>
                             <li><a href="${contextRoot}/admin/employees">Uzytkownicy</a></li>
                             <li><a href="${contextRoot}/admin/applications">Wnioski urlopowe</a></li>
                             <li><a href="${contextRoot}/admin/vacationPlans">Planowane urlopy</a></li>

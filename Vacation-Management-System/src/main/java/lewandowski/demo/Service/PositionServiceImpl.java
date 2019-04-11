@@ -69,6 +69,15 @@ public class PositionServiceImpl implements PositionService{
     /*Dto method*/
 
     @Override
+    public void savePositionDto(PositionDto positionDto) {
+        Position position = Position.builder()
+                .name(positionDto.getName())
+                .department(departmentService.getDepartment(positionDto.getDepartmentDto()))
+                .build();
+        positionRepository.save(position);
+    }
+
+    @Override
     public PositionDto findPositionDtoById(int id) {
         Position position = positionRepository.findById(id);
         if (position != null) {
@@ -108,14 +117,7 @@ public class PositionServiceImpl implements PositionService{
         }
         return PositionDtoList;
     }
-    @Override
-    public void savePositionDto(PositionDto positionDto) {
-        Position position = Position.builder()
-                .name(positionDto.getName())
-                .department(departmentService.getDepartment(positionDto.getDepartmentDto()))
-                .build();
-        positionRepository.save(position);
-    }
+
     public Position getPosition(PositionDto positionDto) {
         return Position.builder()
                 .id(positionDto.getId())
