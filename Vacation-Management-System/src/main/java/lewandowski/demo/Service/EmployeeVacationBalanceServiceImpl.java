@@ -9,11 +9,13 @@ import lewandowski.demo.DTO.VacationBalanceDto;
 import lewandowski.demo.Model.Employee;
 import lewandowski.demo.Model.Role;
 import lewandowski.demo.Model.VacationBalance;
+import lewandowski.demo.Utilities.AppComponentSelectMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.ParseException;
 import java.time.Year;
 import java.util.Arrays;
 import java.util.Date;
@@ -43,8 +45,11 @@ public class EmployeeVacationBalanceServiceImpl implements EmployeeVacationBalan
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    private AppComponentSelectMap appComponentSelectMap;
+
     @Override
-    public void saveEmployeeVacationBalanceDto(EmployeeWithVacationBalanceDto employeeWithVacationBalanceDto) {
+    public void saveEmployeeVacationBalanceDto(EmployeeWithVacationBalanceDto employeeWithVacationBalanceDto) throws ParseException {
         Employee employee = Employee.builder()
                 .name(employeeWithVacationBalanceDto.getName())
                 .lastName(employeeWithVacationBalanceDto.getLastName())
@@ -75,7 +80,7 @@ public class EmployeeVacationBalanceServiceImpl implements EmployeeVacationBalan
                     .vacationLeave(employeeWithVacationBalanceDto.getAnnualVacation()-4)
                     .vacationLimit(employeeWithVacationBalanceDto.getAnnualVacation())
                     //.employee(employeeService.getEmployee(employeeWithVacationBalanceDto.getEmployeeDto()))
-                    .year(new Date())
+                    .year(appComponentSelectMap.returnDateByFormat("yyyy", new Date()))
                     .build();
 
         //Employee lastSaveEmployee = employeeRepository.getLastEmployee();

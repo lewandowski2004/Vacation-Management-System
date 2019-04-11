@@ -19,13 +19,16 @@ public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
     Employee findByEmail(String email);
     Employee save (Employee employee);
     List<Employee> findEmployeesByPosition_Id(int positionId);
+    List<Employee> findByIdNotIn(List<UUID> employeeId);
 
+    @Query(value = "SELECT * FROM employee INNER JOIN vacation_balance ON employee.employee_id = vacation_balance.employee_id WHERE employee.employee_id = :employeeId AND year = :year ", nativeQuery = true)
+    Employee findEmployeeByVacationBalancesWhereYearIs(@Param("employeeId") UUID employeeId, @Param("year") Date year);
 
-    @Query(value = "SELECT * FROM employee INNER JOIN vacation_balance ON employee.employee_id = vacation_balance.employee_id WHERE year = :yea ", nativeQuery = true)
-    List<Employee> findEmployeeByVacationBalancesWhereYearIs(@Param("yea") Date yea);
+    @Query(value = "SELECT * FROM employee INNER JOIN vacation_balance ON employee.employee_id = vacation_balance.employee_id WHERE year = :year ", nativeQuery = true)
+    List<Employee> findEmployeesByVacationBalancesWhereYearIs(@Param("year") Date year);
 
-    @Query(value = "SELECT * FROM employee INNER JOIN vacation_balance ON employee.employee_id = vacation_balance.employee_id WHERE year != :yea ", nativeQuery = true)
-    List<Employee> findEmployeeByVacationBalancesWhereYearIsNot(@Param("yea") Date yea);
+    @Query(value = "SELECT * FROM employee INNER JOIN vacation_balance ON employee.employee_id = vacation_balance.employee_id WHERE year > :year ", nativeQuery = true)
+    List<Employee> findEmployeeByVacationBalancesWhereYearIsNot(@Param("year") Date year);
 
     @Query(value = "SELECT * FROM employee ORDER BY date_of_addition DESC LIMIT 1", nativeQuery = true)
     Employee getLastEmployee();

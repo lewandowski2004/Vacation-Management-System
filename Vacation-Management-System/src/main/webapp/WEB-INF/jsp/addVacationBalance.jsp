@@ -64,7 +64,16 @@
                         <div class="col-lg-12">
                             <br/>
                             <h3 style="text-align: center">Dodawanie Urlopu</h3>
-                            <p>${employeeDto.name}</p>
+                            <div class="form-group">
+                                <dl class="dl-horizontal">
+                                    <dt>Imię:</dt>
+                                    <dd>${employeeDto.name}</dd>
+                                    <dt>Nazwisko:</dt>
+                                    <dd>${employeeDto.lastName}</dd>
+                                    <dt>Dział/Stanowisko:</dt>
+                                    <dd>${employeeDto.departmentDto.name}/${employeeDto.positionDto.name}</dd>
+                                </dl>
+                            </div>
                             <hr>
                             <p style="color: red">${blad}</p>
                             <form:form id="add-form" modelAttribute="vacationBalanceDto"
@@ -76,36 +85,7 @@
                                     <form:option value="26">26</form:option>
                                 </form:select>
                             </div>
-
-                           <%-- <div class="form-group">
-                                <label><p>Urlop za rok</p></label>
-                                <div class='input-group date' id='datetimepicker8'>
-                                    <form:input type='text' name="year" class="form-control" path="year"/>
-                                    <span class="input-group-addon">
-                                                            <span class="glyphicon glyphicon-calendar">
-
-                                                            </span>
-                                                        </span>
-                                </div>
-                                <form:errors path="year" cssClass="help-block" element="em"/>
-                            </div>
-                            <script type="text/javascript">
-                                $(function () {
-                                    $('#datetimepicker8').datetimepicker({
-                                        format: 'YYYY',
-                                        viewMode: 'years'
-
-                                    });
-                                    $("#datetimepicker8").on("dp.hide", function (e) {
-                                        $('#datetimepicker8').datetimepicker('destroy');
-                                        $('#datetimepicker8').datetimepicker({
-                                            format: 'YYYY',
-                                            viewMode: "years",
-                                        });
-                                    });
-                                });
-                            </script>
---%>
+                            <br/>
                         </div>
                         <br/>
                         <div class="form-group row">
@@ -125,7 +105,7 @@
                                 <div class="col-sm-6 col-sm-offset-3">
                                     <input type="submit" name="action" id="anuluj-submit"
                                            tabindex="4" class="form-control btn btn-danger"
-                                           onclick="window.location.href='${pageContext.request.contextPath}/'"
+                                           onclick="window.location.href='${pageContext.request.contextPath}/admin/vacationBalanceEmployees'"
                                            value="Anuluj"/>
                                 </div>
                                 <br/> <br/>

@@ -106,7 +106,7 @@ public class AdminController {
      * */
     @PostMapping(value = "/admin/addEmployeeAction")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String addEmployee(@Valid EmployeeWithVacationBalanceDto employeeWithVacationBalanceDto, BindingResult result, Model model) {
+    public String addEmployee(@Valid EmployeeWithVacationBalanceDto employeeWithVacationBalanceDto, BindingResult result, Model model) throws ParseException {
         if (result.hasErrors()) {
             model.addAttribute("employeeWithVacationBalanceDto", employeeWithVacationBalanceDto);
             model.addAttribute("departmentMap", appComponentSelectMap.prepareDepartmentDtoMap());
@@ -134,7 +134,8 @@ public class AdminController {
      * @param id Employee ID.
      * @return employee removed / page with list of employees.
      * */
-    @PostMapping(value = "/admin/delete/employee/{id}")
+    @DELETE
+    @RequestMapping(value = "/admin/delete/employee/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteEmployee(@PathVariable("id") UUID id) {
         applicationService.deleteApplicationByEmployeeId(id);
@@ -240,6 +241,11 @@ public class AdminController {
             model.addAttribute("failedMessage", "Coś poszło nie tak !");
             return "addVacationBalance";
         }*/
+        if (employeeService.findEmployeeByVacationBalancesWhereYearIs(id, appComponentSelectMap.DateFormat(new Date())) != null) {
+            model.addAttribute("failedMessage", "Pracownik posiada urlop na obecny rok !");
+            model.addAttribute("employeeDto", employeeDto);
+            return "addVacationBalance";
+        }
         vacationBalanceService.saveVacationBalanceDto(vacationBalanceDto);
         return "redirect:/admin/addVacationBalance/employee/"+id+"?success=addVacationBalance";
     }
@@ -264,8 +270,14 @@ public class AdminController {
     public String getAllEmployeesWithVacationPlan(Model model) throws ParseException {
        model.addAttribute("vacationBalanceDtoByYearList",
                employeeService.findAllEmployeesDtoByVacationBalancesWhereYearIs(appComponentSelectMap.DateFormat(new Date())));
+        List<EmployeeDto> listE = employeeService.findAllEmployeesDtoByVacationBalancesWhereYearIs(appComponentSelectMap.DateFormat(new Date()));
+        List<UUID> listU = new ArrayList<>();
+        for (EmployeeDto employeeDto : listE){
+            UUID id = employeeDto.getId();
+            listU.add(id);
+        }
         model.addAttribute("vacationBalanceDtoByYearIsNotInList",
-                employeeService.findAllEmployeesDtoByVacationBalancesWhereYearIsNot(appComponentSelectMap.DateFormat(new Date())));
+                employeeService.findEmployeesByIdNotIn(listU));
         return "vacationBalanceEmployees";
     }
 

@@ -138,6 +138,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public EmployeeDto findEmployeeByVacationBalancesWhereYearIs(UUID employeeId, Date year) {
+        if(employeeRepository.findEmployeeByVacationBalancesWhereYearIs(employeeId, year) == null){
+            return null;
+        }else {
+            return getEmployeeDto(employeeRepository.findEmployeeByVacationBalancesWhereYearIs(employeeId, year));
+        }
+    }
+
+    @Override
     public void saveEmployeeDto(EmployeeDto employeeDto) {
         Employee employee = Employee.builder()
                 .name(employeeDto.getName())
@@ -170,7 +179,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<EmployeeDto> findAllEmployeesDtoByVacationBalancesWhereYearIs(Date year) {
-        return findAllEmployeesDto(employeeRepository.findEmployeeByVacationBalancesWhereYearIs(year));
+        return findAllEmployeesDto(employeeRepository.findEmployeesByVacationBalancesWhereYearIs(year));
     }
 
     @Override
@@ -181,6 +190,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<EmployeeDto> findEmployeesByPositionId(int positionId) {
         return findAllEmployeesDto(employeeRepository.findEmployeesByPosition_Id(positionId));
+    }
+
+    @Override
+    public List<EmployeeDto> findEmployeesByIdNotIn(List<UUID> employeeId) {
+        return findAllEmployeesDto(employeeRepository.findByIdNotIn(employeeId));
     }
 
     public List<EmployeeDto> findAllEmployeesDto(List<Employee> employeesList) {
