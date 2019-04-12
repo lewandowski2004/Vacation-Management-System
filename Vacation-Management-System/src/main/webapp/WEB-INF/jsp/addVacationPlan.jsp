@@ -241,12 +241,14 @@
     $(function () {
         $('#datetimepicker6').datetimepicker({
             format: 'YYYY/MM/DD',
+            minDate: moment().add(14,'days'),
             locale: 'pl',
             daysOfWeekDisabled: [0, 6]
         });
 
         $('#datetimepicker7').datetimepicker({
             format: 'YYYY/MM/DD',
+            minDate: moment().add(14,'days'),
             locale: 'pl',
             daysOfWeekDisabled: [0, 6],
             useCurrent: false //Important! See issue #1075

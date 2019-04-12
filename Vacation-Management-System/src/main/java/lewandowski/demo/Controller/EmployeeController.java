@@ -355,7 +355,6 @@ public class EmployeeController {
                 return view;
             }
         }
-
         if (vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), dateAddition) == null) {
             model.addAttribute("failedMessage", "Twój roczny urlop nie został zdefiniowany ");
             model.addAttribute("employeeDto", employeeDto);
@@ -363,6 +362,13 @@ public class EmployeeController {
             model.addAttribute("vacationTypeList", vacationTypeService.findAllVacationsTypeDto());
             return view;
         } else if (applicationDto.getVacationTypeDto().getId() == 1) {
+            if (startDate.compareTo(appComponentSelectMap.returnDateByFormat("yyyy-MM-dd", new Date())) == 0) {
+                model.addAttribute("employeeDto", employeeDto);
+                model.addAttribute("listOfEmployeesForReplacement", employeeService.findEmployeesByPositionId(employeeDto.getPositionDto().getId()));
+                model.addAttribute("failedMessage", "Wystawienie wnioska o urlop wypoczynkowy wymaga jednego dnia uprzedzenia !");
+                model.addAttribute("vacationTypeList", vacationTypeService.findAllVacationsTypeDto());
+                return view;
+            }
             if (applicationDto.getVacationDays() > vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), dateAddition).getVacationLeave() == true) {
                 model.addAttribute("failedMessage", "Nie masz wystarczającej liczby dni urlopu");
                 model.addAttribute("employeeDto", employeeDto);
