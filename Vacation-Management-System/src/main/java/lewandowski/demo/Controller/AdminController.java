@@ -261,6 +261,13 @@ public class AdminController {
         return "employees";
     }
 
+    @GetMapping(value = "/admin/employeesVacationInfo")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String getAllEmployeesacationInfo(Model model) {
+        model.addAttribute("employeeDtoList", employeeService.findAllEmployeesDto());
+        return "employeesVacationInfo";
+    }
+
     /**
      * Method gets list of employees with update vacation balance or no.
      * @return page with list of users with defined vacation and undefined.
