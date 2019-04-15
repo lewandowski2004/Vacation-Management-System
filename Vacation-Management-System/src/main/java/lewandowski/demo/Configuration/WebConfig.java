@@ -9,6 +9,8 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -16,7 +18,13 @@ import javax.ws.rs.BeanParam;
 
 
 @Configuration
+//@EnableWebMvc
 public class WebConfig implements WebMvcConfigurer{
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**");
+    }
 
     private static final String RESOURCE_HANDLER_WEBJARS = "/webjars/**";
     private static final String[] RESOURCE_LOCATIONS_WEBJARS = {
@@ -26,6 +34,8 @@ public class WebConfig implements WebMvcConfigurer{
     private static final String[] RESOURCE_LOCATIONS_OTHERS = {
             "classpath:/resources/",
             "classpath:/static/"};
+
+
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

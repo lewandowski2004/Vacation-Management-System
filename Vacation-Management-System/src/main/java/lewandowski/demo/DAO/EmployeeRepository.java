@@ -18,6 +18,7 @@ public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
     Employee findByName(String name);
     Employee findByEmail(String email);
     Employee save (Employee employee);
+    List<Employee> findEmployeesByDepartment_Id(int departmentId);
     List<Employee> findEmployeesByPosition_Id(int positionId);
     List<Employee> findByIdNotIn(List<UUID> employeeId);
 

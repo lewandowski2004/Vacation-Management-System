@@ -22,11 +22,31 @@
           crossorigin="anonymous">
     <link rel="stylesheet" href="/css/loginForm.css">
     <link rel="stylesheet" href="/css/application.css">
+    <script  type="text/javascript">
+        $(function() {
+            // timeout alert
+            var $alert = $('.alert');
+
+            if($alert.length){
+                setTimeout(function() {
+                    $alert.fadeOut('slow');
+                }, 3000)
+            }
+        });
+    </script>
 </head>
 <body>
 <%@include file="/WEB-INF/include/menu.jsp" %>
 <div class="container">
     <div id="addEmployee" class="row">
+        <c:if test="${not empty failedMessage}">
+            <div class="col-xs-12">
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        ${failedMessage}
+                </div>
+            </div>
+        </c:if>
         <div class="col-md-8 col-md-offset-3">
             <div class="panel panel-login">
                 <div class="panel-body">

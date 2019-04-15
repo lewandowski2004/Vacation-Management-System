@@ -190,6 +190,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public List<EmployeeDto> findEmployeesByDepartmentId(int departmentId) {
+        return findAllEmployeesDto(employeeRepository.findEmployeesByDepartment_Id(departmentId));
+    }
+
+    @Override
     public List<EmployeeDto> findEmployeesByIdNotIn(List<UUID> employeeId) {
         return findAllEmployeesDto(employeeRepository.findByIdNotIn(employeeId));
     }

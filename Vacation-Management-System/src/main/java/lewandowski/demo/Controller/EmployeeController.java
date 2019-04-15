@@ -21,6 +21,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+@CrossOrigin(origins = "http://localhost:8080")
 @Controller
 public class EmployeeController {
 
@@ -62,12 +63,28 @@ public class EmployeeController {
         String username = EmployeeModel.getLoggedEmployee();
         employeeDto = employeeService.findByEmail(username);
 
+        List<EmployeeDto> listE = employeeService.findAllEmployeesDtoByVacationBalancesWhereYearIs(appComponentSelectMap.DateFormat(new Date()));
+        List<UUID> listU = new ArrayList<>();
+        for (EmployeeDto employeeDtoWithUpdateVacation : listE){
+            UUID id = employeeDtoWithUpdateVacation.getId();
+            listU.add(id);
+        }
+
         DateFormat formatDate = new SimpleDateFormat("yyyy", Locale.ENGLISH);
         String stringDate = formatDate.format(new Date());
         Date date = formatDate.parse(stringDate);
         if (vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), date) == null) {
             model.addAttribute("employeeDto", employeeDto);
             return "index";
+        }
+        if(employeeService.findEmployeesByIdNotIn(listU).size() == 0){
+            model.addAttribute("color","color: green");
+            model.addAttribute("glyphicon","glyphicon glyphicon-ok");
+            model.addAttribute("content","Wszyscy pracownicy posiadają zaktualizowany urlop.");
+        }else {
+            model.addAttribute("color","color: red");
+            model.addAttribute("glyphicon","glyphicon glyphicon-exclamation-sign");
+            model.addAttribute("content","W systemie są pracownicy bez Aktualnego urlopu.");
         }
         model.addAttribute("annualVacation", vacationBalanceService.findVacationBalanceDtoByEmployee_IdAndYear(employeeDto.getId(), date).getAnnualVacation());
         model.addAttribute("emergencyVacation", vacationBalanceService.findVacationBalanceDtoByEmployee_IdAndYear(employeeDto.getId(), date).getEmergencyVacation());

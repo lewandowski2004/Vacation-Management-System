@@ -21,12 +21,59 @@
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
           crossorigin="anonymous">
     <link rel="stylesheet" href="/css/loginForm.css">
-    <link rel="stylesheet" href="/css/application.css">
+    <link rel="stylesheet" href="/css/applicatios.css">
 </head>
 <body>
 <%@include file="/WEB-INF/include/menu.jsp" %>
 <div class="container">
     <div id="addEmployee" class="row">
+        <security:authorize access="hasAuthority('ROLE_ADMIN')">
+
+        <div class="col-md-8 col-md-offset-3">
+            <div class="panel panel-login">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <br/>
+                            <h3 style="text-align: center">Powiadomienia Systemu</h3>
+                            <hr>
+                            <div class="col-lg-4">
+                                <div class="panel panel-login">
+                                    <div class="panel-body">
+                                        <p style="font-size: 17px;text-align: center"></p>
+                                        <p style="text-align: center"><span style="font-size: 45px;color: aqua" class="glyphicon glyphicon-stats" aria-hidden="true"></span></p>
+                                        <p style="font-size: 17px;text-align: center">[dni]</p>
+                                        <p style="text-align: center; font-size: 30px"><%--${vacationLimit}--%>${vacationLimit}/${annualVacation}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div id="powiadomienia-systemu-hover" class="panel panel-login">
+                                    <a href="/admin/vacationBalanceEmployees">
+                                    <div class="panel-body">
+                                        <p style="font-size: 17px;text-align: center">Bilansy Urlopowe</p>
+                                        <p style="text-align: center"><span style="font-size: 45px; ${color}" class="${glyphicon}" aria-hidden="true"></span></p>
+                                        <p style="font-size: 13px;text-align: center">${content}</p>
+                                    </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="panel panel-login">
+                                    <div class="panel-body">
+                                        <p style="font-size: 17px;text-align: center">Urlop na żądanie</p>
+                                        <p style="text-align: center"><span style="font-size: 45px;color: aqua" class="glyphicon glyphicon-bell" aria-hidden="true"></span></p>
+                                        <p style="font-size: 17px;text-align: center">[dni]</p>
+                                        <p style="text-align: center; font-size: 30px"><%--${vacationLimit}--%>${emergencyVacation}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </security:authorize>
         <div class="col-md-8 col-md-offset-3">
             <div class="panel panel-login">
                 <div class="panel-body">

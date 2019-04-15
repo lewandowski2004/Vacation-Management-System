@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled=true)
+//@EnableGlobalMethodSecurity(prePostEnabled=true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -41,6 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/index").permitAll()
                     .antMatchers("/login").permitAll()
+                .antMatchers("/admin/addEmployee").permitAll()
+                .antMatchers("/admin/addEmployeeAction").permitAll()
                     .antMatchers("/admin/getPositiontMapByDepartmentId/{departmentId}").permitAll()
 		            //.antMatchers("/admin/*").hasAuthority("ROLE_ADMIN")
                     //.antMatchers("/manager/*").hasAuthority("ROLE_MANAGER")

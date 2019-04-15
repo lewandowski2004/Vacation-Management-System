@@ -1,10 +1,14 @@
 package lewandowski.demo.Controller;
 
 import com.google.gson.Gson;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import lewandowski.demo.DTO.*;
 import lewandowski.demo.Model.*;
 import lewandowski.demo.Service.*;
 import lewandowski.demo.Utilities.*;
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -604,7 +608,12 @@ public class AdminController {
     @DELETE
     @RequestMapping(value = "/admin/delete/department/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String deleteDepartment(@PathVariable("id") int id) {
+    public String deleteDepartment(@PathVariable("id") int id, Model model) {
+        if (employeeService.findEmployeesByDepartmentId(id).size() != 0){
+            model.addAttribute("failedMessage", "Usunięcie niemożliwe. Pracownicy posiadają wybrany dział.");
+            model.addAttribute("departmentDtoList", departmentService.findAllDepartamentDto());
+            return "companyStructure";
+        }
         positionService.deletePositionByDepartmentId(id);
         departmentService.deleteDepartmentById(id);
         return "redirect:/admin/companyStructure";
@@ -618,7 +627,12 @@ public class AdminController {
     @DELETE
     @RequestMapping(value = "/admin/delete/position/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String deletePosition(@PathVariable("id") int id) {
+    public String deletePosition(@PathVariable("id") int id, Model model) {
+        if (employeeService.findEmployeesByPositionId(id).size() != 0){
+            model.addAttribute("failedMessage", "Usunięcie niemożliwe. Pracownicy posiadają wybrane stanowisko");
+            model.addAttribute("departmentDtoList", departmentService.findAllDepartamentDto());
+            return "companyStructure";
+        }
         positionService.deletePositionById(id);
         return "redirect:/admin/companyStructure";
     }
@@ -717,6 +731,17 @@ public class AdminController {
         String username = EmployeeModel.getLoggedEmployee();
         Employee employee = employeeService.findEmployeeByEmail(username);
         return employee;
+    }
+
+    @Autowired
+    JobLauncher jobLauncher;
+
+    @Autowired
+    Job job;
+
+    @RequestMapping("/jobLauncher.html")
+    public void handle() throws Exception{
+        jobLauncher.run(job, new JobParameters());
     }
 
 }
