@@ -733,7 +733,7 @@ public class AdminController {
         return employee;
     }
 
-    @Autowired
+  /*  @Autowired
     JobLauncher jobLauncher;
 
     @Autowired
@@ -743,5 +743,5 @@ public class AdminController {
     public void handle() throws Exception{
         jobLauncher.run(job, new JobParameters());
     }
-
+*/
 }
