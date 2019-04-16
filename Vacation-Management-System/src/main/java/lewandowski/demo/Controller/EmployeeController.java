@@ -6,8 +6,6 @@ import lewandowski.demo.Model.*;
 import lewandowski.demo.Utilities.*;
 import lewandowski.demo.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -62,22 +60,20 @@ public class EmployeeController {
     public String index(EmployeeDto employeeDto, VacationBalanceDto vacationBalanceDto, BindingResult result, Model model) throws ParseException {
         String username = EmployeeModel.getLoggedEmployee();
         employeeDto = employeeService.findByEmail(username);
+        Date dateAddition = appComponentSelectMap.returnDateByFormat("yyyy", new Date());
 
-        List<EmployeeDto> listE = employeeService.findAllEmployeesDtoByVacationBalancesWhereYearIs(appComponentSelectMap.DateFormat(new Date()));
-        List<UUID> listU = new ArrayList<>();
-        for (EmployeeDto employeeDtoWithUpdateVacation : listE){
+        List<EmployeeDto> listEmployeeWithUpdateVacation = employeeService.findAllEmployeesDtoByVacationBalancesWhereYearIs(appComponentSelectMap.DateFormat(new Date()));
+        List<UUID> listIdEmployeeWIthUpdateVacation = new ArrayList<>();
+        for (EmployeeDto employeeDtoWithUpdateVacation : listEmployeeWithUpdateVacation){
             UUID id = employeeDtoWithUpdateVacation.getId();
-            listU.add(id);
+            listIdEmployeeWIthUpdateVacation.add(id);
         }
 
-        DateFormat formatDate = new SimpleDateFormat("yyyy", Locale.ENGLISH);
-        String stringDate = formatDate.format(new Date());
-        Date date = formatDate.parse(stringDate);
-        if (vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), date) == null) {
+        if (vacationBalanceService.findByEmployee_IdAndYear(employeeDto.getId(), dateAddition) == null) {
             model.addAttribute("employeeDto", employeeDto);
             return "index";
         }
-        if(employeeService.findEmployeesByIdNotIn(listU).size() == 0){
+        if(employeeService.findEmployeesByIdNotIn(listIdEmployeeWIthUpdateVacation).size() == 0){
             model.addAttribute("color","color: green");
             model.addAttribute("glyphicon","glyphicon glyphicon-ok");
             model.addAttribute("content","Wszyscy pracownicy posiadają zaktualizowany urlop.");
@@ -86,10 +82,10 @@ public class EmployeeController {
             model.addAttribute("glyphicon","glyphicon glyphicon-exclamation-sign");
             model.addAttribute("content","W systemie są pracownicy bez Aktualnego urlopu.");
         }
-        model.addAttribute("annualVacation", vacationBalanceService.findVacationBalanceDtoByEmployee_IdAndYear(employeeDto.getId(), date).getAnnualVacation());
-        model.addAttribute("emergencyVacation", vacationBalanceService.findVacationBalanceDtoByEmployee_IdAndYear(employeeDto.getId(), date).getEmergencyVacation());
-        model.addAttribute("vacationLeave", vacationBalanceService.findVacationBalanceDtoByEmployee_IdAndYear(employeeDto.getId(), date).getVacationLeave());
-        model.addAttribute("vacationLimit", vacationBalanceService.findVacationBalanceDtoByEmployee_IdAndYear(employeeDto.getId(), date).getVacationLimit());
+        model.addAttribute("annualVacation", vacationBalanceService.findVacationBalanceDtoByEmployee_IdAndYear(employeeDto.getId(), dateAddition).getAnnualVacation());
+        model.addAttribute("emergencyVacation", vacationBalanceService.findVacationBalanceDtoByEmployee_IdAndYear(employeeDto.getId(), dateAddition).getEmergencyVacation());
+        model.addAttribute("vacationLeave", vacationBalanceService.findVacationBalanceDtoByEmployee_IdAndYear(employeeDto.getId(), dateAddition).getVacationLeave());
+        model.addAttribute("vacationLimit", vacationBalanceService.findVacationBalanceDtoByEmployee_IdAndYear(employeeDto.getId(), dateAddition).getVacationLimit());
         model.addAttribute("employeeDto", employeeDto);
         model.addAttribute("vacationBalanceDto", vacationBalanceDto);
         return "index";
@@ -453,6 +449,7 @@ public class EmployeeController {
         return "email";
 
     }
+    // Test Method
     @GetMapping(value = "/sendEmail")
     @ResponseBody
     public String sendEmail(Model model) {

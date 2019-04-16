@@ -8,16 +8,12 @@ import lewandowski.demo.Service.*;
 import lewandowski.demo.Utilities.AppComponentSelectMap;
 import lewandowski.demo.Utilities.EmployeeModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,13 +26,7 @@ public class ManagerController {
     private EmployeeService employeeService;
 
     @Autowired
-    private DepartmentService departmentService;
-
-    @Autowired
     private VacationBalanceService vacationBalanceService;
-
-    @Autowired
-    private PositionService positionService;
 
     @Autowired
     private ApplicationService applicationService;

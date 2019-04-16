@@ -1,14 +1,10 @@
 package lewandowski.demo.Controller;
 
 import com.google.gson.Gson;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import lewandowski.demo.DTO.*;
 import lewandowski.demo.Model.*;
 import lewandowski.demo.Service.*;
 import lewandowski.demo.Utilities.*;
-import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,7 +15,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.ws.rs.DELETE;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -241,10 +236,6 @@ public class AdminController {
         EmployeeDto employeeDto = employeeService.findById(id);
         vacationBalanceDto.setYear(appComponentSelectMap.DateFormat(new Date()));
         vacationBalanceDto.setEmployeeDto(employeeDto);
-        /*if (result.hasErrors()) {
-            model.addAttribute("failedMessage", "Coś poszło nie tak !");
-            return "addVacationBalance";
-        }*/
         if (employeeService.findEmployeeByVacationBalancesWhereYearIs(id, appComponentSelectMap.DateFormat(new Date())) != null) {
             model.addAttribute("failedMessage", "Pracownik posiada urlop na obecny rok !");
             model.addAttribute("employeeDto", employeeDto);
@@ -732,16 +723,4 @@ public class AdminController {
         Employee employee = employeeService.findEmployeeByEmail(username);
         return employee;
     }
-
-  /*  @Autowired
-    JobLauncher jobLauncher;
-
-    @Autowired
-    Job job;
-
-    @RequestMapping("/jobLauncher.html")
-    public void handle() throws Exception{
-        jobLauncher.run(job, new JobParameters());
-    }
-*/
 }
