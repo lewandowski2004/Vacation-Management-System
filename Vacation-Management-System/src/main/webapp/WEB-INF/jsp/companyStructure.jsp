@@ -89,14 +89,16 @@
                                         </div>
                                         <div class="col-lg-4">
                                             <a style=" padding-right: 20px"
+                                               data-toggle="tooltip"
                                                href="/admin/edit/department/${departmentDto.id}"
                                                title="Edycja działu">
                                                 <span style="color: #1b6d85" class="glyphicon glyphicon-edit"></span>
                                             </a>
                                              <a style=" color: red" href="/admin/delete/department/${departmentDto.id}"
+                                                data-toggle="tooltip"
+                                                title="Usunięcie działu"
                                                 onclick="return confirm('Usunięcie działu spowoduje usunięcie wszystkich stanowisk w ' +
-                                                 'danym dziale. Czy na pewno chcesz usunąć dział ?')"
-                                                title="Usunięcie działu">
+                                                 'danym dziale. Czy na pewno chcesz usunąć dział ?')">
                                                     <span class="glyphicon glyphicon-remove"></span>
                                              </a>
                                         </div>
@@ -110,12 +112,14 @@
                                             <div class="col-lg-5">
                                                 <a style=" padding-right: 20px"
                                                    href="/admin/edit/position/${positionDto.id}"
+                                                   data-toggle="tooltip"
                                                    title="Edycja stanowiska">
                                                     <span style="color: #1b6d85"
                                                           class="glyphicon glyphicon-edit"></span>
                                                 </a>
                                                 <a style=" color: red" href="/admin/delete/position/${positionDto.id}"
                                                    onclick="return confirm('Czy na pewno chcesz usunąć stanowisko ?')"
+                                                   data-toggle="tooltip"
                                                    title="Usunięcie stanowiska">
                                                     <span class="glyphicon glyphicon-remove"></span>
                                                 </a>
@@ -137,6 +141,16 @@
         src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip({
+            selector: true,
+            title: function() {
+                return $(this).attr('title');
+            }
+        });
+    });
+</script>
 </body>
 
 </html>

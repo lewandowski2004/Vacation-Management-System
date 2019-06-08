@@ -122,6 +122,7 @@
                             <div class="form-group">
                                 <label>Wybierz Zastępstwo</label>
                                 <form:select path="replacement" class="form-control">
+                                    <form:option value="brak">brak</form:option>
                                     <form:options items="${listOfEmployeesForReplacement}" itemLabel="lastName"
                                                   itemValue="lastName" />
                                 </form:select>
