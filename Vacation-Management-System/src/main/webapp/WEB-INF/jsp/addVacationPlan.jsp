@@ -110,6 +110,15 @@
                                 <form:input type="text" name="zipCode" id="sumDay" path="vacationDays"
                                             tabindex="2" class="form-control" readonly="true"/>
                             </div>
+
+                            <div class="form-group">
+                                <label>Wybierz Zastępstwo</label>
+                                <form:select path="replacement" class="form-control">
+                                    <form:option value="brak">brak</form:option>
+                                    <form:options items="${listOfEmployeesForReplacement}" itemLabel="lastName"
+                                                  itemValue="lastName" />
+                                </form:select>
+                            </div>
                            <%-- <div class="form-group">
                                 <label>Wybierz rodzaj Urlopu</label>
                                 <form:select path="vacationTypeDto" class="form-control">

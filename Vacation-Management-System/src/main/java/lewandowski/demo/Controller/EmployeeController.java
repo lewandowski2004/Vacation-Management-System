@@ -113,6 +113,7 @@ public class EmployeeController {
         EmployeeDto employeeDto = employeeService.findByEmail(username);
         model.addAttribute("applicationDto", applicationDto);
         model.addAttribute("employeeDto", employeeDto);
+        model.addAttribute("listOfEmployeesForReplacement", employeeService.findEmployeesByPositionId(employeeDto.getPositionDto().getId()));
         if (success != null) {
             if (success.equals("addVacationPlan")) {
                 model.addAttribute("succesMessage", "Wniosek złożony !");
