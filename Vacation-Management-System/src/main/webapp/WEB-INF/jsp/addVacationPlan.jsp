@@ -86,7 +86,7 @@
                                     <div class='input-group date' id='datetimepicker6'>
                                         <form:input style="height: 34px" type='text' class="form-control"
                                                     id="startOfVacation" path="startOfVacation"/>
-                                        <span class="input-group-addon">
+                                        <span class="input-group-addon top" title="Termin planowanego urlopu musi posiadać 14-dniowe wyprzedzenie od daty złożenia wniosku.">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
                                     </div>
@@ -119,14 +119,6 @@
                                                   itemValue="lastName" />
                                 </form:select>
                             </div>
-                           <%-- <div class="form-group">
-                                <label>Wybierz rodzaj Urlopu</label>
-                                <form:select path="vacationTypeDto" class="form-control">
-                                    <form:options items="${vacationTypeList}" itemLabel="type"
-                                                  itemValue="id" />
-                                </form:select>
-
-                            </div>--%>
                             <br/>
                             <input type="radio" name="vacationPlan" hidden  path="vacationPlan" value="true" checked/>
                             <div class="form-group">
@@ -149,95 +141,7 @@
     </div>
 </div>
 </div>
-<%--<div class="container">
-    <div class="row">
-        <c:if test="${not empty message}">
-            <div class="col-xs-12">
-                <div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        ${message}
-                </div>
-            </div>
-        </c:if>
-        <div class="col-md-6 col-md-offset-3">
-            <div class="panel panel-login">
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <br/>
-                            <h3 style="text-align: center">Dodawanie Wniosku</h3>
-                            <hr>
-                            <p style="color: red">${blad}</p>
-                            <form:form id="register-form" modelAttribute="applicationDto"
-                                       action="addApplicationAction" method="POST" role="form">
-                                <div class="form-group">
-                                    <dl class="dl-horizontal">
-                                        <dt>Imię:</dt>
-                                        <dd>${employeeDto.name}</dd>
-                                        <dt>Nazwisko:</dt>
-                                        <dd>${employeeDto.lastName}</dd>
-                                        <dt>Dział/Stanowisko:</dt>
-                                        <dd>${employeeDto.departmentDto.name}/${employeeDto.positionDto.name}</dd>
-                                    </dl>
-                                </div>
-                                <hr>
-                                <div class="form-group">
-                                    <label style="width: 100%" class="col-form-label"><p>Data urlopu</p></label>
-                                    <div class='col-lg-5'>
-                                        <div class='input-group date' id='datetimepicker6'>
-                                            <form:input style="height: 34px" type='text' class="form-control"
-                                                        id="startOfVacation" path="startOfVacation"/>
-                                            <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
-                                        </div>
-                                        <form:errors path="startOfVacation" cssClass="help-block" element="em"/>
-                                    </div>
-                                    <label class="col-form-label"><p>do</p></label>
-                                    <div class='col-lg-5'>
 
-                                        <div class='input-group date' id='datetimepicker7'>
-                                            <form:input style="height: 34px" type='text' class="form-control"
-                                                        id="endOfVacation" path="endOfVacation"/>
-                                            <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
-                                        </div>
-                                        <form:errors path="endOfVacation" cssClass="help-block" element="em"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-form-label"><p>Liczba dni</p></label>
-                                    <form:input type="text" name="vacationDays" id="sumDay" path="vacationDays"
-                                                tabindex="2" class="form-control" readonly="true"/>
-                                </div>
-                                <div class="form-group">
-                                    <label>Wybierz rodzaj Urlopu</label>
-                                    <form:select id="vacationTypeDto" class="form-control" path="vacationTypeDto"
-                                                 items="${vacationTypeMap}"/>
-
-                                </div>
-                                <br/>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-6 col-sm-offset-3">
-                                            <input type="submit" name="action" id="register-submit"
-                                                   tabindex="4" class="form-control btn btn-success"
-                                                   onclick="return confirm('Czy na pewno chcesz dodać ?')"
-                                                   value="Dodaj Wniosek"/>
-                                        </div>
-                                        <br/> <br/>
-
-                                    </div>
-                                </div>
-                            </form:form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>--%>
 <script
         src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
@@ -342,6 +246,13 @@
         // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
         return new Date(parts[0], parts[1] - 1, parts[2]); // months are 0-based
     }
+</script>
+<script>
+    $(function () {
+        $(".top").tooltip({
+            placement: "top"
+        });
+    })
 </script>
 </body>
 
