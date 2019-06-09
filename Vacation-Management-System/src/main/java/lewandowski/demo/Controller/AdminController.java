@@ -13,10 +13,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import sun.security.provider.Sun;
+
 import javax.validation.Valid;
 import javax.ws.rs.DELETE;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 @Controller
@@ -234,6 +238,25 @@ public class AdminController {
     public String addVacationBalance(@Valid VacationBalanceDto vacationBalanceDto, BindingResult result, Model model,
                                      @PathVariable UUID id) throws ParseException {
         EmployeeDto employeeDto = employeeService.findById(id);
+
+        /*Date date = new Date();
+        LocalDateTime localDateTime = LocalDateTime.from(date.toInstant()).minusYears(1);
+        Date DateOfOverdueVacation = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());*/
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.YEAR, -1);
+        Date date = calendar.getTime();
+        Date dateOverdueVacation = appComponentSelectMap.returnDateByFormat("yyyy", date);
+
+        int emergencyVacation = vacationBalanceService.findByEmployee_IdAndYear(id,dateOverdueVacation).getEmergencyVacation();
+        int vacationLeave = vacationBalanceService.findByEmployee_IdAndYear(id,dateOverdueVacation).getVacationLeave();
+        int sumVacation = emergencyVacation + vacationLeave;
+
+
+        vacationBalanceDto.setAnnualVacation(vacationBalanceDto.getAnnualVacation() + sumVacation);
+        vacationBalanceDto.setVacationLeave(vacationBalanceDto.getVacationLeave() + sumVacation);
+
+
         vacationBalanceDto.setYear(appComponentSelectMap.DateFormat(new Date()));
         vacationBalanceDto.setEmployeeDto(employeeDto);
         if (employeeService.findEmployeeByVacationBalancesWhereYearIs(id, appComponentSelectMap.DateFormat(new Date())) != null) {
