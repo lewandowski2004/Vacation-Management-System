@@ -34,12 +34,12 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
     List<Application> findAllVacationPlansAdmin(@Param("employeeId") UUID employeeId);
 
 
-    @Query(value = "SELECT * FROM application INNER JOIN employee ON application.employee_id = employee.employee_id WHERE department_id = :departmentId ORDER BY date_of_addition DESC" +
-            "and application.employee_id != :employeeId", nativeQuery = true)
+    @Query(value = "SELECT * FROM application INNER JOIN employee ON application.employee_id = employee.employee_id WHERE department_id = :departmentId and " +
+            "application.employee_id != :employeeId ORDER BY application.date_of_addition DESC", nativeQuery = true)
     List<Application> findApplicationsEmployeeByDepartment(@Param("departmentId") Integer departmentId, @Param("employeeId") UUID employeeId);
 
-    @Query(value = "SELECT * FROM application INNER JOIN employee ON application.employee_id = employee.employee_id WHERE department_id = :departmentId ORDER BY date_of_addition DESC" +
-            "and application.employee_id != :employeeId and vacation_plan = true", nativeQuery = true)
+    @Query(value = "SELECT * FROM application INNER JOIN employee ON application.employee_id = employee.employee_id WHERE department_id = :departmentId and " +
+            "application.employee_id != :employeeId and vacation_plan = true ORDER BY application.date_of_addition DESC", nativeQuery = true)
     List<Application> findVacationPlansEmployeeByDepartment(@Param("departmentId") Integer departmentId, @Param("employeeId") UUID employeeId);
 
     @Modifying

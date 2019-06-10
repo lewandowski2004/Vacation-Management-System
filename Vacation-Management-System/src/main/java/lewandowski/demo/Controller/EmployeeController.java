@@ -83,7 +83,7 @@ public class EmployeeController {
             model.addAttribute("glyphicon","glyphicon glyphicon-exclamation-sign");
             model.addAttribute("content","W systemie są pracownicy bez Aktualnego urlopu.");
         }
-        if (employeeDto.getRolesDto().iterator().next().getRole() == "ROLE_ADMIN"){
+        if (employeeDto.getRolesDto().iterator().next().getId() == 2){
             if(applicationService.findApplicationDtoByApplicationStatusId(1).size() == 0){
                 model.addAttribute("colorApplication","color: green");
                 model.addAttribute("glyphiconApplication","glyphicon glyphicon-ok");
