@@ -25,6 +25,7 @@ public interface ApplicationService {
 
     ApplicationDto findApplicationDtoById(UUID id);
     List<ApplicationDto> findAllApplicationsDto();
+    List<ApplicationDto> findApplicationDtoByApplicationStatusId(int id);
     List<ApplicationDto> findApplicationsByEmployee_IdAndVacationPlanOrderByDateOfAdditionDescDto(UUID employeeId, boolean vacationPlan);
     List<ApplicationDto> findAllApplicationsDtoAdmin(UUID employeeId);
     List<ApplicationDto> findAllVacationPlansDtoAdmin(UUID employeeId);

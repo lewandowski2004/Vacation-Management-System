@@ -128,6 +128,12 @@ public class ApplicationServiceImpl implements ApplicationService {
     public List<ApplicationDto> findAllApplicationsDto() {
         return findAllApplications(applicationRepository.findAll());
     }
+
+    @Override
+    public List<ApplicationDto> findApplicationDtoByApplicationStatusId(int id) {
+        return findAllApplications(applicationRepository.findApplicationByApplicationStatus_Id(id));
+    }
+
     @Override
     public List<ApplicationDto> findApplicationsByEmployee_IdAndVacationPlanOrderByDateOfAdditionDescDto(UUID employeeId, boolean vacationPlan) {
         return findAllApplications(applicationRepository.findApplicationsByEmployee_IdAndVacationPlanOrderByDateOfAdditionDesc(employeeId, vacationPlan));

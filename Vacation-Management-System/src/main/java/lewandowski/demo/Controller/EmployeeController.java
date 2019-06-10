@@ -73,6 +73,7 @@ public class EmployeeController {
             model.addAttribute("employeeDto", employeeDto);
             return "index";
         }
+
         if(employeeService.findEmployeesByIdNotIn(listIdEmployeeWIthUpdateVacation).size() == 0){
             model.addAttribute("color","color: green");
             model.addAttribute("glyphicon","glyphicon glyphicon-ok");
@@ -82,6 +83,32 @@ public class EmployeeController {
             model.addAttribute("glyphicon","glyphicon glyphicon-exclamation-sign");
             model.addAttribute("content","W systemie są pracownicy bez Aktualnego urlopu.");
         }
+        if (employeeDto.getRolesDto().iterator().next().getRole() == "ROLE_ADMIN"){
+            if(applicationService.findApplicationDtoByApplicationStatusId(1).size() == 0){
+                model.addAttribute("colorApplication","color: green");
+                model.addAttribute("glyphiconApplication","glyphicon glyphicon-ok");
+                model.addAttribute("contentApplication","Jesteś na bieżąco. ");
+                model.addAttribute("linkApplication","/admin/applications");
+            }else {
+                model.addAttribute("colorApplication","color: red");
+                model.addAttribute("glyphiconApplication","glyphicon glyphicon-exclamation-sign");
+                model.addAttribute("contentApplication","W systemie są oczekujące wnioski urlopowe.");
+                model.addAttribute("linkApplication","/admin/applications");
+            }
+        }else {
+            if(applicationService.findApplicationDtoByApplicationStatusId(1).size() == 0){
+                model.addAttribute("colorApplication","color: green");
+                model.addAttribute("glyphiconApplication","glyphicon glyphicon-ok");
+                model.addAttribute("contentApplication","Jesteś na bieżąco.");
+                model.addAttribute("linkApplication","/manager/applications");
+            }else {
+                model.addAttribute("colorApplication","color: red");
+                model.addAttribute("glyphiconApplication","glyphicon glyphicon-exclamation-sign");
+                model.addAttribute("contentApplication","W systemie są oczekujące wnioski urlopowe.");
+                model.addAttribute("linkApplication","/manager/applications");
+            }
+        }
+
         model.addAttribute("annualVacation", vacationBalanceService.findVacationBalanceDtoByEmployee_IdAndYear(employeeDto.getId(), dateAddition).getAnnualVacation());
         model.addAttribute("emergencyVacation", vacationBalanceService.findVacationBalanceDtoByEmployee_IdAndYear(employeeDto.getId(), dateAddition).getEmergencyVacation());
         model.addAttribute("vacationLeave", vacationBalanceService.findVacationBalanceDtoByEmployee_IdAndYear(employeeDto.getId(), dateAddition).getVacationLeave());

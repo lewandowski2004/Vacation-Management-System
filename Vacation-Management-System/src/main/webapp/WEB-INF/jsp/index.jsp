@@ -27,7 +27,7 @@
 <%@include file="/WEB-INF/include/menu.jsp" %>
 <div class="container">
     <div id="addEmployee" class="row">
-        <security:authorize access="hasAuthority('ROLE_ADMIN')">
+        <security:authorize access="hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MANAGER')">
 
         <div class="col-md-8 col-md-offset-3">
             <div class="panel panel-login">
@@ -37,6 +37,7 @@
                             <br/>
                             <h3 style="text-align: center">Powiadomienia Systemu</h3>
                             <hr>
+                            <security:authorize access="hasAuthority('ROLE_ADMIN')">
                             <div class="col-lg-4">
                                 <div id="powiadomienia-systemu-hover" class="panel panel-login">
                                     <a href="/admin/vacationBalanceEmployees">
@@ -45,6 +46,18 @@
                                         <p style="text-align: center"><span style="font-size: 45px; ${color}" class="${glyphicon}" aria-hidden="true"></span></p>
                                         <p style="font-size: 13px;text-align: center">${content}</p>
                                     </div>
+                                    </a>
+                                </div>
+                            </div>
+                            </security:authorize>
+                            <div class="col-lg-4">
+                                <div id="powiadomienia-systemu-hover" class="panel panel-login">
+                                    <a href="${linkApplication}">
+                                        <div class="panel-body">
+                                            <p style="font-size: 17px;text-align: center">Oczekujące wnioski</p>
+                                            <p style="text-align: center"><span style="font-size: 45px; ${colorApplication}" class="${glyphiconApplication}" aria-hidden="true"></span></p>
+                                            <p style="font-size: 13px;text-align: center">${contentApplication}</p>
+                                        </div>
                                     </a>
                                 </div>
                             </div>
@@ -68,7 +81,7 @@
                                         <p style="font-size: 17px;text-align: center">Dostępny urlop</p>
                                         <p style="text-align: center"><span style="font-size: 45px;color: aqua" class="glyphicon glyphicon-stats" aria-hidden="true"></span></p>
                                         <p style="font-size: 17px;text-align: center">[dni]</p>
-                                        <p style="text-align: center; font-size: 30px"><%--${vacationLimit}--%>${vacationLimit}/${annualVacation}</p>
+                                        <p style="text-align: center; font-size: 30px"><%--${vacationLimit}--%>${annualVacation}</p>
                                     </div>
                                 </div>
                             </div>
