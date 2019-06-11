@@ -84,7 +84,7 @@ public class EmployeeController {
             model.addAttribute("content","W systemie są pracownicy bez Aktualnego urlopu.");
         }
         if (employeeDto.getRolesDto().iterator().next().getId() == 2){
-            if(applicationService.findApplicationDtoByApplicationStatusId(1).size() == 0){
+            if(applicationService.findApplicationsDtoByApplicationStatusId(1).size() == 0){
                 model.addAttribute("colorApplication","color: green");
                 model.addAttribute("glyphiconApplication","glyphicon glyphicon-ok");
                 model.addAttribute("contentApplication","Jesteś na bieżąco. ");
@@ -96,7 +96,7 @@ public class EmployeeController {
                 model.addAttribute("linkApplication","/admin/applications");
             }
         }else {
-            if(applicationService.findApplicationDtoByApplicationStatusId(1).size() == 0){
+            if(applicationService.findApplicationsByDepartment_IdAndApplicationStatus_Id(employeeDto.getDepartmentDto().getId(), employeeDto.getId(), 1).size() == 0){
                 model.addAttribute("colorApplication","color: green");
                 model.addAttribute("glyphiconApplication","glyphicon glyphicon-ok");
                 model.addAttribute("contentApplication","Jesteś na bieżąco.");

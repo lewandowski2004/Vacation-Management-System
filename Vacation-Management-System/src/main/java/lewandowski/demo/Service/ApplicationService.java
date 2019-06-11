@@ -25,11 +25,12 @@ public interface ApplicationService {
 
     ApplicationDto findApplicationDtoById(UUID id);
     List<ApplicationDto> findAllApplicationsDto();
-    List<ApplicationDto> findApplicationDtoByApplicationStatusId(int id);
+    List<ApplicationDto> findApplicationsDtoByApplicationStatusId(int id);
     List<ApplicationDto> findApplicationsByEmployee_IdAndVacationPlanOrderByDateOfAdditionDescDto(UUID employeeId, boolean vacationPlan);
     List<ApplicationDto> findAllApplicationsDtoAdmin(UUID employeeId);
     List<ApplicationDto> findAllVacationPlansDtoAdmin(UUID employeeId);
     List<ApplicationDto> findApplicationsDtoEmployeeByDepartment(Integer departmentId, UUID employeeId);
+    List<ApplicationDto> findApplicationsByDepartment_IdAndApplicationStatus_Id(Integer departmentId, UUID employeeId, Integer applicationStatusId);
     List<ApplicationDto> findVacationPlansDtoEmployeeByDepartment(Integer departmentId, UUID employeeId);
     List<ApplicationDto> findVacationPlansDtoEmployeeByDepartment(UUID employeeId, boolean vacationPlan);
     void saveApplicationDto(ApplicationDto applicationDto);

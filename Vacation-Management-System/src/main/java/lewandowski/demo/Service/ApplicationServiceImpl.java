@@ -130,8 +130,13 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public List<ApplicationDto> findApplicationDtoByApplicationStatusId(int id) {
-        return findAllApplications(applicationRepository.findApplicationByApplicationStatus_Id(id));
+    public List<ApplicationDto> findApplicationsDtoByApplicationStatusId(int id) {
+        return findAllApplications(applicationRepository.findApplicationsByApplicationStatus_Id(id));
+    }
+
+    @Override
+    public List<ApplicationDto> findApplicationsByDepartment_IdAndApplicationStatus_Id(Integer departmentId, UUID employeeId, Integer applicationStatusId) {
+        return findAllApplications(applicationRepository.findApplicationsByDepartment_IdAndApplicationStatus_Id(departmentId, employeeId, applicationStatusId));
     }
 
     @Override

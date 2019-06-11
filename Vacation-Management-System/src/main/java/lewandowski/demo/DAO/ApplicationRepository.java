@@ -22,7 +22,8 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
     List<Application> findAll();
     List<Application> findApplicationsByEmployee_IdAndVacationPlanOrderByDateOfAdditionDesc(UUID employeeId, boolean vacationPlan);
     List<Application> findApplicationsByEmployee_IdAndVacationPlan(UUID employeeId, boolean vacationPlan);
-    List<Application> findApplicationByApplicationStatus_Id(int id);
+    List<Application> findApplicationsByApplicationStatus_Id(int id);
+
 
     @Query(value = "SELECT * FROM application WHERE employee_id = :employeeId AND :date1 between start_of_vacation AND end_of_vacation", nativeQuery = true)
     List<Application> findAllApplicationsWithDuplicateDate(@Param("employeeId") UUID employeeId, @Param("date1") String date1);
@@ -32,6 +33,11 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 
     @Query(value = "SELECT * FROM application WHERE employee_id != :employeeId AND vacation_plan = true ORDER BY date_of_addition DESC", nativeQuery = true)
     List<Application> findAllVacationPlansAdmin(@Param("employeeId") UUID employeeId);
+
+    @Query(value = "SELECT * FROM application INNER JOIN employee ON application.employee_id = employee.employee_id WHERE department_id = :departmentId and " +
+            "application.employee_id != :employeeId and application.application_status_id = :applicationStatusId ORDER BY application.date_of_addition DESC", nativeQuery = true)
+    List<Application> findApplicationsByDepartment_IdAndApplicationStatus_Id(@Param("departmentId") Integer departmentId, @Param("employeeId") UUID employeeId,
+                                                                             @Param("applicationStatusId") Integer applicationStatusId);
 
 
     @Query(value = "SELECT * FROM application INNER JOIN employee ON application.employee_id = employee.employee_id WHERE department_id = :departmentId and " +
