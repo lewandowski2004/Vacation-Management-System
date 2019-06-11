@@ -58,7 +58,7 @@ public class VacationBalanceServiceImpl implements VacationBalanceService {
                 .annualVacation(vacationBalanceDto.getAnnualVacation())
                 .emergencyVacation(4)
                 .vacationLeave(vacationBalanceDto.getAnnualVacation()-4)
-                .vacationLimit(vacationBalanceDto.getAnnualVacation())
+                .vacationLimit(vacationBalanceDto.getVacationLimit())
                 .employee(employeeService.getEmployee(vacationBalanceDto.getEmployeeDto()))
                 .year(vacationBalanceDto.getYear())
                 .build();

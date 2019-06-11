@@ -80,7 +80,7 @@
                                        action="/admin/addVacationBalanceAction/employee/${employeeDto.id}" method="POST" role="form">
                             <div class="form-group">
                                 <label>Urlop roczny</label>
-                                <form:select id="annualVacation" class="form-control" path="annualVacation">
+                                <form:select id="vacationLimit" class="form-control" path="vacationLimit">
                                     <form:option value="20">20</form:option>
                                     <form:option value="26">26</form:option>
                                 </form:select>

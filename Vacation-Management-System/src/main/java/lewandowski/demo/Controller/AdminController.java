@@ -253,8 +253,9 @@ public class AdminController {
         int sumVacation = emergencyVacation + vacationLeave;
 
 
-        vacationBalanceDto.setAnnualVacation(vacationBalanceDto.getAnnualVacation() + sumVacation);
+        vacationBalanceDto.setAnnualVacation(vacationBalanceDto.getVacationLimit() + sumVacation);
         vacationBalanceDto.setVacationLeave(vacationBalanceDto.getVacationLeave() + sumVacation);
+        vacationBalanceDto.setVacationLimit(vacationBalanceDto.getVacationLimit());
 
 
         vacationBalanceDto.setYear(appComponentSelectMap.DateFormat(new Date()));
