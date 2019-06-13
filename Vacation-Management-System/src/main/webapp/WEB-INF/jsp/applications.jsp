@@ -154,6 +154,9 @@
 <script>
     $(document).ready(function() {
         $('#table_id').DataTable( {
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Polish.json"
+            },
             initComplete: function () {
                 this.api().columns([1, 2, 3 ,4]).every( function () {
                     var column = this;
@@ -172,12 +175,10 @@
                     column.data().unique().sort().each( function ( d, j ) {
                         select.append( '<option  value="'+d+'">'+d+'</option>' )
                     } );
+
                 } );
             }
         } );
     } );
 </script>
-
-
-
 </html>
