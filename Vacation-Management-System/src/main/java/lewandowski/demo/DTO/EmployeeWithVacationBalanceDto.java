@@ -2,6 +2,7 @@ package lewandowski.demo.DTO;
 
 import lewandowski.demo.Model.*;
 import lombok.*;
+import org.hibernate.validator.constraints.pl.PESEL;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -31,8 +32,9 @@ public class EmployeeWithVacationBalanceDto {
     @Pattern(regexp = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$", message = "Podaj poprawny email!")
     private String email;
 
-    @NotNull(message = "Pole nie może być puste")
-    private long pesel;
+    @NotEmpty(message = "Pole nie może być puste")
+    @PESEL(message = "Nieprawidłowy numer PESEL !")
+    private String pesel;
 
     //@NotNull(message = "Pole nie może być puste")
     @DateTimeFormat(pattern="dd-MMM-yyyy")

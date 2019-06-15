@@ -23,7 +23,7 @@ public interface EmployeeService {
     Boolean confirmPassword(String oldPassword, String encodePassword);
     Boolean emailIsUnique(String email);
     void deleteEmployeeById(UUID id);
-    void updateEmployeeProfile(String newName, String newLastName, String newEmail, Long newPesel, Date newDateOfBirth,String newAddressLine1,
+    void updateEmployeeProfile(String newName, String newLastName, String newEmail, String newPesel, Date newDateOfBirth,String newAddressLine1,
                                String newAddressLine2, String newCity, String newZipCode, String newPhoneNumber,UUID id);
     void updateEmployeeRole(UUID id, int nrRoli);
     //UUID getLastEmployeeId();

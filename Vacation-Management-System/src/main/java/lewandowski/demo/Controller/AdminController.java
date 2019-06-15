@@ -5,6 +5,7 @@ import lewandowski.demo.DTO.*;
 import lewandowski.demo.Model.*;
 import lewandowski.demo.Service.*;
 import lewandowski.demo.Utilities.*;
+import lewandowski.demo.Validators.PeselValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -114,20 +115,21 @@ public class AdminController {
             model.addAttribute("employeeWithVacationBalanceDto", employeeWithVacationBalanceDto);
             model.addAttribute("departmentMap", appComponentSelectMap.prepareDepartmentDtoMap());
             model.addAttribute("failedMessage", "Coś poszło nie tak !");
+            if (employeeService.emailIsUnique(employeeWithVacationBalanceDto.getEmail()) == false) {
+                model.addAttribute("employeeWithVacationBalanceDto", employeeWithVacationBalanceDto);
+                model.addAttribute("failedMessage", "Taki login juz istnieje !!!");
+                model.addAttribute("departmentMap", appComponentSelectMap.prepareDepartmentDtoMap());
+                return "addEmployee";
+            }
+            if (employeeWithVacationBalanceDto.getPassword().equals(employeeWithVacationBalanceDto.getConfirmPassword()) == false) {
+                model.addAttribute("employeeWithVacationBalanceDto", employeeWithVacationBalanceDto);
+                model.addAttribute("failedMessage", "Hasła muszą być takie same !!!");
+                model.addAttribute("departmentMap", appComponentSelectMap.prepareDepartmentDtoMap());
+                return "addEmployee";
+            }
             return "addEmployee";
         }
-        if (employeeService.emailIsUnique(employeeWithVacationBalanceDto.getEmail()) == false) {
-            model.addAttribute("employeeWithVacationBalanceDto", employeeWithVacationBalanceDto);
-            model.addAttribute("failedMessage", "Taki login juz istnieje !!!");
-            model.addAttribute("departmentMap", appComponentSelectMap.prepareDepartmentDtoMap());
-            return "addEmployee";
-        }
-        if (employeeWithVacationBalanceDto.getPassword().equals(employeeWithVacationBalanceDto.getConfirmPassword()) == false) {
-            model.addAttribute("employeeWithVacationBalanceDto", employeeWithVacationBalanceDto);
-            model.addAttribute("failedMessage", "Hasła muszą być takie same !!!");
-            model.addAttribute("departmentMap", appComponentSelectMap.prepareDepartmentDtoMap());
-            return "addEmployee";
-        }
+
         employeeVacationBalanceService.saveEmployeeVacationBalanceDto(employeeWithVacationBalanceDto);
         return "redirect:/admin/addEmployee?success=addEmployee";
     }
@@ -239,10 +241,6 @@ public class AdminController {
                                      @PathVariable UUID id) throws ParseException {
         EmployeeDto employeeDto = employeeService.findById(id);
 
-        /*Date date = new Date();
-        LocalDateTime localDateTime = LocalDateTime.from(date.toInstant()).minusYears(1);
-        Date DateOfOverdueVacation = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());*/
-
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.YEAR, -1);
         Date date = calendar.getTime();
@@ -252,14 +250,12 @@ public class AdminController {
         int vacationLeave = vacationBalanceService.findByEmployee_IdAndYear(id,dateOverdueVacation).getVacationLeave();
         int sumVacation = emergencyVacation + vacationLeave;
 
-
         vacationBalanceDto.setAnnualVacation(vacationBalanceDto.getVacationLimit() + sumVacation);
         vacationBalanceDto.setVacationLeave(vacationBalanceDto.getVacationLeave() + sumVacation);
         vacationBalanceDto.setVacationLimit(vacationBalanceDto.getVacationLimit());
-
-
         vacationBalanceDto.setYear(appComponentSelectMap.DateFormat(new Date()));
         vacationBalanceDto.setEmployeeDto(employeeDto);
+        
         if (employeeService.findEmployeeByVacationBalancesWhereYearIs(id, appComponentSelectMap.DateFormat(new Date())) != null) {
             model.addAttribute("failedMessage", "Pracownik posiada urlop na obecny rok !");
             model.addAttribute("employeeDto", employeeDto);

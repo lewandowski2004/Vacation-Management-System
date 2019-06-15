@@ -90,7 +90,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepository.deleteEmployeeById(id);
     }
     @Override
-    public void updateEmployeeProfile(String newName, String newLastName, String newEmail, Long newPesel, Date newDateOfBirth,
+    public void updateEmployeeProfile(String newName, String newLastName, String newEmail, String newPesel, Date newDateOfBirth,
                                       String newAddressLine1, String newAddressLine2, String newCity, String newZipCode,
                                       String newPhoneNumber,UUID id) {
         employeeRepository.updateEmployeeProfile(newName,newLastName,newEmail,newPesel,newDateOfBirth,newAddressLine1,

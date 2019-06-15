@@ -35,7 +35,7 @@ public class Employee {
     private String email;
 
     @Column(name = "pesel")
-    private long pesel;
+    private String pesel;
 
     @Column(name = "date_of_birth")
     @Temporal(TemporalType.DATE)
@@ -100,7 +100,7 @@ public class Employee {
     @Transient
     private String oldPassword;
 
-    public Employee(String name, String lastName, String email, long pesel, Date dateOfBirth, String addressLine1, String city, String zipCode, String phoneNumber, @NotNull String password, int active, Set<Role> roles, Department department, Position position) {
+    public Employee(String name, String lastName, String email, String pesel, Date dateOfBirth, String addressLine1, String city, String zipCode, String phoneNumber, @NotNull String password, int active, Set<Role> roles, Department department, Position position) {
         this.name = name;
         this.lastName = lastName;
         this.email = email;

@@ -49,7 +49,7 @@ public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
             "  e.addressLine1 = :newAddressLine1, e.addressLine2 = :newAddressLine2, e.city = :newCity, e.zipCode= :newZipCode, e.phoneNumber = :newPhoneNumber" +
             " WHERE e.id= :id")
     void updateEmployeeProfile(@Param("newName") String newName, @Param("newLastName") String newLastName,
-                               @Param("newEmail") String newEmail,@Param("newPesel") Long newPesel,
+                               @Param("newEmail") String newEmail,@Param("newPesel") String newPesel,
                                @Param("newDateOfBirth") Date newDateOfBirth, @Param("newAddressLine1") String newAddressLine2,
                                @Param("newAddressLine2") String newAddressLine1,  @Param("newCity") String newCity,
                                @Param("newZipCode") String newZipCode, @Param("newPhoneNumber") String newPhoneNumber,

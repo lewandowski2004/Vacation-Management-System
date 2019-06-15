@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/bootstrap-theme.css">
     <link rel="stylesheet" href="/css/loginForm.css">
-    <link rel="stylesheet" href="/css/application.css">
+    <link rel="stylesheet" href="/css/applications.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
@@ -39,7 +39,7 @@
 </head>
 <body>
 <%@include file="/WEB-INF/include/menu.jsp" %>
-<div class="container">
+<div id="add-form" class="container">
     <div id="addEmployee" class="row">
         <c:if test="${not empty succesMessage}">
             <div class="col-xs-12">
@@ -66,7 +66,7 @@
                             <h3 style="text-align: center">Dodawanie Użytkownika</h3>
                             <hr>
                             <p style="color: red">${blad}</p>
-                            <form:form id="add-form" modelAttribute="employeeWithVacationBalanceDto"
+                            <form:form modelAttribute="employeeWithVacationBalanceDto"
                                        action="/admin/addEmployeeAction" method="POST" role="form">
                                 <div class="form-group row">
                                     <label class="col-lg-2 col-form-label"><p>Imie</p></label>
