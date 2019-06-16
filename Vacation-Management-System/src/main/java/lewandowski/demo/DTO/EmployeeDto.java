@@ -94,5 +94,4 @@ public class EmployeeDto {
 
     @NotEmpty(message = "Pole nie może być puste")
     private String oldPassword;
-
 }
