@@ -16,6 +16,9 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import sun.security.provider.Sun;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.ws.rs.DELETE;
 import java.text.ParseException;
@@ -59,6 +62,13 @@ public class AdminController {
 
     @Autowired
     private EmailSender emailSender;
+
+    @Autowired
+    private GenerateExcelService generateExcelService;
+
+    @Autowired
+    private ServletContext context;
+
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -736,6 +746,15 @@ public class AdminController {
         }
         positionService.updatePosition(positionDto.getName(), positionDto.getNrDepartment(), id);
         return "redirect:/admin/companyStructure";
+    }
+
+    @GetMapping(value = "/createExcel")
+    public void createExcel(HttpServletRequest request, HttpServletResponse response){
+        List<Employee> employees = employeeService.findAllEmployeesList();
+        boolean isFlag = generateExcelService.generateExcel(employees, context, request, response);
+        if(isFlag){
+            String fullPath = request.getServletContext().getRealPath("/resource/reports/"+"employees"+".xls");
+        }
     }
 
     private Employee loggedEmployee() {
