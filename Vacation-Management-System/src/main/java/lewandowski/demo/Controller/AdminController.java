@@ -21,6 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.ws.rs.DELETE;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -753,7 +756,32 @@ public class AdminController {
         List<Employee> employees = employeeService.findAllEmployeesList();
         boolean isFlag = generateExcelService.generateExcel(employees, context, request, response);
         if(isFlag){
-            String fullPath = request.getServletContext().getRealPath("/resource/reports/"+"employees"+".xls");
+            String fullPath = request.getServletContext().getRealPath("/resources/reports/"+"employees"+".xls");
+            fileDownload(fullPath, response, "employees.xls");
+        }
+    }
+
+    private void fileDownload(String fullPath, HttpServletResponse response, String fileName){
+        File file = new File(fullPath);
+        final int BUFFER_SIZE = 4096;
+        if(file.exists()){
+            try {
+                FileInputStream inputStream = new FileInputStream(file);
+                String mimeType = context.getMimeType(fullPath);
+                response.setContentType(mimeType);
+                response.setHeader("content-disposition", "attachment; filename="+fileName);
+                OutputStream outputStream = response.getOutputStream();
+                byte[] buffer = new byte[BUFFER_SIZE];
+                int bytesRead = -1;
+                while ((bytesRead = inputStream.read(buffer)) != -1){
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+                inputStream.close();
+                outputStream.close();
+                file.delete();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
