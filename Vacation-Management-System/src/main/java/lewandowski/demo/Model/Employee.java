@@ -100,21 +100,29 @@ public class Employee {
     @Transient
     private String oldPassword;
 
-    public Employee(String name, String lastName, String email, String pesel, Date dateOfBirth, String addressLine1, String city, String zipCode, String phoneNumber, @NotNull String password, int active, Set<Role> roles, Department department, Position position) {
+    public Employee(String name, String lastName, String email, String pesel, Date dateOfBirth, Date dateOfAddition, String addressLine1, String addressLine2, String city, String zipCode, String phoneNumber, String password, int active, Set<Role> roles, Set<Application> applications, Set<VacationBalance> vacationBalances, Department department, Position position, String confirmPassword, int nrRoli, int nrDepartment, String newPassword, String oldPassword) {
         this.name = name;
         this.lastName = lastName;
         this.email = email;
         this.pesel = pesel;
         this.dateOfBirth = dateOfBirth;
+        this.dateOfAddition = dateOfAddition;
         this.addressLine1 = addressLine1;
+        this.addressLine2 = addressLine2;
         this.city = city;
         this.zipCode = zipCode;
         this.phoneNumber = phoneNumber;
         this.password = password;
         this.active = active;
         this.roles = roles;
+        this.applications = applications;
+        this.vacationBalances = vacationBalances;
         this.department = department;
         this.position = position;
+        this.confirmPassword = confirmPassword;
+        this.nrRoli = nrRoli;
+        this.nrDepartment = nrDepartment;
+        this.newPassword = newPassword;
+        this.oldPassword = oldPassword;
     }
-
 }

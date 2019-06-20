@@ -751,7 +751,7 @@ public class AdminController {
         return "redirect:/admin/companyStructure";
     }
 
-    @GetMapping(value = "/createExcel")
+    @GetMapping(value = "/admin/createEmployeeExcel")
     public void createExcel(HttpServletRequest request, HttpServletResponse response){
         List<Employee> employees = employeeService.findAllEmployeesList();
         boolean isFlag = generateExcelService.generateExcel(employees, context, request, response);

@@ -54,6 +54,15 @@
                             <li><a href="${contextRoot}/admin/vacationPlans">Planowane urlopy</a></li>
                         </ul>
                     </li>
+                    <li class="dropdown"><a href="#" class="dropdown-toggle"
+                                            data-toggle="dropdown" role="button" aria-haspopup="true"
+                                            aria-expanded="false"> Export Excel<span class="caret"></span>
+                    </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="${contextRoot}/admin/createEmployeeExcel">Exportuj pracowników</a></li>
+                            <li><a href="${contextRoot}/admin/addEmployee">Exportuj ...</a></li>
+                        </ul>
+                    </li>
                 </security:authorize>
 
                 <security:authorize access="hasAuthority('ROLE_MANAGER')">

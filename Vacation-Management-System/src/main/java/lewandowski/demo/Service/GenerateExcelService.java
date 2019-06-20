@@ -45,9 +45,45 @@ public class GenerateExcelService {
             lastName.setCellValue("Last Name");
             lastName.setCellStyle(hssfCellStyle);
 
-            HSSFCell department = hssfRow.createCell(2);
+            HSSFCell email = hssfRow.createCell(2);
+            email.setCellValue("Email");
+            email.setCellStyle(hssfCellStyle);
+
+            HSSFCell pesel = hssfRow.createCell(3);
+            pesel.setCellValue("PESEL");
+            pesel.setCellStyle(hssfCellStyle);
+
+            HSSFCell dateOfBirth = hssfRow.createCell(4);
+            dateOfBirth.setCellValue("Data of birth");
+            dateOfBirth.setCellStyle(hssfCellStyle);
+
+            HSSFCell addressLine1 = hssfRow.createCell(5);
+            addressLine1.setCellValue("Address line 1");
+            addressLine1.setCellStyle(hssfCellStyle);
+
+            HSSFCell addressLine2 = hssfRow.createCell(6);
+            addressLine2.setCellValue("Address line 2");
+            addressLine2.setCellStyle(hssfCellStyle);
+
+            HSSFCell city = hssfRow.createCell(7);
+            city.setCellValue("City");
+            city.setCellStyle(hssfCellStyle);
+
+            HSSFCell zipCode = hssfRow.createCell(8);
+            zipCode.setCellValue("Zip Code");
+            zipCode.setCellStyle(hssfCellStyle);
+
+            HSSFCell phoneNumber = hssfRow.createCell(9);
+            phoneNumber.setCellValue("Phone Number");
+            phoneNumber.setCellStyle(hssfCellStyle);
+
+            HSSFCell department = hssfRow.createCell(10);
             department.setCellValue("Department");
             department.setCellStyle(hssfCellStyle);
+
+            HSSFCell position = hssfRow.createCell(11);
+            position.setCellValue("Position");
+            position.setCellStyle(hssfCellStyle);
 
 
 
@@ -67,9 +103,45 @@ public class GenerateExcelService {
                 lastNameValue.setCellValue(employee.getLastName());
                 lastNameValue.setCellStyle(bodyCellStyle);
 
-                HSSFCell departmentValue = bodyRow.createCell(2);
+                HSSFCell emailValue = bodyRow.createCell(2);
+                emailValue.setCellValue(employee.getEmail());
+                emailValue.setCellStyle(bodyCellStyle);
+
+                HSSFCell peselValue = bodyRow.createCell(3);
+                peselValue.setCellValue(employee.getPesel());
+                peselValue.setCellStyle(bodyCellStyle);
+
+                HSSFCell dateOfBirthValue = bodyRow.createCell(4);
+                dateOfBirthValue.setCellValue(employee.getDateOfBirth());
+                dateOfBirthValue.setCellStyle(bodyCellStyle);
+
+                HSSFCell addressLine1Value = bodyRow.createCell(5);
+                addressLine1Value.setCellValue(employee.getAddressLine1());
+                addressLine1Value.setCellStyle(bodyCellStyle);
+
+                HSSFCell addressLine2Value = bodyRow.createCell(6);
+                addressLine2Value.setCellValue(employee.getAddressLine2());
+                addressLine2Value.setCellStyle(bodyCellStyle);
+
+                HSSFCell cityValue = bodyRow.createCell(7);
+                cityValue.setCellValue(employee.getCity());
+                cityValue.setCellStyle(bodyCellStyle);
+
+                HSSFCell zipCodeValue = bodyRow.createCell(8);
+                zipCodeValue.setCellValue(employee.getZipCode());
+                zipCodeValue.setCellStyle(bodyCellStyle);
+
+                HSSFCell phoneNumberValue = bodyRow.createCell(9);
+                phoneNumberValue.setCellValue(employee.getPhoneNumber());
+                phoneNumberValue.setCellStyle(bodyCellStyle);
+
+                HSSFCell departmentValue = bodyRow.createCell(10);
                 departmentValue.setCellValue(employee.getDepartment().getName());
                 departmentValue.setCellStyle(bodyCellStyle);
+
+                HSSFCell positionValue = bodyRow.createCell(11);
+                positionValue.setCellValue(employee.getPosition().getName());
+                positionValue.setCellStyle(bodyCellStyle);
 
                 i++;
             }
