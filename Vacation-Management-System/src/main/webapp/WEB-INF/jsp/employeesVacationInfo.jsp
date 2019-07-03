@@ -44,6 +44,7 @@
                             </thead>
                             <tbody>
                             <c:forEach var="employeeDto" items="${employeeDtoList}">
+                                <input type="hidden" name="employeeId" value="${employeeDto.id}">
                                 <tr>
                                     <td>${employeeDto.name} ${employeeDto.lastName}</td>
                                     <td>${employeeDto.departmentDto.name}</td>
@@ -96,6 +97,9 @@
 <script>
     $(document).ready(function() {
         $('#table_id').DataTable( {
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Polish.json"
+            },
             "pageLength": 25,
             initComplete: function () {
                 this.api().columns([0, 1]).every( function () {

@@ -93,6 +93,9 @@ public class AdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String EmployeeForm(EmployeeWithVacationBalanceDto employeeWithVacationBalanceDto, Model model, BindingResult result,
                                @RequestParam(name = "success", required = false) String success) {
+        if(positionService.findAllPositionDto() == null){
+            return "error";
+        }
         model.addAttribute("employeeWithVacationBalanceDto", employeeWithVacationBalanceDto);
         model.addAttribute("departmentMap", appComponentSelectMap.prepareDepartmentDtoMap());
         if (success != null) {
@@ -128,18 +131,18 @@ public class AdminController {
             model.addAttribute("employeeWithVacationBalanceDto", employeeWithVacationBalanceDto);
             model.addAttribute("departmentMap", appComponentSelectMap.prepareDepartmentDtoMap());
             model.addAttribute("failedMessage", "Coś poszło nie tak !");
-            if (employeeService.emailIsUnique(employeeWithVacationBalanceDto.getEmail()) == false) {
-                model.addAttribute("employeeWithVacationBalanceDto", employeeWithVacationBalanceDto);
-                model.addAttribute("failedMessage", "Taki login juz istnieje !!!");
-                model.addAttribute("departmentMap", appComponentSelectMap.prepareDepartmentDtoMap());
-                return "addEmployee";
-            }
-            if (employeeWithVacationBalanceDto.getPassword().equals(employeeWithVacationBalanceDto.getConfirmPassword()) == false) {
-                model.addAttribute("employeeWithVacationBalanceDto", employeeWithVacationBalanceDto);
-                model.addAttribute("failedMessage", "Hasła muszą być takie same !!!");
-                model.addAttribute("departmentMap", appComponentSelectMap.prepareDepartmentDtoMap());
-                return "addEmployee";
-            }
+            return "addEmployee";
+        }
+        if (employeeService.emailIsUnique(employeeWithVacationBalanceDto.getEmail()) == false) {
+            model.addAttribute("employeeWithVacationBalanceDto", employeeWithVacationBalanceDto);
+            model.addAttribute("failedMessage", "Taki login juz istnieje !!!");
+            model.addAttribute("departmentMap", appComponentSelectMap.prepareDepartmentDtoMap());
+            return "addEmployee";
+        }
+        if (employeeWithVacationBalanceDto.getPassword().equals(employeeWithVacationBalanceDto.getConfirmPassword()) == false) {
+            model.addAttribute("employeeWithVacationBalanceDto", employeeWithVacationBalanceDto);
+            model.addAttribute("failedMessage", "Hasła muszą być takie same !!!");
+            model.addAttribute("departmentMap", appComponentSelectMap.prepareDepartmentDtoMap());
             return "addEmployee";
         }
 
@@ -291,8 +294,9 @@ public class AdminController {
 
     @GetMapping(value = "/admin/employeesVacationInfo")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String getAllEmployeesacationInfo(Model model) {
-        model.addAttribute("employeeDtoList", employeeService.findAllEmployeesDto());
+    public String getAllEmployeesacationInfo(Model model) throws ParseException {
+        model.addAttribute("employeeDtoList", employeeService.findAllEmployeesDtoByVacationBalancesWhereYearIs(appComponentSelectMap.DateFormat(new Date())));
+       // model.addAttribute("vacationBalanceDto", vacationBalanceService.findByEmployee_IdAndYear(employeeId, appComponentSelectMap.DateFormat(new Date())));
         return "employeesVacationInfo";
     }
 

@@ -259,14 +259,12 @@
             minDate: moment(),
             daysOfWeekDisabled: [0, 6]
         });
-
         $('#datetimepicker7').datetimepicker({
             format: 'YYYY/MM/DD',
             locale: 'pl',
             minDate: moment(),
             daysOfWeekDisabled: [0, 6],
             useCurrent: false //Important! See issue #1075
-
         });
         $("#datetimepicker6").on("dp.change", function (e) {
             $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
@@ -274,78 +272,54 @@
         $("#datetimepicker7").on("dp.change", function (e) {
             $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
         });
-
     });
-
 </script>
 <script>
     $(document).ready(function () {
         $("#datetimepicker7").on("dp.change", function () {
-
             var d1 = $('#startOfVacation').val();
             var d2 = $('#endOfVacation').val();
-
             var elem = document.getElementById("sumDay");
             elem.value = workingDaysBetweenDates(d1, d2);
         });
     });
-
     function workingDaysBetweenDates(d0, d1) {
         var startDate = parseDate(d0);
         var endDate = parseDate(d1);
-        // populate the holidays array with all required dates without first taking care of what day of the week they happen
+        // dni wolne od pracy
         var holidays = ['2018-12-09', '2018-12-10', '2018-12-24', '2018-12-31'];
-        // Validate input
         if (endDate < startDate)
             return 0;
-
-        var z = 0; // number of days to substract at the very end
+        var z = 0;
         for (i = 0; i < holidays.length; i++) {
             var cand = parseDate(holidays[i]);
             var candDay = cand.getDay();
-
             if (cand >= startDate && cand <= endDate && candDay != 0 && candDay != 6) {
-                // we'll only substract the date if it is between the start or end dates AND it isn't already a saturday or sunday
                 z++;
             }
-
         }
-        // Calculate days between dates
+        // Obliczanie dni między datami
         var millisecondsPerDay = 86400 * 1000; // Day in milliseconds
         startDate.setHours(0, 0, 0, 1);  // Start just after midnight
         endDate.setHours(23, 59, 59, 999);  // End just before midnight
         var diff = endDate - startDate;  // Milliseconds between datetime objects
         var days = Math.ceil(diff / millisecondsPerDay);
-
-        // Subtract two weekend days for every week in between
+        // Odejmmowanie dwóch weekendowych dni za każdy tydzień pomiędzy
         var weeks = Math.floor(days / 7);
         days = days - (weeks * 2);
-
-        // Handle special cases
         var startDay = startDate.getDay();
         var endDay = endDate.getDay();
-
-        // Remove weekend not previously removed.
         if (startDay - endDay > 1)
             days = days - 2;
-
-        // Remove start day if span starts on Sunday but ends before Saturday
         if (startDay == 0 && endDay != 6)
             days = days - 1
-
-        // Remove end day if span ends on Saturday but starts after Sunday
         if (endDay == 6 && startDay != 0)
             days = days - 1
-
-        // substract the holiday dates from the original calculation and return to the DOM
         return days - z;
     }
-
     function parseDate(input) {
-        // Transform date from text to date
         var parts = input.match(/(\d+)/g);
-        // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
-        return new Date(parts[0], parts[1] - 1, parts[2]); // months are 0-based
+        return new Date(parts[0], parts[1] - 1, parts[2]);
     }
 </script>
 </body>

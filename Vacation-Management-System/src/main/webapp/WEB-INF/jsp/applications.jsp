@@ -155,7 +155,7 @@
     $(document).ready(function() {
         $('#table_id').DataTable( {
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Polish.json"
+                "url": "//cdn.datatables.net/plug-ins/1.10.18/i18n/Polish.json"
             },
             initComplete: function () {
                 this.api().columns([1, 2, 3 ,4]).every( function () {

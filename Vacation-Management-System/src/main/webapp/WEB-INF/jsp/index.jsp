@@ -28,7 +28,6 @@
 <div class="container">
     <div id="addEmployee" class="row">
         <security:authorize access="hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MANAGER')">
-
         <div class="col-md-8 col-md-offset-3">
             <div class="panel panel-login">
                 <div class="panel-body">
@@ -43,7 +42,8 @@
                                     <a href="/admin/vacationBalanceEmployees">
                                     <div class="panel-body">
                                         <p style="font-size: 17px;text-align: center">Bilansy Urlopowe</p>
-                                        <p style="text-align: center"><span style="font-size: 45px; ${color}" class="${glyphicon}" aria-hidden="true"></span></p>
+                                        <p style="text-align: center"><span style="font-size: 45px; ${color}" class="${glyphicon}"
+                                                                            aria-hidden="true"></span></p>
                                         <p style="font-size: 13px;text-align: center">${content}</p>
                                     </div>
                                     </a>
@@ -55,7 +55,8 @@
                                     <a href="${linkApplication}">
                                         <div class="panel-body">
                                             <p style="font-size: 17px;text-align: center">Oczekujące wnioski</p>
-                                            <p style="text-align: center"><span style="font-size: 45px; ${colorApplication}" class="${glyphiconApplication}" aria-hidden="true"></span></p>
+                                            <p style="text-align: center"><span style="font-size: 45px; ${colorApplication}" class="${glyphiconApplication}"
+                                                                                aria-hidden="true"></span></p>
                                             <p style="font-size: 13px;text-align: center">${contentApplication}</p>
                                         </div>
                                     </a>

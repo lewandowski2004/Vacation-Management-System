@@ -60,7 +60,6 @@
                     </a>
                         <ul class="dropdown-menu">
                             <li><a href="${contextRoot}/admin/createEmployeeExcel">Exportuj pracowników</a></li>
-                            <li><a href="${contextRoot}/admin/addEmployee">Exportuj ...</a></li>
                         </ul>
                     </li>
                 </security:authorize>
