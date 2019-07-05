@@ -310,8 +310,8 @@ public class AdminController {
                                      @PathVariable UUID id) throws ParseException {
         EmployeeDto employeeDto = employeeService.findById(id);
 
-        if (vacationBalanceService.findByEmployee_IdAndYear(id, appComponentSelectMap.DateFormat(new Date())).getVacationLimit() == vacationBalanceDto.getVacationLeave()) {
-            model.addAttribute("failedMessage", "Użytkownik posiada wybrany limit roczny urlopu !");
+        if (vacationBalanceService.findByEmployee_IdAndYear(id, appComponentSelectMap.DateFormat(new Date())).getVacationLimit() == vacationBalanceDto.getVacationLimit()) {
+            model.addAttribute("failedMessage", "Użytkownik posiada wybrany limit rocznego urlopu !");
             model.addAttribute("employeeDto", employeeDto);
             model.addAttribute("vacationBalanceDto", new VacationBalanceDto());
             model.addAttribute("vacationLimit", vacationBalanceService.findByEmployee_IdAndYear(id, appComponentSelectMap.DateFormat(new Date())).getVacationLimit());
@@ -322,8 +322,23 @@ public class AdminController {
         int vacationLeave = vacationBalanceService.findByEmployee_IdAndYear(id,appComponentSelectMap.DateFormat(new Date())).getVacationLeave();
         int annualVacation = vacationBalanceService.findByEmployee_IdAndYear(id,appComponentSelectMap.DateFormat(new Date())).getAnnualVacation();
 
-        vacationBalanceService.updateDaysOfVacation(vacationLeave+6, emergencyVacation,annualVacation+6, vacationBalanceDto.getVacationLimit(),id,appComponentSelectMap.returnDateByFormat("yyyy",new Date()));
-        return "redirect:/admin/addVacationBalance/employee/"+id+"?success=addVacationBalance";
+        if(vacationBalanceDto.getVacationLimit() == 26) {
+            vacationBalanceService.updateDaysOfVacation(vacationLeave + 6, emergencyVacation, annualVacation + 6, vacationBalanceDto.getVacationLimit(), id, appComponentSelectMap.returnDateByFormat("yyyy", new Date()));
+            model.addAttribute("succesMessage", "Urlop zaktualizowany !");
+            model.addAttribute("employeeDto", employeeDto);
+            model.addAttribute("vacationBalanceDto", new VacationBalanceDto());
+            model.addAttribute("vacationLimit", vacationBalanceService.findByEmployee_IdAndYear(id, appComponentSelectMap.DateFormat(new Date())).getVacationLimit());
+            return "updateVacationBalance";
+        }
+        if(vacationBalanceDto.getVacationLimit() == 20) {
+            vacationBalanceService.updateDaysOfVacation(vacationLeave - 6, emergencyVacation, annualVacation - 6, vacationBalanceDto.getVacationLimit(), id, appComponentSelectMap.returnDateByFormat("yyyy", new Date()));
+            model.addAttribute("succesMessage", "Urlop zaktualizowany !");
+            model.addAttribute("employeeDto", employeeDto);
+            model.addAttribute("vacationBalanceDto", new VacationBalanceDto());
+            model.addAttribute("vacationLimit", vacationBalanceService.findByEmployee_IdAndYear(id, appComponentSelectMap.DateFormat(new Date())).getVacationLimit());
+            return "updateVacationBalance";
+        }
+        return "updateVacationBalance";
     }
 
     /**

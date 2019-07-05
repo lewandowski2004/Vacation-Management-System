@@ -90,8 +90,8 @@
                                         <div class="col-lg-4">
                                             <a style=" padding-right: 20px"
                                                data-toggle="tooltip"
-                                               title="Edycja działu">
                                                href="/admin/edit/department/${departmentDto.id}"
+                                               title="Edycja działu">
                                                 <span style="color: #1b6d85" class="glyphicon glyphicon-edit"></span>
                                             </a>
                                              <a style=" color: red" href="/admin/delete/department/${departmentDto.id}"
