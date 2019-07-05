@@ -34,4 +34,16 @@ public interface VacationBalanceRepository extends JpaRepository<VacationBalance
     @Query(value = "UPDATE vacation_balance v SET v.annual_vacation = :newAnnualLeave WHERE v.employee_id = :employeeId AND year = :year", nativeQuery = true)
     void updateAnnualLeave(@Param("newAnnualLeave") Integer newAnnualLeave, @Param("employeeId") UUID employeeId, @Param("year") Date year);
 
+    @Modifying
+    @Query(value = "UPDATE vacation_balance v " +
+                    "SET v.vacation_leave = :newVacationLeave, " +
+                    "v.emergency_vacation = :newEmergencyLeave, " +
+                    "v.annual_vacation = :newAnnualLeave, "+
+                    "v.vacation_limit = :newVacationLimit "+
+                    "WHERE v.employee_id = :employeeId AND year = :year", nativeQuery = true)
+    void updateDaysOfVacation(@Param("newVacationLeave") Integer newVacationLeave,
+                              @Param("newEmergencyLeave") Integer newEmergencyLeave,
+                              @Param("newAnnualLeave") Integer newAnnualLeave,
+                              @Param("newVacationLimit") Integer newVacationLimit,
+                              @Param("employeeId") UUID employeeId, @Param("year") Date year);
 }

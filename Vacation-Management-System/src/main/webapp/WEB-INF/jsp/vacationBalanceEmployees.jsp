@@ -29,7 +29,7 @@
                             <hr>
                             <div class="list-group">
                                 <c:forEach var="employeeDto" items="${vacationBalanceDtoByYearList}">
-                                    <a href="#" class="list-group-item list-group-item-success">
+                                    <a href="/admin/updateVacationBalance/employee/${employeeDto.id}" class="list-group-item list-group-item-success">
                                             ${employeeDto.name}
                                             ${employeeDto.lastName}
                                             ${employeeDto.name}

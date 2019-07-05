@@ -21,6 +21,10 @@ body{
     background: #efefe3 !important;
 }
 
+#addEmployee .col-md-offset-3{
+    margin-left: 18%;
+}
+
 @media (min-width: 992px){
     #addEmployee .col-md-offset-3{
         margin-left: 18%;

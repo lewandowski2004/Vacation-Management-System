@@ -29,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class AdminController {
@@ -278,6 +279,50 @@ public class AdminController {
             return "addVacationBalance";
         }
         vacationBalanceService.saveVacationBalanceDto(vacationBalanceDto);
+        return "redirect:/admin/addVacationBalance/employee/"+id+"?success=addVacationBalance";
+    }
+
+    @GetMapping(value = "/admin/updateVacationBalance/employee/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String updateVacationBalanceForm(@PathVariable UUID id, Model model,
+                                      @RequestParam(name = "success", required = false) String success) throws ParseException {
+        EmployeeDto employeeDto = employeeService.findById(id);
+        model.addAttribute("employeeDto", employeeDto);
+        model.addAttribute("vacationBalanceDto", new VacationBalanceDto());
+        model.addAttribute("vacationLimit", vacationBalanceService.findByEmployee_IdAndYear(id, appComponentSelectMap.DateFormat(new Date())).getVacationLimit());
+        if (success != null) {
+            if (success.equals("addVacationBalance")) {
+                model.addAttribute("succesMessage", "Urlop Dodany!");
+            }
+        }
+        return "updateVacationBalance";
+    }
+
+    /**
+     * Method displays the form of adding vacation balance.
+     * @param id Employee ID.
+     * @return success = adding employee's vacation balance,
+     *         error = page with the vacation balance adding form.
+     * */
+    @PostMapping(value = "/admin/updateVacationBalanceAction/employee/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String updateVacationBalance(@Valid VacationBalanceDto vacationBalanceDto, BindingResult result, Model model,
+                                     @PathVariable UUID id) throws ParseException {
+        EmployeeDto employeeDto = employeeService.findById(id);
+
+        if (vacationBalanceService.findByEmployee_IdAndYear(id, appComponentSelectMap.DateFormat(new Date())).getVacationLimit() == vacationBalanceDto.getVacationLeave()) {
+            model.addAttribute("failedMessage", "Użytkownik posiada wybrany limit roczny urlopu !");
+            model.addAttribute("employeeDto", employeeDto);
+            model.addAttribute("vacationBalanceDto", new VacationBalanceDto());
+            model.addAttribute("vacationLimit", vacationBalanceService.findByEmployee_IdAndYear(id, appComponentSelectMap.DateFormat(new Date())).getVacationLimit());
+            return "updateVacationBalance";
+        }
+
+        int emergencyVacation = vacationBalanceService.findByEmployee_IdAndYear(id,appComponentSelectMap.DateFormat(new Date())).getEmergencyVacation();
+        int vacationLeave = vacationBalanceService.findByEmployee_IdAndYear(id,appComponentSelectMap.DateFormat(new Date())).getVacationLeave();
+        int annualVacation = vacationBalanceService.findByEmployee_IdAndYear(id,appComponentSelectMap.DateFormat(new Date())).getAnnualVacation();
+
+        vacationBalanceService.updateDaysOfVacation(vacationLeave+6, emergencyVacation,annualVacation+6, vacationBalanceDto.getVacationLimit(),id,appComponentSelectMap.returnDateByFormat("yyyy",new Date()));
         return "redirect:/admin/addVacationBalance/employee/"+id+"?success=addVacationBalance";
     }
 

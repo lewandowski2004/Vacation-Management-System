@@ -190,9 +190,7 @@
                                         <form:errors path="zipCode" cssClass="help-block" element="em"/>
                                     </div>
                                 </div>
-
                                 <hr>
-
                                 <div class="form-group row">
                                     <label class="col-lg-2 col-form-label"><p>Dział</p></label>
                                     <div class="col-lg-10">
@@ -212,7 +210,6 @@
                                         <form:errors path="positionDto" cssClass="help-block" element="em"/>
                                     </div>
                                 </div>
-                                <br/>
                                 <hr>
                             <div class="form-group">
                                 <label>Urlop roczny</label>

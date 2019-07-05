@@ -50,6 +50,13 @@ public class VacationBalanceServiceImpl implements VacationBalanceService {
         vacationBalanceRepository.updateAnnualLeave(newAnnualLeave,employeeId, year);
     }
 
+    @Override
+    public void updateDaysOfVacation(Integer newVacationLeave, Integer newEmergencyLeave, Integer newAnnualLeave,
+                                     Integer newVacationLimit, UUID employeeId, Date year) {
+        vacationBalanceRepository.updateDaysOfVacation(newVacationLeave, newEmergencyLeave,
+                newAnnualLeave, newVacationLimit, employeeId, year);
+    }
+
     /*Dto method*/
 
     @Override

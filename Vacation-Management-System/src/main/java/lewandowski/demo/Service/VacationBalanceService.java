@@ -18,6 +18,8 @@ public interface VacationBalanceService {
     void updateVacationLeave(Integer newVacationLeave,  UUID employeeId, Date year);
     void updateEmergencyLeave(Integer newEmergencyLeave, UUID employeeId, Date year);
     void updateAnnualLeave(Integer newAnnualLeave, UUID employeeId, Date year);
+    void updateDaysOfVacation(Integer newVacationLeave, Integer newEmergencyLeave, Integer newAnnualLeave,
+                              Integer newVacationLimit, UUID employeeId, Date year);
 
     /*Dto method*/
 
