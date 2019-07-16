@@ -60,12 +60,12 @@ public class EmployeeWithVacationBalanceDto {
     @NotEmpty(message = "Pole nie może być puste")
     private String phoneNumber;
 
-    @NotEmpty(message = "Pole nie może być puste")
+    //@NotEmpty(message = "Pole nie może być puste")
     @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\\!\\@\\#\\$\\*])(?!.*\\s).{8,12}$",
             message = "Hasło powinno zawierać dużą i małą literę, cyfrę oraz jeden ze znaków !, @, #, $.")
     private String password;
 
-    @NotEmpty(message = "Pole nie może być puste")
+    //@NotEmpty(message = "Pole nie może być puste")
     @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\\!\\@\\#\\$\\*])(?!.*\\s).{8,12}$",
             message = "Hasło powinno zawierać dużą i małą literę, cyfrę oraz jeden ze znaków !, @, #, $.")
     private String confirmPassword;

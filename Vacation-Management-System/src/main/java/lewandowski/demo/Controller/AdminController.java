@@ -140,12 +140,12 @@ public class AdminController {
             model.addAttribute("departmentMap", appComponentSelectMap.prepareDepartmentDtoMap());
             return "addEmployee";
         }
-        if (employeeWithVacationBalanceDto.getPassword().equals(employeeWithVacationBalanceDto.getConfirmPassword()) == false) {
+       /* if (employeeWithVacationBalanceDto.getPassword().equals(employeeWithVacationBalanceDto.getConfirmPassword()) == false) {
             model.addAttribute("employeeWithVacationBalanceDto", employeeWithVacationBalanceDto);
             model.addAttribute("failedMessage", "Hasła muszą być takie same !!!");
             model.addAttribute("departmentMap", appComponentSelectMap.prepareDepartmentDtoMap());
             return "addEmployee";
-        }
+        }*/
 
         employeeVacationBalanceService.saveEmployeeVacationBalanceDto(employeeWithVacationBalanceDto);
         return "redirect:/admin/addEmployee?success=addEmployee";

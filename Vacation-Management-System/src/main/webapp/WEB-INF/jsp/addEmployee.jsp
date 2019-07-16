@@ -93,7 +93,7 @@
 
                                 </div>
 
-                                <div class="form-group row">
+                                <%--<div class="form-group row">
                                     <label class="col-lg-2 col-form-label"><p>Hasło</p></label>
                                     <div class="col-lg-4">
                                         <form:input type="password" name="password" id="password" path="password"
@@ -107,7 +107,7 @@
                                                     tabindex="2" class="form-control" placeholder="Powtórz hasło"/>
                                         <form:errors path="confirmPassword" cssClass="help-block" element="em"/>
                                     </div>
-                                </div>
+                                </div>--%>
 
                                 <div class="form-group row">
                                     <label class="col-lg-2 col-form-label"><p>Data</p></label>

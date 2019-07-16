@@ -50,6 +50,8 @@ public class EmployeeVacationBalanceServiceImpl implements EmployeeVacationBalan
 
     @Override
     public void saveEmployeeVacationBalanceDto(EmployeeWithVacationBalanceDto employeeWithVacationBalanceDto) throws ParseException {
+        String date = employeeWithVacationBalanceDto.getDateOfBirth().toString();
+        String password = employeeWithVacationBalanceDto.getName().toUpperCase().charAt(0)+employeeWithVacationBalanceDto.getLastName().toLowerCase()+date.substring(date.length()-4,date.length())+"!";
         Employee employee = Employee.builder()
                 .name(employeeWithVacationBalanceDto.getName())
                 .lastName(employeeWithVacationBalanceDto.getLastName())
@@ -62,7 +64,7 @@ public class EmployeeVacationBalanceServiceImpl implements EmployeeVacationBalan
                 .city(employeeWithVacationBalanceDto.getCity())
                 .zipCode(employeeWithVacationBalanceDto.getZipCode())
                 .phoneNumber(employeeWithVacationBalanceDto.getPhoneNumber())
-                .password(bCryptPasswordEncoder.encode(employeeWithVacationBalanceDto.getPassword()))
+                .password(bCryptPasswordEncoder.encode(password))
                 .department(departmentService.getDepartment(employeeWithVacationBalanceDto.getDepartmentDto()))
                 .position(positionService.getPosition(employeeWithVacationBalanceDto.getPositionDto()))
                 .active(1)
