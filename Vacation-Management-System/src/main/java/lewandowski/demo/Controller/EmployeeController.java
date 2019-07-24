@@ -201,7 +201,11 @@ public class EmployeeController {
             vacationBalanceService.updateVacationLeave(updateLeaveVacation, employeeDto.getId(), dateAddition);
             vacationBalanceService.updateAnnualLeave(updateAnnualBalance, employeeDto.getId(), dateAddition);
             applicationDto.setEmployeeDto(employeeDto);
-            applicationStatusDto.setId(1);
+            if(employeeDto.getRolesDto().iterator().next().getId() == 2){
+                applicationStatusDto.setId(3);
+            }else {
+                applicationStatusDto.setId(1);
+            }
             vacationTypeDto.setId(1);
             applicationDto.setVacationTypeDto(vacationTypeDto);
             applicationDto.setApplicationStatusDto(applicationStatusDto);
@@ -309,11 +313,14 @@ public class EmployeeController {
         String stringDate = formatDate.format(new Date());
         Date date = formatDate.parse(stringDate);
 
-        if (application.getApplicationStatus().getId() == 2 || application.getApplicationStatus().getId() == 3){
+        if (application.getApplicationStatus().getId() == 2 || application.getApplicationStatus().getId() == 3 && employeeDto.getRolesDto().iterator().next().getId() != 2){
             model.addAttribute("infoMassage", "Wniosek został zaakceptowany. W razie jakichkolwiek zmian prosze o kontkat z przełożonym.");
             return "redirect:/application/"+id;
         }
-        if (application.getApplicationStatus().getId() != 4) {
+        if (application.getApplicationStatus().getId() == 4 || application.getApplicationStatus().getId() == 5) {
+            applicationService.deleteApplication(application);
+            return "redirect:/applications";
+        }
             if (application.getVacationType().getId() == 1) {
                 if (result.hasErrors()) {
                     return "redirect:/applications";
@@ -355,10 +362,7 @@ public class EmployeeController {
                 applicationService.deleteApplication(application);
                 return "redirect:/applications";
             }
-        } else {
-            applicationService.deleteApplication(application);
-            return "redirect:/applications";
-        }
+
     }
 
     private Employee loggedEmployee() {
@@ -426,7 +430,11 @@ public class EmployeeController {
                 vacationBalanceService.updateVacationLeave(updateLeaveVacation, employeeDto.getId(), dateAddition);
                 vacationBalanceService.updateAnnualLeave(updateAnnualBalance, employeeDto.getId(), dateAddition);
                 applicationDto.setEmployeeDto(employeeDto);
-                applicationStatusDto.setId(1);
+                if(employeeDto.getRolesDto().iterator().next().getId() == 2){
+                    applicationStatusDto.setId(3);
+                }else {
+                    applicationStatusDto.setId(1);
+                }
                 applicationDto.setApplicationStatusDto(applicationStatusDto);
                 applicationService.saveApplicationDto(applicationDto);
 
@@ -464,7 +472,11 @@ public class EmployeeController {
             }
         } else {
             applicationDto.setEmployeeDto(employeeDto);
-            applicationStatusDto.setId(1);
+            if(employeeDto.getRolesDto().iterator().next().getId() == 2){
+                applicationStatusDto.setId(3);
+            }else {
+                applicationStatusDto.setId(1);
+            }
             applicationDto.setApplicationStatusDto(applicationStatusDto);
             applicationService.saveApplicationDto(applicationDto);
             return redirect;

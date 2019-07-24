@@ -177,7 +177,7 @@
                                 </dl>
                                 <hr>
                             </security:authorize>
-                            <security:authorize access="hasAuthority('ROLE_ADMIN')">
+                            <%--<security:authorize access="hasAuthority('ROLE_ADMIN')">
                                 <c:choose>
                                     <c:when test="${applicationDto.employeeDto.id != employeeDto.id}">
                                         <c:choose>
@@ -216,8 +216,29 @@
                                         </div>
                                     </c:otherwise>
                                 </c:choose>
+                            </security:authorize>--%>
+                            <security:authorize access="hasAuthority('ROLE_ADMIN') ">
+                                <c:choose>
+                                    <c:when test="${applicationDto.employeeDto.id == employeeDto.id}">
+
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-sm-6 col-sm-offset-3">
+                                                                    <input type="submit" name="action"
+                                                                           id="delete-submit"
+                                                                           tabindex="4"
+                                                                           class="form-control btn btn-danger"
+                                                                           onclick="window.location.href='${pageContext.request.contextPath}/delete/application/${applicationDto.id }'"
+                                                                           value="Usuń"/>
+                                                                </div>
+                                                                <br/> <br/>
+                                                            </div>
+                                                        </div>
+                                                    </c:when>
+
+                                </c:choose>
                             </security:authorize>
-                            <security:authorize access="hasAuthority('ROLE_EMPLOYEE') or hasAuthority('ROLE_MANAGER')">
+                            <security:authorize access="hasAuthority('ROLE_EMPLOYEE') or hasAuthority('ROLE_MANAGER') ">
                                 <c:choose>
                                     <c:when test="${applicationDto.employeeDto.id == employeeDto.id}">
                                         <c:choose>
