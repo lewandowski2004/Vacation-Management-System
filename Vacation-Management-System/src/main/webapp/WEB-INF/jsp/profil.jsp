@@ -151,7 +151,7 @@
                                             <input type="submit" name="action" id="register-submit"
                                                    onclick="window.location.href='${pageContext.request.contextPath}/admin/edit/employee/${employeeDto.id}'"
                                                    tabindex="4" class="form-control btn btn-info"
-                                                   value="edytuj Użytkownika"/>
+                                                   value="Edytuj Użytkownika"/>
                                         </div>
                                         <br/> <br/>
                                     </div>

@@ -63,15 +63,15 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <br/>
-                            <h3 style="text-align: center">Update Urlopu</h3>
+                            <h3 style="text-align: center">Aktualizacja Urlopu</h3>
                             <div class="form-group">
                                 <dl class="dl-horizontal">
                                     <dt>Imię:</dt>
                                     <dd>${employeeDto.name}</dd>
                                     <dt>Nazwisko:</dt>
                                     <dd>${employeeDto.lastName}</dd>
-                                    <dt>Dział/Stanowisko:</dt>
-                                    <dd>${employeeDto.departmentDto.name}/${employeeDto.positionDto.name}</dd>
+                                    <dt>Dział&nbsp;/&nbsp;Stanowisko:</dt>
+                                    <dd>${employeeDto.departmentDto.name}&nbsp;/&nbsp;${employeeDto.positionDto.name}</dd>
                                     <hr>
                                     <dt>Limit roczny:</dt>
                                     <dd>${vacationLimit}</dd>
@@ -97,7 +97,7 @@
                                     <input type="submit" name="action" id="register-submit"
                                            tabindex="4" class="form-control btn btn-success"
                                            onclick="return confirm('Czy na pewno chcesz dodać ?')"
-                                           value="Dodaj"/>
+                                           value="Aktualizuj"/>
                                 </div>
                                 <br/> <br/>
                             </div>

@@ -94,7 +94,7 @@
                                     <input type="submit" name="action" id="register-submit"
                                            tabindex="4" class="form-control btn btn-success"
                                            onclick="return confirm('Czy na pewno chcesz dodać ?')"
-                                           value="Dodaj"/>
+                                           value="Dodaj / Aktualizuj"/>
                                 </div>
                                 <br/> <br/>
                             </div>

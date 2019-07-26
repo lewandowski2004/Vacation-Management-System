@@ -75,8 +75,8 @@
                                     <dd>${employeeDto.name}</dd>
                                     <dt>Nazwisko:</dt>
                                     <dd>${employeeDto.lastName}</dd>
-                                    <dt>Dział/Stanowisko:</dt>
-                                    <dd>${employeeDto.departmentDto.name}/${employeeDto.positionDto.name}</dd>
+                                    <dt>Dział &nbsp;/ &nbsp;Stanowisko:</dt>
+                                    <dd>${employeeDto.departmentDto.name}&nbsp;/&nbsp;${employeeDto.positionDto.name}</dd>
                                 </dl>
                             </div>
                             <hr>

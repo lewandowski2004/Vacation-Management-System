@@ -62,7 +62,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <br />
-                            <h3 style="text-align: center">Dodawanie Użytkownika</h3>
+                            <h3 style="text-align: center">Edytowanie Użytkownika</h3>
                             <hr>
                             <p style="color: red">${blad}</p>
                             <form:form id="add-form" name="employeeEditForm" modelAttribute="employeeDto"
@@ -85,7 +85,7 @@
                                 <div class="form-group row">
                                     <label class="col-lg-2 col-form-label"><p>Email</p></label>
                                     <div class="col-lg-10">
-                                        <form:input type="text" name="email" id="email" path="email" readonly="true"
+                                        <form:input type="text" name="email" id="email" path="email"
                                                     tabindex="2" class="form-control" placeholder="Email" />
                                         <form:errors path="email" cssClass="help-block" element="em" />
                                     </div>
@@ -231,7 +231,7 @@
                                             <input type="submit" name="action" id="register-submit"
                                                    tabindex="4" class="form-control btn btn-success"
                                                    onclick="return confirm('Czy na pewno chcesz dodać ?')"
-                                                   value="Dodaj Użytkownika" />
+                                                   value="Edutuj Użytkownika" />
                                         </div>
                                         <br /> <br />
 

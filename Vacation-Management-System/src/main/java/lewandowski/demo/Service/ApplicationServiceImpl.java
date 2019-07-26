@@ -47,10 +47,10 @@ public class ApplicationServiceImpl implements ApplicationService {
         return applicationRepository.findApplicationsByEmployee_IdAndVacationPlanOrderByDateOfAdditionDesc(employeeId, vacationPlan);
     }
 
-    @Override
+   /* @Override
     public List<Application> findAllApplicationsAdmin(UUID employeeId) {
         return applicationRepository.findAllApplicationsAdmin(employeeId);
-    }
+    }*/
 
     @Override
     public List<Application> findApplicationsEmployeeByDepartment(Integer departmentId, UUID employeeId) {
@@ -143,13 +143,18 @@ public class ApplicationServiceImpl implements ApplicationService {
     public List<ApplicationDto> findApplicationsByEmployee_IdAndVacationPlanOrderByDateOfAdditionDescDto(UUID employeeId, boolean vacationPlan) {
         return findAllApplications(applicationRepository.findApplicationsByEmployee_IdAndVacationPlanOrderByDateOfAdditionDesc(employeeId, vacationPlan));
     }
-    @Override
+    /*@Override
     public List<ApplicationDto> findAllApplicationsDtoAdmin(UUID employeeId) {
         return findAllApplications(applicationRepository.findAllApplicationsAdmin(employeeId));
     }
     @Override
     public List<ApplicationDto> findAllVacationPlansDtoAdmin(UUID employeeId) {
         return findAllApplications(applicationRepository.findAllVacationPlansAdmin(employeeId));
+    }
+*/
+    @Override
+    public List<ApplicationDto> findApplicationsByVacationPlan(boolean vacationPlan) {
+        return findAllApplications(applicationRepository.findApplicationsByVacationPlan(vacationPlan));
     }
 
     @Override

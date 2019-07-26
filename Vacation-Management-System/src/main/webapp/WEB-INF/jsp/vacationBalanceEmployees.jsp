@@ -32,14 +32,12 @@
                                     <a href="/admin/updateVacationBalance/employee/${employeeDto.id}" class="list-group-item list-group-item-success">
                                             ${employeeDto.name}
                                             ${employeeDto.lastName}
-                                            ${employeeDto.name}
                                     </a>
                                 </c:forEach>
                                 <c:forEach var="employeeDto" items="${vacationBalanceDtoByYearIsNotInList}">
                                     <a href="/admin/addVacationBalance/employee/${employeeDto.id}" class="list-group-item list-group-item-danger">
                                         ${employeeDto.name}
                                         ${employeeDto.lastName}
-                                        ${employeeDto.name}
                                     </a>
                                 </c:forEach>
                             </div>

@@ -20,6 +20,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
     void deleteApplicationByEmployee_Id(UUID employeeId);
     void delete(Application application);
     List<Application> findAll();
+    List<Application> findApplicationsByVacationPlan(boolean vacationPlan);
     List<Application> findApplicationsByEmployee_IdAndVacationPlanOrderByDateOfAdditionDesc(UUID employeeId, boolean vacationPlan);
     List<Application> findApplicationsByEmployee_IdAndVacationPlan(UUID employeeId, boolean vacationPlan);
     List<Application> findApplicationsByApplicationStatus_Id(int id);
@@ -28,11 +29,11 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
     @Query(value = "SELECT * FROM application WHERE employee_id = :employeeId AND :date1 between start_of_vacation AND end_of_vacation", nativeQuery = true)
     List<Application> findAllApplicationsWithDuplicateDate(@Param("employeeId") UUID employeeId, @Param("date1") String date1);
 
-    @Query(value = "SELECT * FROM application WHERE employee_id != :employeeId ORDER BY date_of_addition DESC", nativeQuery = true)
-    List<Application> findAllApplicationsAdmin(@Param("employeeId") UUID employeeId);
+    /*@Query(value = "SELECT * FROM application WHERE vacation_plan = false ORDER BY date_of_addition DESC", nativeQuery = true)
+    List<Application> findAllApplicationsAdmin();
 
-    @Query(value = "SELECT * FROM application WHERE employee_id != :employeeId AND vacation_plan = true ORDER BY date_of_addition DESC", nativeQuery = true)
-    List<Application> findAllVacationPlansAdmin(@Param("employeeId") UUID employeeId);
+    @Query(value = "SELECT * FROM application WHERE vacation_plan = true ORDER BY date_of_addition DESC", nativeQuery = true)
+    List<Application> findAllVacationPlansAdmin();*/
 
     @Query(value = "SELECT * FROM application INNER JOIN employee ON application.employee_id = employee.employee_id WHERE department_id = :departmentId and " +
             "application.employee_id != :employeeId and application.application_status_id = :applicationStatusId ORDER BY application.date_of_addition DESC", nativeQuery = true)

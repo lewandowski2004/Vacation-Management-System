@@ -80,7 +80,7 @@
                                             <c:otherwise>
                                                     <a style=" color: red" href="/admin/delete/employee/${employeeDto.id }"
                                                        onclick="return confirm('Czy na pewno chcesz usunąć pracownika ?')"
-                                                       title="Usunięcie działu">
+                                                       title="Usunięcie pracownika">
                                                         <span style="font-size: 20px" class="glyphicon glyphicon-remove"></span>
                                                     </a>
                                             </c:otherwise>

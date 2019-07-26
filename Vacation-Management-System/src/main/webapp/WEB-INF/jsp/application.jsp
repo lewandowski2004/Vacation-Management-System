@@ -71,6 +71,8 @@
                                         <c:when test="${applicationDto.vacationTypeDto.id != 2}">
                                             <c:choose>
                                                 <c:when test="${applicationDto.employeeDto.id != employeeDto.id}">
+                                                    <c:choose>
+                                                <c:when test="${applicationDto.employeeDto.nrRoli != 2}">
                                                     <div class="form-group">
                                                         <label>Status Wniosku</label>
                                                         <form:select id="inputState" class="form-control"
@@ -91,6 +93,8 @@
                                                             <br/> <br/>
                                                         </div>
                                                     </div>
+                                                </c:when>
+                                                    </c:choose>
                                                 </c:when>
                                             </c:choose>
                                         </c:when>

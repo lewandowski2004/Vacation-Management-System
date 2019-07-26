@@ -42,6 +42,9 @@
                         <th>Typ wniosku</th>
                         <th>Data złożenia</th>
                         <th></th>
+                        <security:authorize access="hasAuthority('ROLE_ADMIN')">
+                            <th></th>
+                        </security:authorize>
                     </tr>
                     </thead>
                     <tbody>
@@ -118,7 +121,15 @@
                                     </button>
                                 </td>
                             </security:authorize>
-
+                            <security:authorize access="hasAuthority('ROLE_ADMIN')">
+                                <td style="text-align: center">
+                                    <a style=" color: red" href="/admin/delete/application/${applicationDto.id }"
+                                    onclick="return confirm('Całkowite usunięcie wniosku z systemu. Czy na pewno chcesz usunąć Wniosek ?')"
+                                    title="Usunięcie wniosku">
+                                        <span style="font-size: 20px" class="glyphicon glyphicon-remove"></span>
+                                    </a>
+                                </td>
+                            </security:authorize>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -131,6 +142,9 @@
                         <th>Typ wniosku</th>
                         <th>Data złożenia</th>
                         <th></th>
+                        <security:authorize access="hasAuthority('ROLE_ADMIN')">
+                            <th></th>
+                        </security:authorize>
                     </tr>
                     </tfoot>
                 </table>

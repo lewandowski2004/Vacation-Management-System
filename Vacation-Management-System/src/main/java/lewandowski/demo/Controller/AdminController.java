@@ -196,11 +196,19 @@ public class AdminController {
     @PostMapping(value = "/admin/update/employee/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String editEmployeeAction(@Valid @PathVariable("id") UUID id, EmployeeDto employeeDto, BindingResult result, Model model) {
+        EmployeeDto curentEmployeeDto = employeeService.findById(id);
         if (result.hasErrors()) {
             model.addAttribute("departmentList", departmentService.findAllDepartamentDto());
             model.addAttribute("roleMap", appComponentSelectMap.prepareRoleMap());
             model.addAttribute("employeeDto", employeeDto);
             model.addAttribute("failedMessage", "Coś poszło nie tak !");
+            return "editprofil";
+        }
+        if (employeeService.emailIsUnique(employeeDto.getEmail()) == false && curentEmployeeDto.getEmail().equals(employeeDto.getEmail()) == false ) {
+            model.addAttribute("departmentList", departmentService.findAllDepartamentDto());
+            model.addAttribute("roleMap", appComponentSelectMap.prepareRoleMap());
+            model.addAttribute("employeeDto", employeeDto);
+            model.addAttribute("failedMessage", "Podany email istnieje w systemie !");
             return "editprofil";
         }
         employeeService.updateEmployeeProfile(employeeDto.getName(), employeeDto.getLastName(), employeeDto.getEmail(),
@@ -389,7 +397,7 @@ public class AdminController {
     public String getAllApplications(Model model) {
         String username = EmployeeModel.getLoggedEmployee();
         EmployeeDto employeeDto = employeeService.findByEmail(username);
-        model.addAttribute("applicationList", applicationService.findAllApplicationsDtoAdmin(employeeDto.getId()));
+        model.addAttribute("applicationList", applicationService.findApplicationsByVacationPlan(false));
         return "applications";
     }
 
@@ -402,7 +410,7 @@ public class AdminController {
     public String getAllvacationPlans(Model model) {
         String username = EmployeeModel.getLoggedEmployee();
         EmployeeDto employeeDto = employeeService.findByEmail(username);
-        model.addAttribute("applicationList", applicationService.findAllVacationPlansDtoAdmin(employeeDto.getId()));
+        model.addAttribute("applicationList", applicationService.findApplicationsByVacationPlan(true));
         return "applications";
     }
 
