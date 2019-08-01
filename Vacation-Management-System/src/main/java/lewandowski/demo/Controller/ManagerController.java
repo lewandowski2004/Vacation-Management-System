@@ -44,7 +44,9 @@ public class ManagerController {
     public String getApplicationsByEmployeeDepartmentId(Model model) {
         String username = EmployeeModel.getLoggedEmployee();
         EmployeeDto employeeDto = employeeService.findByEmail(username);
-        model.addAttribute("applicationList", applicationService.findApplicationsDtoEmployeeByDepartment(employeeDto.getDepartmentDto().getId(), employeeDto.getId()));
+        model.addAttribute("applicationList",
+        applicationService.findApplicationsDtoEmployeeByDepartment(
+                employeeDto.getDepartmentDto().getId(), employeeDto.getId()));
         return "applications";
     }
 
@@ -58,7 +60,9 @@ public class ManagerController {
     public String getVacationPlansByEmployeeDepartmentId(Model model) {
         String username = EmployeeModel.getLoggedEmployee();
         EmployeeDto employeeDto = employeeService.findByEmail(username);
-        model.addAttribute("applicationList", applicationService.findVacationPlansDtoEmployeeByDepartment(employeeDto.getDepartmentDto().getId(), employeeDto.getId()));
+        model.addAttribute("applicationList",
+                applicationService.findVacationPlansDtoEmployeeByDepartment(
+                        employeeDto.getDepartmentDto().getId(), employeeDto.getId()));
         return "applications";
     }
 

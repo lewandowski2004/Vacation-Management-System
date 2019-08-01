@@ -364,6 +364,7 @@ public class AdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getAllEmployeesacationInfo(Model model) throws ParseException {
         model.addAttribute("employeeDtoList", employeeService.findAllEmployeesDtoByVacationBalancesWhereYearIs(appComponentSelectMap.DateFormat(new Date())));
+
        // model.addAttribute("vacationBalanceDto", vacationBalanceService.findByEmployee_IdAndYear(employeeId, appComponentSelectMap.DateFormat(new Date())));
         return "employeesVacationInfo";
     }

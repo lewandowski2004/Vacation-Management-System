@@ -262,7 +262,9 @@ public class EmployeeController {
         String username = EmployeeModel.getLoggedEmployee();
         EmployeeDto employeeDto = employeeService.findByEmail(username);
         UUID employeeId = employeeDto.getId();
-        model.addAttribute("applicationList", applicationService.findApplicationsByEmployee_IdAndVacationPlanOrderByDateOfAdditionDescDto(employeeId, false));
+        model.addAttribute("applicationList",
+        applicationService.findApplicationsByEmployee_IdAndVacationPlanOrderByDateOfAdditionDescDto(
+                employeeId,false));
         model.addAttribute("employeeDto", employeeDto);
         return "applications";
     }
@@ -277,7 +279,9 @@ public class EmployeeController {
         String username = EmployeeModel.getLoggedEmployee();
         EmployeeDto employeeDto = employeeService.findByEmail(username);
         UUID employeeId = employeeDto.getId();
-        model.addAttribute("applicationList", applicationService.findVacationPlansDtoEmployeeByDepartment(employeeId, true));
+        model.addAttribute("applicationList",
+        applicationService.findVacationPlansDtoEmployeeByDepartment(
+                employeeId,true));
         model.addAttribute("employeeDto", employeeDto);
         return "applications";
     }

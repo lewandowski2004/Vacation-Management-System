@@ -283,6 +283,14 @@
             elem.value = workingDaysBetweenDates(d1, d2);
         });
     });
+    $(document).ready(function () {
+        $("#datetimepicker6").on("dp.change", function () {
+            var d1 = $('#startOfVacation').val();
+            var d2 = $('#endOfVacation').val();
+            var elem = document.getElementById("sumDay");
+            elem.value = workingDaysBetweenDates(d1, d2);
+        });
+    });
     function workingDaysBetweenDates(d0, d1) {
         var startDate = parseDate(d0);
         var endDate = parseDate(d1);

@@ -48,7 +48,8 @@
                                 <tr>
                                     <td>${employeeDto.name} ${employeeDto.lastName}</td>
                                     <td>${employeeDto.departmentDto.name}</td>
-                                    <c:forEach var="vacationBalanceDto" items="${employeeDto.vacationBalancesDto}">
+                                    <c:forEach var="vacationBalanceDto"  items="${employeeDto.vacationBalancesDto}" varStatus="status">
+                                        <c:if test="${status.first}">
                                             <td>${vacationBalanceDto.vacationLeave}</td>
                                             <td>${vacationBalanceDto.emergencyVacation}</td>
                                         <c:choose>
@@ -62,7 +63,7 @@
                                                 <td style="background-color: #f1b9b9">${vacationBalanceDto.annualVacation}</td>
                                             </c:when>
                                         </c:choose>
-
+                                    </c:if>
                                     </c:forEach>
                                 </tr>
                             </c:forEach>
