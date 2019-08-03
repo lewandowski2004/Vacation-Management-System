@@ -825,13 +825,24 @@ public class AdminController {
     }
 
     @GetMapping(value = "/admin/createEmployeeExcel")
-    public void createExcel(HttpServletRequest request, HttpServletResponse response){
+    public void createEmployeesExcel(HttpServletRequest request, HttpServletResponse response){
         List<Employee> employees = employeeService.findAllEmployeesList();
-        boolean isFlag = generateExcelService.generateExcel(employees, context, request, response);
+        boolean isFlag = generateExcelService.generateExcelEmployees(employees, context, request, response);
         if(isFlag){
             String fullPath = request.getServletContext().getRealPath("/resources/reports/"+"employees"+".xls");
             fileDownload(fullPath, response, "employees.xls");
         }
+    }
+
+    @GetMapping(value = "/admin/createEmployeesVacationBalanceExcel")
+    public void createEmployeesVacationBalanceExcel(HttpServletRequest request, HttpServletResponse response) throws ParseException {
+        List<EmployeeDto> employeesVacationBalance = employeeService.findAllEmployeesDtoByVacationBalancesWhereYearIs(appComponentSelectMap.DateFormat(new Date()));
+        boolean isFlag = generateExcelService.generateExcelEmployeesVacationBalance(employeesVacationBalance, context, request, response);
+        if(isFlag){
+            String fullPath = request.getServletContext().getRealPath("/resources/reports/"+"employeesVacationBalance"+".xls");
+            fileDownload(fullPath, response, "employeesVacationBalance.xls");
+        }
+
     }
 
     private void fileDownload(String fullPath, HttpServletResponse response, String fileName){

@@ -1,5 +1,7 @@
 package lewandowski.demo.Service;
 
+import lewandowski.demo.DTO.EmployeeDto;
+import lewandowski.demo.Model.Application;
 import lewandowski.demo.Model.Employee;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
@@ -17,7 +19,7 @@ import java.util.List;
 @Transactional
 public class GenerateExcelService {
 
-    public boolean generateExcel(List<Employee> employees, ServletContext context, HttpServletRequest request,
+    public boolean generateExcelEmployees(List<Employee> employees, ServletContext context, HttpServletRequest request,
                                  HttpServletResponse response){
         String filePath = context.getRealPath("/resources/reports");
         File file = new File(filePath);
@@ -142,6 +144,94 @@ public class GenerateExcelService {
                 HSSFCell positionValue = bodyRow.createCell(11);
                 positionValue.setCellValue(employee.getPosition().getName());
                 positionValue.setCellStyle(bodyCellStyle);
+
+                i++;
+            }
+            workbook.write(outputStream);
+            outputStream.flush();
+            outputStream.close();
+            return true;
+        }catch (Exception e){
+            return false;
+
+        }
+    }
+
+    public boolean generateExcelEmployeesVacationBalance(List<EmployeeDto> employeeDtos, ServletContext context, HttpServletRequest request,
+                                                         HttpServletResponse response){
+        String filePath = context.getRealPath("/resources/reports");
+        File file = new File(filePath);
+        boolean exists = new File(filePath).exists();
+        if (!exists){
+            new File(filePath).mkdirs();
+        }
+        try {
+            FileOutputStream outputStream = new FileOutputStream(file+"/"+"employeesVacationBalance"+".xls");
+            HSSFWorkbook workbook = new HSSFWorkbook();
+            HSSFSheet workSheet = workbook.createSheet("EMployeesVacationBalance");
+            workSheet.setDefaultColumnWidth(30);
+
+            HSSFCellStyle hssfCellStyle = workbook.createCellStyle();
+            hssfCellStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+            hssfCellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+
+            HSSFRow hssfRow = workSheet.createRow(0);
+
+            HSSFCell firstName = hssfRow.createCell(0);
+            firstName.setCellValue("Imie i Nazwisko");
+            firstName.setCellStyle(hssfCellStyle);
+
+            HSSFCell department = hssfRow.createCell(1);
+            department.setCellValue("Dział");
+            department.setCellStyle(hssfCellStyle);
+
+            HSSFCell vacationLimit = hssfRow.createCell(2);
+            vacationLimit.setCellValue("Limit roczny [dni]");
+            vacationLimit.setCellStyle(hssfCellStyle);
+
+            HSSFCell annualVacation = hssfRow.createCell(3);
+            annualVacation.setCellValue("Dostępny urlop [dni]");
+            annualVacation.setCellStyle(hssfCellStyle);
+
+            HSSFCell vacationLeave = hssfRow.createCell(4);
+            vacationLeave.setCellValue("Urlop wypoczynkowy [dni]");
+            vacationLeave.setCellStyle(hssfCellStyle);
+
+            HSSFCell emergencyLeave = hssfRow.createCell(5);
+            emergencyLeave.setCellValue("Urlop na żądanie [dni]");
+            emergencyLeave.setCellStyle(hssfCellStyle);
+
+            int i = 1;
+            for(EmployeeDto employeeDto : employeeDtos){
+
+                HSSFRow bodyRow = workSheet.createRow(i);
+
+                HSSFCellStyle bodyCellStyle = workbook.createCellStyle();
+                bodyCellStyle.setFillForegroundColor(HSSFColor.WHITE.index);
+
+                HSSFCell firstNameLastNameValue = bodyRow.createCell(0);
+                firstNameLastNameValue.setCellValue(employeeDto.getName()+" "+employeeDto.getLastName());
+                firstNameLastNameValue.setCellStyle(bodyCellStyle);
+
+                HSSFCell departmentValue = bodyRow.createCell(1);
+                departmentValue.setCellValue(employeeDto.getDepartmentDto().getName());
+                departmentValue.setCellStyle(bodyCellStyle);
+
+                HSSFCell vacationLimitValue = bodyRow.createCell(2);
+                vacationLimitValue.setCellValue(employeeDto.getVacationBalancesDto().iterator().next().getVacationLimit());
+                vacationLimitValue.setCellStyle(bodyCellStyle);
+
+                HSSFCell annualVacationValue = bodyRow.createCell(3);
+                annualVacationValue.setCellValue(employeeDto.getVacationBalancesDto().iterator().next().getAnnualVacation());
+                annualVacationValue.setCellStyle(bodyCellStyle);
+
+                HSSFCell vacationLeaveValue = bodyRow.createCell(4);
+                vacationLeaveValue.setCellValue(employeeDto.getVacationBalancesDto().iterator().next().getVacationLeave());
+                vacationLeaveValue.setCellStyle(bodyCellStyle);
+
+                HSSFCell emergencyVacationValue = bodyRow.createCell(5);
+                emergencyVacationValue.setCellValue(employeeDto.getVacationBalancesDto().iterator().next().getEmergencyVacation());
+                emergencyVacationValue.setCellStyle(bodyCellStyle);
 
                 i++;
             }

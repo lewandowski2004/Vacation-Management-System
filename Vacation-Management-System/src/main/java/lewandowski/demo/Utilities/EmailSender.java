@@ -34,6 +34,5 @@ public class EmailSender {
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 
         javaMailSender.send(simpleMailMessage);
-
     }
 }
