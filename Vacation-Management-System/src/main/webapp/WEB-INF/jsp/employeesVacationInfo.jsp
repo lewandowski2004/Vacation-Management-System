@@ -29,6 +29,10 @@
 <%@include file="/WEB-INF/include/menu.jsp" %>
 
 <div class="container">
+    <a class="btn btn-success" href="${pageContext.request.contextPath}/admin/createEmployeesVacationBalanceExcel" role="button" style="margin: 15px">
+        Exportuj do Excela &nbsp;&nbsp;<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+    </a>
+    <hr>
     <div class="col-md-12">
         <div class="row">
         <div class="col-xs-12">

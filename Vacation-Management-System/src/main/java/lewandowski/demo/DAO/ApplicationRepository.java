@@ -42,7 +42,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 
 
     @Query(value = "SELECT * FROM application INNER JOIN employee ON application.employee_id = employee.employee_id WHERE department_id = :departmentId and " +
-            "application.employee_id != :employeeId ORDER BY application.date_of_addition DESC", nativeQuery = true)
+            "application.employee_id != :employeeId and application.application_status_id != 3 and application.application_status_id != 5 ORDER BY application.date_of_addition DESC", nativeQuery = true)
     List<Application> findApplicationsEmployeeByDepartment(@Param("departmentId") Integer departmentId, @Param("employeeId") UUID employeeId);
 
     @Query(value = "SELECT * FROM application INNER JOIN employee ON application.employee_id = employee.employee_id WHERE department_id = :departmentId and " +

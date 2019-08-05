@@ -29,7 +29,10 @@
 <%@include file="/WEB-INF/include/menu.jsp" %>
 
 <div class="container">
-    <a class="btn btn-success" href="${pageContext.request.contextPath}/admin/createEmployeeExcel" role="button" style="float: right; margin: 15px">Exportuj do Excela</a>
+    <a class="btn btn-success" href="${pageContext.request.contextPath}/admin/createEmployeeExcel" role="button" style="margin: 15px">
+        Exportuj do Excela &nbsp;&nbsp;<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+    </a>
+    <hr>
     <div class="col-md-12">
         <div class="row">
         <div class="col-xs-12">
@@ -55,14 +58,14 @@
                                     <td>
                                         <c:choose>
                                             <c:when test="${employeeDto.nrRoli == 2 }">
-                                                <font color="green">Admin</font>
+                                                <span style="font-size: 13px" class="label label-success">Admin</span>
                                             </c:when>
                                             <c:when test="${employeeDto.nrRoli == 4 }">
-                                                <font color="blue">Kierownik</font>
+                                                <span style="font-size: 13px" class="label label-info">Kierownik</span>
                                             </c:when>
 
                                             <c:otherwise>
-                                                Pracownik
+                                                <span style="font-size: 13px" class="label label-default">Pracownik</span>
                                             </c:otherwise>
                                         </c:choose>
                                     </td>

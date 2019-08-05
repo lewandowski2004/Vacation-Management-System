@@ -183,9 +183,7 @@ public class ManagerController {
             }
         } else {
             model.addAttribute("blad", "Wniosek posiada już wybrany przez Ciebie status ");
-            model.addAttribute("applicationStatusMapManager", appComponentSelectMap.prepareStatusMapManager());
-            model.addAttribute("applicationDto", applicationDto);
-            return "application";
+            return "redirect:/manager/application/" + id;
         }
     }
 

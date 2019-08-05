@@ -461,7 +461,7 @@ public class AdminController {
         }
         if (applicationCurrent.getApplicationStatusDto().getId() != application.getNrStatus()) {
             /*Sprawdzenie czy statusem wniosku nie jest "1 = Oczekujący" ze wzgledu na prawidłowe operacje na urlopie użytkownika*/
-            if (applicationCurrent.getApplicationStatusDto().getId() == 2 || applicationCurrent.getApplicationStatusDto().getId() == 3 || applicationCurrent.getApplicationStatusDto().getId() == 5) {
+            if (/*applicationCurrent.getApplicationStatusDto().getId() == 2 ||*/ applicationCurrent.getApplicationStatusDto().getId() == 3 || applicationCurrent.getApplicationStatusDto().getId() == 5) {
                 /*Sprawdzenie jaki status wniosku został wybrany przez Administratora*/
                 if (application.getNrStatus() == 4 || application.getNrStatus() == 5) {
                     /*Sprawdzenie jaki typ wniosku posiada dany wniosek "1 = wniosek o urlop wypoczynkowy"*/
@@ -476,10 +476,10 @@ public class AdminController {
                         vacationBalanceService.updateAnnualLeave(updateAnnualBalance, applicationCurrent.getEmployeeDto().getId(), date);
 
                         applicationService.updateStatusApplication(nrStatus, id);
-                        emailSender.sendMessage(applicationCurrent.getEmployeeDto().getEmail(),
+                       /* emailSender.sendMessage(applicationCurrent.getEmployeeDto().getEmail(),
                                 "Status Twojej aplikacji został zmieniony",
                                 "Status aplikacji : "+ applicationStatusService.findApplicationStatusDtoById(application.getNrStatus()).getStatus()+".");
-                        model.addAttribute("application", new Application());
+                        model.addAttribute("application", new Application());*/
                         return "redirect:/admin/applications";
                     } else {
                         applicationService.updateStatusApplication(nrStatus, id);
@@ -497,10 +497,10 @@ public class AdminController {
                         vacationBalanceService.updateAnnualLeave(updateAnnualBalance, applicationCurrent.getEmployeeDto().getId(), date);
 
                         applicationService.updateStatusApplication(nrStatus, id);
-                        emailSender.sendMessage(applicationCurrent.getEmployeeDto().getEmail(),
+                        /*emailSender.sendMessage(applicationCurrent.getEmployeeDto().getEmail(),
                                 "Status Twojej aplikacji został zmieniony",
                                 "Status aplikacji : "+ applicationStatusService.findApplicationStatusDtoById(application.getNrStatus()).getStatus()+".");
-                        model.addAttribute("application", new Application());
+                        model.addAttribute("application", new Application());*/
                         return "redirect:/admin/applications";
                     } else {
                         applicationService.updateStatusApplication(nrStatus, id);
@@ -516,10 +516,10 @@ public class AdminController {
                     if (applicationCurrent.getVacationTypeDto().getId() == 1) {
 
                         applicationService.updateStatusApplication(nrStatus, id);
-                        emailSender.sendMessage(applicationCurrent.getEmployeeDto().getEmail(),
+                        /*emailSender.sendMessage(applicationCurrent.getEmployeeDto().getEmail(),
                                 "Status Twojej aplikacji został zmieniony",
                                 "Status aplikacji : "+ applicationStatusService.findApplicationStatusDtoById(application.getNrStatus()).getStatus()+".");
-                        model.addAttribute("application", new Application());
+                        model.addAttribute("application", new Application());*/
                         return "redirect:/admin/applications";
                     } else {
                         applicationService.updateStatusApplication(nrStatus, id);
@@ -537,10 +537,10 @@ public class AdminController {
                         vacationBalanceService.updateAnnualLeave(updateAnnualBalance, applicationCurrent.getEmployeeDto().getId(), date);
 
                         applicationService.updateStatusApplication(nrStatus, id);
-                        emailSender.sendMessage(applicationCurrent.getEmployeeDto().getEmail(),
+                        /*emailSender.sendMessage(applicationCurrent.getEmployeeDto().getEmail(),
                                 "Status Twojej aplikacji został zmieniony",
                                 "Status aplikacji : "+ applicationStatusService.findApplicationStatusDtoById(application.getNrStatus()).getStatus()+".");
-                        model.addAttribute("application", new Application());
+                        model.addAttribute("application", new Application());*/
                         return "redirect:/admin/applications";
                     } else {
                         applicationService.updateStatusApplication(nrStatus, id);
@@ -564,10 +564,10 @@ public class AdminController {
                         vacationBalanceService.updateAnnualLeave(updateAnnualBalance, applicationCurrent.getEmployeeDto().getId(), date);
 
                         applicationService.updateStatusApplication(nrStatus, id);
-                        emailSender.sendMessage(applicationCurrent.getEmployeeDto().getEmail(),
+                        /*emailSender.sendMessage(applicationCurrent.getEmployeeDto().getEmail(),
                                 "Status Twojej aplikacji został zmieniony",
                                 "Status aplikacji : "+ applicationStatusService.findApplicationStatusDtoById(application.getNrStatus()).getStatus()+".");
-                        model.addAttribute("application", new Application());
+                        model.addAttribute("application", new Application());*/
                         return "redirect:/admin/applications";
                     } else {
                         applicationService.updateStatusApplication(nrStatus, id);
@@ -576,23 +576,23 @@ public class AdminController {
                 } else if (application.getNrStatus() == 3) {
                     if (applicationCurrent.getVacationTypeDto().getId() == 1) {
                         applicationService.updateStatusApplication(nrStatus, id);
-                        emailSender.sendMessage(applicationCurrent.getEmployeeDto().getEmail(),
+                        /*emailSender.sendMessage(applicationCurrent.getEmployeeDto().getEmail(),
                                 "Status Twojej aplikacji został zmieniony",
                                 "Status aplikacji : "+ applicationStatusService.findApplicationStatusDtoById(application.getNrStatus()).getStatus()+".");
-                        model.addAttribute("application", new Application());
+                        model.addAttribute("application", new Application());*/
                         return "redirect:/admin/applications";
                     } else {
                         applicationService.updateStatusApplication(nrStatus, id);
-                        emailSender.sendMessage(applicationCurrent.getEmployeeDto().getEmail(),
+                        /*emailSender.sendMessage(applicationCurrent.getEmployeeDto().getEmail(),
                                 "Status Twojej aplikacji został zmieniony",
-                                "Status aplikacji : "+ applicationStatusService.findApplicationStatusDtoById(application.getNrStatus()).getStatus()+".");
+                                "Status aplikacji : "+ applicationStatusService.findApplicationStatusDtoById(application.getNrStatus()).getStatus()+".");*/
                         return "redirect:/admin/applications";
                     }
                 } else {
                     applicationService.updateStatusApplication(nrStatus, id);
-                    emailSender.sendMessage(applicationCurrent.getEmployeeDto().getEmail(),
+                    /*emailSender.sendMessage(applicationCurrent.getEmployeeDto().getEmail(),
                             "Status Twojej aplikacji został zmieniony",
-                            "Status aplikacji : "+ applicationStatusService.findApplicationStatusDtoById(application.getNrStatus()).getStatus()+".");
+                            "Status aplikacji : "+ applicationStatusService.findApplicationStatusDtoById(application.getNrStatus()).getStatus()+".");*/
                     return "redirect:/admin/applications";
                 }
             }
