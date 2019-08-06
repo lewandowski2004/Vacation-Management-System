@@ -55,6 +55,35 @@
                             <br/>
                             <h3 style="text-align: center">Struktura Firmy</h3>
                             <hr>
+                            <div class="col-lg-4">
+                                <div id="powiadomienia-systemu-hover" class="panel panel-login">
+                                    <div class="panel-body">
+                                        <p style="text-align: center"><span style="font-size: 45px" class="glyphicon glyphicon-th-large"
+                                                                            aria-hidden="true"></span></p>
+                                        <p style="font-size: 24px;font-weight: bold; text-align: center">${departmentCount}</p>
+                                        <p style="font-size: 19px;text-align: center">Działów</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div id="powiadomienia-systemu-hover" class="panel panel-login">
+                                    <div class="panel-body">
+                                        <p style="text-align: center"><span style="font-size: 45px" class="glyphicon glyphicon-th-list"
+                                                                            aria-hidden="true"></span></p>
+                                        <p style="font-size: 24px;font-weight: bold;text-align: center">${positionCount}</p>
+                                        <p style="font-size: 19px;text-align: center">Stanowisk</p>
+                                    </div>
+                                </div>
+                            </div> <div class="col-lg-4">
+                            <div id="powiadomienia-systemu-hover" class="panel panel-login">
+                                <div class="panel-body">
+                                    <p style="text-align: center"><span style="font-size: 45px" class="glyphicon glyphicon-user"
+                                                                        aria-hidden="true"></span></p>
+                                    <p style="font-size: 24px;font-weight: bold;text-align: center">${employeeCount}</p>
+                                    <p style="font-size: 19px;text-align: center">Pracowników</p>
+                                </div>
+                            </div>
+                        </div>
                             <div class="form-group row">
                                 <div class="row">
                                     <div class="col-sm-6 col-sm-offset-3">

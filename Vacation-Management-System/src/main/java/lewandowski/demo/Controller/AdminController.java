@@ -741,6 +741,9 @@ public class AdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getCompanyStructure(Model model) {
         model.addAttribute("departmentDtoList", departmentService.findAllDepartamentDto());
+        model.addAttribute("departmentCount", departmentService.findAllDepartamentDto().size());
+        model.addAttribute("positionCount", positionService.findAllPositionDto().size());
+        model.addAttribute("employeeCount", employeeService.findAllEmployeesDto().size());
         return "companyStructure";
     }
 

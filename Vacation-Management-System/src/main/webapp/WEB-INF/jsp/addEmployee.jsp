@@ -69,7 +69,7 @@
                             <form:form modelAttribute="employeeWithVacationBalanceDto"
                                        action="/admin/addEmployeeAction" method="POST" role="form">
                                 <div class="form-group row">
-                                    <label class="col-lg-2 col-form-label"><p>Imie</p></label>
+                                    <label class="col-lg-2 col-form-label"><p>Imię</p></label>
                                     <div class="col-lg-4">
                                         <form:input type="text" name="name" id="name" path="name"
                                                     tabindex="2" class="form-control" placeholder="Imie"/>

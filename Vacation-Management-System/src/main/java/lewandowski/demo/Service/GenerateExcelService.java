@@ -40,11 +40,11 @@ public class GenerateExcelService {
             HSSFRow hssfRow = workSheet.createRow(0);
 
             HSSFCell firstName = hssfRow.createCell(0);
-            firstName.setCellValue("First Name");
+            firstName.setCellValue("Imię");
             firstName.setCellStyle(hssfCellStyle);
 
             HSSFCell lastName = hssfRow.createCell(1);
-            lastName.setCellValue("Last Name");
+            lastName.setCellValue("Nazwisko");
             lastName.setCellStyle(hssfCellStyle);
 
             HSSFCell email = hssfRow.createCell(2);
@@ -56,35 +56,35 @@ public class GenerateExcelService {
             pesel.setCellStyle(hssfCellStyle);
 
             HSSFCell dateOfBirth = hssfRow.createCell(4);
-            dateOfBirth.setCellValue("Data of birth");
+            dateOfBirth.setCellValue("Data urodzenia");
             dateOfBirth.setCellStyle(hssfCellStyle);
 
             HSSFCell addressLine1 = hssfRow.createCell(5);
-            addressLine1.setCellValue("Address line 1");
+            addressLine1.setCellValue("Adres 1");
             addressLine1.setCellStyle(hssfCellStyle);
 
             HSSFCell addressLine2 = hssfRow.createCell(6);
-            addressLine2.setCellValue("Address line 2");
+            addressLine2.setCellValue("Adres 2");
             addressLine2.setCellStyle(hssfCellStyle);
 
             HSSFCell city = hssfRow.createCell(7);
-            city.setCellValue("City");
+            city.setCellValue("Miasto");
             city.setCellStyle(hssfCellStyle);
 
             HSSFCell zipCode = hssfRow.createCell(8);
-            zipCode.setCellValue("Zip Code");
+            zipCode.setCellValue("Kod pocztowy");
             zipCode.setCellStyle(hssfCellStyle);
 
             HSSFCell phoneNumber = hssfRow.createCell(9);
-            phoneNumber.setCellValue("Phone Number");
+            phoneNumber.setCellValue("Numer telefonu");
             phoneNumber.setCellStyle(hssfCellStyle);
 
             HSSFCell department = hssfRow.createCell(10);
-            department.setCellValue("Department");
+            department.setCellValue("Dział");
             department.setCellStyle(hssfCellStyle);
 
             HSSFCell position = hssfRow.createCell(11);
-            position.setCellValue("Position");
+            position.setCellValue("Stanowisko");
             position.setCellStyle(hssfCellStyle);
 
 
@@ -114,7 +114,7 @@ public class GenerateExcelService {
                 peselValue.setCellStyle(bodyCellStyle);
 
                 HSSFCell dateOfBirthValue = bodyRow.createCell(4);
-                dateOfBirthValue.setCellValue(employee.getDateOfBirth());
+                dateOfBirthValue.setCellValue(employee.getDateOfBirth().toString());
                 dateOfBirthValue.setCellStyle(bodyCellStyle);
 
                 HSSFCell addressLine1Value = bodyRow.createCell(5);
@@ -157,8 +157,7 @@ public class GenerateExcelService {
         }
     }
 
-    public boolean generateExcelEmployeesVacationBalance(List<EmployeeDto> employeeDtos, ServletContext context,
-                                                         HttpServletRequest request,
+    public boolean generateExcelEmployeesVacationBalance(List<EmployeeDto> employeeDtos, ServletContext context, HttpServletRequest request,
                                                          HttpServletResponse response){
         String filePath = context.getRealPath("/resources/reports");
         File file = new File(filePath);
@@ -175,21 +174,64 @@ public class GenerateExcelService {
             HSSFCellStyle hssfCellStyle = workbook.createCellStyle();
             hssfCellStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
             hssfCellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+
             HSSFRow hssfRow = workSheet.createRow(0);
 
             HSSFCell firstName = hssfRow.createCell(0);
-            firstName.setCellValue("Imie i Nazwisko");
+            firstName.setCellValue("Imię i Nazwisko");
             firstName.setCellStyle(hssfCellStyle);
+
+            HSSFCell department = hssfRow.createCell(1);
+            department.setCellValue("Dział");
+            department.setCellStyle(hssfCellStyle);
+
+            HSSFCell vacationLimit = hssfRow.createCell(2);
+            vacationLimit.setCellValue("Limit roczny [dni]");
+            vacationLimit.setCellStyle(hssfCellStyle);
+
+            HSSFCell annualVacation = hssfRow.createCell(3);
+            annualVacation.setCellValue("Dostępny urlop [dni]");
+            annualVacation.setCellStyle(hssfCellStyle);
+
+            HSSFCell vacationLeave = hssfRow.createCell(4);
+            vacationLeave.setCellValue("Urlop wypoczynkowy [dni]");
+            vacationLeave.setCellStyle(hssfCellStyle);
+
+            HSSFCell emergencyLeave = hssfRow.createCell(5);
+            emergencyLeave.setCellValue("Urlop na żądanie [dni]");
+            emergencyLeave.setCellStyle(hssfCellStyle);
 
             int i = 1;
             for(EmployeeDto employeeDto : employeeDtos){
+
                 HSSFRow bodyRow = workSheet.createRow(i);
+
                 HSSFCellStyle bodyCellStyle = workbook.createCellStyle();
                 bodyCellStyle.setFillForegroundColor(HSSFColor.WHITE.index);
 
                 HSSFCell firstNameLastNameValue = bodyRow.createCell(0);
                 firstNameLastNameValue.setCellValue(employeeDto.getName()+" "+employeeDto.getLastName());
                 firstNameLastNameValue.setCellStyle(bodyCellStyle);
+
+                HSSFCell departmentValue = bodyRow.createCell(1);
+                departmentValue.setCellValue(employeeDto.getDepartmentDto().getName());
+                departmentValue.setCellStyle(bodyCellStyle);
+
+                HSSFCell vacationLimitValue = bodyRow.createCell(2);
+                vacationLimitValue.setCellValue(employeeDto.getVacationBalancesDto().iterator().next().getVacationLimit());
+                vacationLimitValue.setCellStyle(bodyCellStyle);
+
+                HSSFCell annualVacationValue = bodyRow.createCell(3);
+                annualVacationValue.setCellValue(employeeDto.getVacationBalancesDto().iterator().next().getAnnualVacation());
+                annualVacationValue.setCellStyle(bodyCellStyle);
+
+                HSSFCell vacationLeaveValue = bodyRow.createCell(4);
+                vacationLeaveValue.setCellValue(employeeDto.getVacationBalancesDto().iterator().next().getVacationLeave());
+                vacationLeaveValue.setCellStyle(bodyCellStyle);
+
+                HSSFCell emergencyVacationValue = bodyRow.createCell(5);
+                emergencyVacationValue.setCellValue(employeeDto.getVacationBalancesDto().iterator().next().getEmergencyVacation());
+                emergencyVacationValue.setCellStyle(bodyCellStyle);
 
                 i++;
             }
